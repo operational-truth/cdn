@@ -15,13 +15,15 @@
   </head>
   <body>
     <natural-layout>
-      <natural-brand-bar aria-label="Brand Navigation and Personalization Bar">
+      <header class="natural-brand-bar" aria-label="Brand Navigation and Personalization Bar">
         <natural-brand-left>
           <a href="#" aria-label="Open Acme Inc home">
-            <natural-brand-icon aria-hidden="true">DS</natural-brand-icon>
+            <!-- Swap to <img> or inline <svg> when using a graphical logo -->
+            <label class="brand-icon" aria-hidden="true">DS</label>
             <label>Acme Inc</label>
           </a>
-          <natural-app-links aria-label="Primary links">
+          <!-- App links: add new <a href> rows with icon + label; use data-active to mark the current focus. -->
+          <nav aria-label="Primary links">
             <a href="#docs" data-active="true">
               <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
               <label>Docs</label>
@@ -38,11 +40,12 @@
               <i class="fa-brands fa-discord" aria-hidden="true"></i>
               <label>Discord</label>
             </a>
-          </natural-app-links>
+          </nav>
         </natural-brand-left>
 
         <natural-personalization aria-label="Personalization">
-          <natural-actions>
+          <!-- Action toolbar: drop in another <natural-action> wrapper when you need a new icon button. -->
+          <natural-actions role="group">
             <button type="button" aria-label="Search">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             </button>
@@ -57,24 +60,22 @@
             </button>
           </natural-actions>
           <natural-divider aria-hidden="true"></natural-divider>
+          <!-- Dropdown entries follow the trigger button so ties to the <nav> menu stay intact. -->
           <natural-user-dropdown>
             <button type="button" aria-haspopup="true" aria-expanded="false">
-              <natural-avatar aria-hidden="true"
-              >JD</natural-avatar>
+              <!-- Replace with <img> or inline <svg> for photo avatars -->
+              <label class="user-avatar" aria-hidden="true">JD</label>
               <label>John Doe</label>
-              <i
-                class="fa-solid fa-chevron-down"
-                aria-hidden="true"
-              ></i>
+              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
             </button>
-            <natural-user-menu role="menu">
-              <a role="menuitem" href="#profile">View profile</a>
-              <a role="menuitem" href="#settings">Settings</a>
-              <a role="menuitem" href="#logout">Sign out</a>
-            </natural-user-menu>
+            <menu>
+              <a href="#profile">View profile</a>
+              <a href="#settings">Settings</a>
+              <a href="#logout">Sign out</a>
+            </menu>
           </natural-user-dropdown>
         </natural-personalization>
-      </natural-brand-bar>
+      </header>
     </natural-layout>
   </body>
 </html>

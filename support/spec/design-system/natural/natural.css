@@ -2,6 +2,10 @@
   --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --color-panel: #0a0a0a;
   --color-text: #f8fafc;
+  --brand-link-color: #a3a3a3;
+  --brand-link-hover-bg: #262626;
+  --brand-link-active-bg: #262626;
+  --brand-link-font-size: 13px;
   --color-muted: rgba(248, 250, 252, 0.75);
   --color-accent: #f97316;
   --color-border: rgba(255, 255, 255, 0.15);
@@ -9,12 +13,13 @@
   --shadow-bar: 0 12px 30px rgba(0, 0, 0, 0.6);
   --height-bar: 48px;
   --brand-link-padding: 6px 12px;
-  --brand-link-font-size: 13px;
-  --brand-link-hover-bg: #262626;
   --icon-btn-size: 36px;
   --divider-color: rgba(255, 255, 255, 0.3);
   --user-menu-bg: #141414;
   --user-menu-border: rgba(255, 255, 255, 0.1);
+  --action-icon-color: #a3a3a3;
+  --action-icon-hover-color: #ffffff;
+  --dropdown-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 * {
@@ -34,7 +39,7 @@ natural-layout {
   background: #030303;
 }
 
-natural-brand-bar {
+header.natural-brand-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,13 +55,13 @@ natural-brand-bar {
   box-shadow: var(--shadow-bar);
 }
 
-natural-brand-left {
+header.natural-brand-bar natural-brand-left {
   display: flex;
   align-items: center;
   gap: 1.2rem;
 }
 
-natural-brand-left a {
+header.natural-brand-bar natural-brand-left a {
   text-decoration: none;
   color: #ffffff;
   font-size: 15px;
@@ -67,7 +72,7 @@ natural-brand-left a {
   gap: 0.75rem;
 }
 
-natural-brand-icon {
+label.brand-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -80,26 +85,26 @@ natural-brand-icon {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-natural-app-links {
+header.natural-brand-bar natural-brand-left nav {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-natural-app-links a {
+header.natural-brand-bar natural-brand-left nav a {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 6px 12px;
+  padding: var(--brand-link-padding);
   border-radius: 6px;
   text-decoration: none;
-  color: #a3a3a3;
-  font-size: 13px;
+  color: var(--brand-link-color);
+  font-size: var(--brand-link-font-size);
   font-weight: 500;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-natural-app-links i,
+header.natural-brand-bar natural-brand-left nav i,
 natural-actions i,
 natural-user-dropdown i {
   font-size: 16px;
@@ -109,8 +114,12 @@ natural-user-dropdown i {
   color: inherit !important;
 }
 
-natural-app-links a[data-active="true"],
-natural-app-links a:hover {
+header.natural-brand-bar natural-brand-left nav a[data-active="true"] {
+  color: #ffffff;
+  background: var(--brand-link-active-bg);
+}
+
+header.natural-brand-bar natural-brand-left nav a:hover {
   color: #ffffff;
   background: var(--brand-link-hover-bg);
 }
@@ -133,7 +142,7 @@ natural-actions button {
   border-radius: 6px;
   border: none;
   background: transparent;
-  color: #a3a3a3;
+  color: var(--action-icon-color);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +162,7 @@ natural-actions svg {
   height: 18px;
 }
 
-natural-app-links label,
+header.natural-brand-bar natural-brand-left nav label,
 natural-user-dropdown label {
   font-size: 13px;
   color: inherit;
@@ -162,8 +171,8 @@ natural-user-dropdown label {
 
 natural-user-dropdown button:hover label,
 natural-user-dropdown button:focus label,
-natural-app-links a[data-active="true"] label,
-natural-app-links a:hover label {
+header.natural-brand-bar natural-brand-left nav a[data-active="true"] label,
+header.natural-brand-bar natural-brand-left nav a:hover label {
   color: #ffffff;
 }
 natural-notification-badge {
@@ -183,7 +192,7 @@ natural-divider {
   background: var(--divider-color);
 }
 
-natural-avatar {
+label.user-avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -233,7 +242,7 @@ natural-user-dropdown button:focus-visible {
   outline: none;
 }
 
-natural-user-menu {
+natural-user-dropdown menu {
   position: absolute;
   right: 0;
   top: 100%;
@@ -246,15 +255,16 @@ natural-user-menu {
   min-width: 160px;
   margin-top: 0;
   z-index: 1000;
+  flex-direction: column;
 }
 
-natural-user-dropdown:hover natural-user-menu,
-natural-user-dropdown button:focus + natural-user-menu {
+natural-user-dropdown:hover menu,
+natural-user-dropdown button:focus + menu {
   display: flex;
   flex-direction: column;
 }
 
-natural-user-menu a {
+natural-user-dropdown menu a {
   color: #f8fafc;
   text-decoration: none;
   padding: 0.5rem 1rem;
@@ -262,6 +272,6 @@ natural-user-menu a {
   transition: background 0.15s ease;
 }
 
-natural-user-menu a:hover {
+natural-user-dropdown menu a:hover {
   background: rgba(255, 255, 255, 0.08);
 }
