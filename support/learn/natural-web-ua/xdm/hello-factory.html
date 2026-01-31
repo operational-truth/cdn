@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>OMB Hello (Factory)</title>
+
+    <!-- PicoCSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+
+    <!-- json-viewer (UMD bundle; NOT the ESM dist that throws "import outside module") -->
+    <script
+      src="https://unpkg.com/@alenaksu/json-viewer@2.1.2/dist/json-viewer.bundle.js"
+    ></script>
+
+    <style>
+      :root {
+        font-size: 92%;
+      }
+      main {
+        padding-top: 1.25rem;
+        padding-bottom: 2rem;
+      }
+      header p {
+        margin-bottom: 0.25rem;
+      }
+      json-viewer {
+        display: block;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+        padding: 0.75rem;
+        background: var(--pico-background-color);
+        max-height: 70vh;
+        overflow: auto;
+      }
+      .muted {
+        color: var(--pico-muted-color);
+      }
+      code a {
+        text-decoration: none;
+      }
+      code a:hover {
+        text-decoration: underline;
+      }
+      details {
+        margin-top: 0.75rem;
+      }
+      pre {
+        margin: 0.5rem 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <header>
+        <h1 style="margin-bottom: 0.4rem">
+          Natural Object Model OMB Factory Direct
+        </h1>
+        <p class="muted">
+          This page uses the factory API to load an OMB XML fixture, build a
+          JavaScript object model, and render it as JSON (no Custom Element).
+        </p>
+        <p class="muted">
+          Fixture:
+          <code>
+            <a id="fixtureLink" href="#" target="_blank" rel="noreferrer"
+            >(loading…)</a>
+          </code>
+        </p>
+      </header>
+
+      <section>
+        <h3 style="margin-bottom: 0.5rem">Rendered model</h3>
+        <json-viewer id="viewer"></json-viewer>
+
+        <details open>
+          <summary>How to inspect the built model in the browser</summary>
+          <ol>
+            <li>
+              Open DevTools
+              <span class="muted">(F12 or right click → Inspect)</span>.
+            </li>
+            <li>
+              In the Console, run:
+              <pre><code>ombModel</code></pre>
+              <div class="muted">
+                This page exposes the live model as <code
+                >globalThis.ombModel</code>.
+              </div>
+            </li>
+            <li>
+              To get the same JSON you see on this page:
+              <pre><code>ombModel.toJSON({ withTags: true })</code></pre>
+            </li>
+            <li>
+              If you want a plain JS object (no class instances), do:
+              <pre>
+<code>const plain = JSON.parse(JSON.stringify(ombModel.toJSON({ withTags: true })));
+plain</code></pre>
+            </li>
+          </ol>
+        </details>
+      </section>
+    </main>
+
+    <script type="module">
+      import { createOmbBuilder } from "../../../../natural-web-ua/xdm/omb.js";
+
+      const viewer =
+        /** @type {any} */ (document.querySelector("#viewer"));
+      const fixtureLink = /** @type {HTMLAnchorElement | null} */ (
+        document.querySelector("#fixtureLink")
+      );
+
+      // Set the fixture once, and keep the UI derived from it.
+      const src =
+        "../../../../natural-web-ua/xdm/fixtures/synthetic-01.omb.xml";
+
+      const normalizeForDisplay = (value) => {
+        if (typeof value !== "string" || value.length === 0) {
+          return "(unknown)";
+        }
+        try {
+          const u = new URL(value, location.href);
+          return u.pathname;
+        } catch {
+          return value;
+        }
+      };
+
+      const updateFixtureLink = () => {
+        if (!fixtureLink) return;
+        fixtureLink.textContent = normalizeForDisplay(src);
+        fixtureLink.href = src;
+      };
+
+      updateFixtureLink();
+
+      const builder = createOmbBuilder();
+
+      async function loadAndRender() {
+        try {
+          const model = await builder.buildFromXmlSrc(src, {
+            // provide a host element so baseURI resolution matches document context
+            host: document.documentElement,
+          });
+
+          // Expose for console inspection (factory strategy has no DOM element to grab).
+          globalThis.ombModel = model;
+
+          viewer.data = JSON.parse(
+            JSON.stringify(model.toJSON({ withTags: true })),
+          );
+        } catch (err) {
+          viewer.data = { error: String(err?.message ?? err) };
+        }
+      }
+
+      void loadAndRender();
+    </script>
+  </body>
+</html>

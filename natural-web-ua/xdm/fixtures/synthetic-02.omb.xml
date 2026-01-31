@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+
+<root root-attr-1="root-attr-1-text-in-attr"
+  xmlns:omb="http://www.netspective.com/labs/agentx"
+  xmlns:xdm="http://www.netspective.org/Framework/Commons/XMLDataModel">
+
+    PCDATA in root.
+
+    <!-- omb:schema blocks are schema instructions only (ignored as structure/content) -->
+    <!-- each one must evaluate to a JS function: (raw, tag, parents) => unknown -->
+
+    <omb:schema type="upper-trim">
+      (raw, _tag, _parents) => String(raw).trim().toUpperCase()
+    </omb:schema>
+
+    <omb:schema type="int-safe">
+      (raw, tag, _parents) => {
+        const s = String(raw).trim();
+        if (!/^[+-]?\d+$/.test(s)) return undefined;
+        const n = Number(s);
+        if (!Number.isSafeInteger(n)) return undefined;
+        return n;
+      }
+    </omb:schema>
+
+    <omb:schema type="csv-list">
+      (raw, _tag, _parents) => String(raw)
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean)
+    </omb:schema>
+
+    <!-- CDATA is used because JS contains && -->
+    <omb:schema type="enum-bitmask"><![CDATA[
+        (raw, _tag, parents) => {
+        // show context usage: read a mapping from the nearest ancestor attribute if present
+        // e.g., parent has bitMaskEnum="BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16"
+        const findMap = () => {
+            for (let i = parents.length - 1; i >= 0; i--) {
+            const attrs = parents[i]?.attrs;
+            const s = attrs?.bitMaskEnum;
+            if (!s) continue;
+            const map = Object.create(null);
+            for (const part of String(s).split(",")) {
+                const [k, v] = part.split("=").map(x => x.trim());
+                if (k && v && /^[+-]?\d+$/.test(v)) map[k] = Number(v);
+            }
+            return map;
+            }
+            return Object.create(null);
+        };
+
+        const map = findMap();
+        const tokens = String(raw).split("|").map(s => s.trim()).filter(Boolean);
+
+        let mask = 0;
+        for (const t of tokens) {
+            if (t in map) mask |= map[t];
+        }
+        return mask;
+        }
+    ]]></omb:schema>
+
+    <!-- this is a special case where the root-attr-1 is being defined as an element and will override what was set
+         in the attribute above -->
+    <root-attr-1>root-attr-1-text</root-attr-1>
+
+    <!-- default behavior (no omb:type): will be treated as a parent attribute by default rules -->
+    <test-boolean>yes</test-boolean>
+
+    <!-- use schema-defined typing on leaf elements -->
+    <path-separator-char omb:type="upper-trim"> : </path-separator-char>
+    <test-byte omb:type="int-safe">96</test-byte>
+    <test-short omb:type="int-safe">128</test-short>
+    <test-long omb:type="int-safe">1234567890</test-long>
+
+    <!-- use schema-defined CSV list (returns string[]) -->
+    <test-string-array omb:type="csv-list">item1, item2, item3</test-string-array>
+
+    <!-- still works: built-in defaultTypedValues text-list (returns string[]) -->
+    <test-string-array-builtin omb:type="text-list">itemA, itemB, itemC</test-string-array-builtin>
+
+    <!-- demonstrate schema typing applied to child-element-as-attribute leaf -->
+    <!-- nested11 has no attrs, so child leaf elements become attrs on nested11 by default -->
+    <nested11>
+        <text omb:type="upper-trim">  hello world  </text>
+        <integer omb:type="int-safe">  12 </integer>
+        <tags omb:type="csv-list"> alpha, beta, gamma </tags>
+    </nested11>
+
+    <!-- show a typed leaf that depends on context from parents -->
+    <nested1 bit-mask-enum="BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16">
+        <nested11>
+            <bit-mask omb:type="enum-bitmask">BIT_ONE | BIT_FIVE</bit-mask>
+        </nested11>
+    </nested1>
+
+    <xdm:include file="DataModelSchemaTest-include.xml"/>
+
+    <nested1 text="TestText1" integer="1" boolean="yes">
+        PCDATA in nested1.
+
+        <!-- this example uses the "normal" attribute mode of the attribute setters -->
+        <nested11 text="TestText11" integer="11"/>
+
+        <!-- this example uses the child-element form of the attribute setters -->
+        <nested11>
+            <type>type-C</type>
+            <text>TestText12</text>
+            <integer omb:type="int-safe">12</integer>
+        </nested11>
+
+        <!-- if the following example, bit-three="on", bit-ten="on" is the same as saying bit-mask="BIT_THREE | BIT_TEN" -->
+        <nested11 class="com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test"
+            text="CustomTestText12"
+            integer="122"
+            bit-mask="BIT_THREE | BIT_FIVE | BIT_EIGHT"
+            bit-three="on"
+            bit-ten="on"
+            />
+    </nested1>
+
+    <!-- this element has been registered as an 'ignore' element so test to make sure it is ignored -->
+    <ignore-me text="doesn't matter">
+        PCDATA in ignore-me.
+        <nested-ignore-me text="really doesn't matter" integer="shouldn't care"/>
+    </ignore-me>
+
+    <!-- this element is not a real element, it is a 'custom' element that will be handled using a customElement method -->
+    <custom-1>
+        PCDATA in custom-1.
+        <nested-custom-1 text="anc" integer="1"/>
+    </custom-1>
+
+    <!--
+         * an xdm:template tag is considered a "generic" template and all generic templates share a single namespace
+         * templates may contain parameters that may be optional or required. values of the parameters are available as {$paramx.XXX}
+           (note: parameter names must be valid Java identifiers because they are treated as Java expressions)
+    -->
+    <xdm:template name="test-template-1">
+        <xdm:template-param name="param1" required="yes"/>
+        <xdm:template-param name="param2" required="yes"/>
+
+        <nested1 text="TestNested1Template" integer="100">
+            PCDATA in TestNested1Template.
+            <nested11 text="${params.param1}" integer="${params.param2}"/>
+            <nested11 type="type-A" text="TestText12" integer="12"/>
+            <nested11 class="com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test"
+                text="CustomTestText12"
+                integer="122"/>
+        </nested1>
+    </xdm:template>
+
+    <!-- include the generic template that we just defined, the contents of the template will replace the <xdm:include> tag -->
+    <!-- template parameters may only be passed in as attributes (not nested elements) -->
+    <xdm:include template="test-template-1" xdm:param-param1="param1-value" xdm:param-param2="4234"/>
+
+    <!-- here we're defining custom inheritable templates for nested-1 elements that can be used to "inherit" elements by nested1 elements -->
+    <nested-1-custom-template name="test-nested-template-0">
+        PCDATA in TestNested1CustomTemplate.
+        <nested11 class="com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test" text="CustomTemplateTestText12" integer="772"/>
+    </nested-1-custom-template>
+
+    <nested-1-custom-template name="test-nested-template-1" extends="test-nested-template-0">
+        <nested11 text="TestText11CustomTemplate" integer="5213"/>
+        <nested11 type="type-B" text="TestText12CustomTemplate" integer="2312"/>
+
+        <!-- this element contains Jexl java expressions -->
+        <nested11 integer="${(1024 * 2) + 10}">
+            <text>${owner.class.name} ${this.class.name}</text>
+        </nested11>
+    </nested-1-custom-template>
+
+    <!-- create a nested1 element that recursively inherits from the above templates -->
+    <nested1 extends="test-nested-template-1"/>
+
+    <!-- NOTE: because there is an XLST transformation being done, there's one more element that will appear here -->
+</root>

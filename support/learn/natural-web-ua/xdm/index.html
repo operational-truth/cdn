@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<!--
+  Object Model Builder (OMB) Playground
+
+  Strategy update:
+  - Live DOM mode: use the factory builder (no async, no fetch, deterministic).
+  - External XML mode (omb:src): use the custom element (it owns fetch+parse+rebuild).
+  - If XML parse/fetch fails, show the error in BOTH:
+    - Source XML pane (comment), and
+    - Transformed JSON pane (structured error object), so it is impossible to miss.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Natural Object Model Builder (OMB) Playground</title>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      window.mermaid = mermaid;
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/zero-md@3?register"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/xml.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"
+    ></script>
+
+    <script
+      src="https://unpkg.com/@alenaksu/json-viewer@2.1.2/dist/json-viewer.bundle.js"
+    ></script>
+
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          sans-serif;
+        background: #f7fbfb;
+      }
+      header {
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(6px);
+      }
+      header .title {
+        font-weight: 650;
+        font-size: 18px;
+      }
+      header button {
+        font: inherit;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        background: transparent;
+        cursor: pointer;
+      }
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: calc(100vh - 52px);
+      }
+      .pane {
+        overflow: auto;
+        padding: 16px;
+      }
+      .left {
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.75);
+      }
+      .right {
+        background: rgba(248, 250, 252, 0.75);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.55);
+      }
+      .controls label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: rgba(15, 23, 42, 0.85);
+      }
+      .controls input[type="text"] {
+        font: inherit;
+        padding: 6px 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        min-width: 320px;
+      }
+      .controls input[type="file"] {
+        font: inherit;
+        max-width: 360px;
+      }
+      .controls .mini {
+        font: inherit;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        background: transparent;
+        cursor: pointer;
+      }
+      .tabs {
+        display: inline-flex;
+        border: 1px solid rgba(0, 0, 0, 0.18);
+        border-radius: 10px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.55);
+        align-self: flex-start;
+      }
+      .tabs button {
+        font: inherit;
+        border: 0;
+        padding: 8px 10px;
+        background: transparent;
+        cursor: pointer;
+        color: rgba(15, 23, 42, 0.85);
+      }
+      .tabs button + button {
+        border-left: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      .tabs button.active {
+        background: rgba(15, 23, 42, 0.08);
+        font-weight: 650;
+      }
+      .hint {
+        margin: 0;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 13px;
+      }
+      .tab-content {
+        display: none;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      pre {
+        margin: 8px 0 0;
+        background: #0b1020;
+        border-radius: 12px;
+        padding: 12px;
+        overflow: auto;
+        height: calc(100vh - 220px);
+      }
+      pre code {
+        display: block;
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      json-viewer {
+        display: block;
+        height: calc(100vh - 220px);
+        overflow: auto;
+        border-radius: 12px;
+        padding: 12px;
+
+        --background-color: #0b1020;
+        --color: #e6eaf2;
+
+        --font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        --font-size: 0.95rem;
+        --line-height: 1.45rem;
+        --indent-size: 1.1em;
+
+        --indentguide-color: rgba(255, 255, 255, 0.08);
+        --indentguide-color-active: rgba(255, 255, 255, 0.18);
+
+        --string-color: #a3eea0;
+        --number-color: #d19a66;
+        --boolean-color: #4ba7ef;
+        --null-color: #df9cf3;
+        --property-color: #9bbad1;
+
+        --preview-color: #deae8f;
+        --highlight-color: #ff4d4d;
+      }
+      json-viewer::part(row) {
+        margin: 2px 0;
+      }
+      json-viewer::part(children) {
+        padding-left: 0.35em;
+      }
+      json-viewer::part(property)[data-key=".tag"],
+      json-viewer::part(property)[data-key=".children"] {
+        color: rgba(180, 190, 205, 0.55);
+        font-style: italic;
+      }
+      @media (prefers-color-scheme: dark) {
+        header {
+          border-bottom-color: rgba(255, 255, 255, 0.14);
+          background: rgba(15, 23, 42, 0.7);
+        }
+        header button {
+          border-color: rgba(255, 255, 255, 0.22);
+        }
+        .left {
+          border-right-color: rgba(255, 255, 255, 0.14);
+          background: rgba(15, 23, 42, 0.55);
+        }
+        .right {
+          background: rgba(2, 6, 23, 0.55);
+        }
+        .controls {
+          border-color: rgba(255, 255, 255, 0.16);
+          background: rgba(15, 23, 42, 0.35);
+        }
+        .controls label {
+          color: rgba(226, 232, 240, 0.85);
+        }
+        .controls input[type="text"] {
+          border-color: rgba(255, 255, 255, 0.22);
+          background: rgba(2, 6, 23, 0.2);
+          color: rgba(226, 232, 240, 0.92);
+        }
+        .controls .mini {
+          border-color: rgba(255, 255, 255, 0.22);
+        }
+        .hint {
+          color: rgba(255, 255, 255, 0.65);
+        }
+        .tabs {
+          border-color: rgba(255, 255, 255, 0.16);
+          background: rgba(15, 23, 42, 0.35);
+        }
+        .tabs button {
+          color: rgba(226, 232, 240, 0.85);
+        }
+        .tabs button + button {
+          border-left-color: rgba(255, 255, 255, 0.12);
+        }
+        .tabs button.active {
+          background: rgba(226, 232, 240, 0.12);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="title">Natural Object Model Builder (OMB) Playground</div>
+
+      <div style="display: flex; align-items: center; gap: 12px">
+        <label
+          style="display: flex; align-items: center; gap: 8px; font: inherit"
+        >
+          <input id="toggleTags" type="checkbox" checked />
+          Show <code>.tag</code> meta data
+        </label>
+
+        <button id="rebuildBtn" type="button">Rebuild</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="pane left">
+        <zero-md src="../../../../natural-web-ua/xdm/README.md"></zero-md>
+      </div>
+
+      <div class="pane right">
+        <div class="controls" aria-label="Input source">
+          <label title="Uses the markup currently under &lt;my-element&gt;">
+            <input
+              id="srcModeDom"
+              type="radio"
+              name="srcMode"
+              value="dom"
+              checked
+            />
+            Live DOM
+          </label>
+
+          <label title="Uses XML fetched or loaded from a file via omb:src">
+            <input id="srcModeXml" type="radio" name="srcMode" value="xml" />
+            XML via <code>omb:src</code>
+          </label>
+
+          <label style="gap: 10px">
+            Local XML:
+            <input
+              id="xmlFile"
+              type="file"
+              accept=".xml,text/xml,application/xml"
+            />
+          </label>
+
+          <label style="gap: 10px">
+            Remote XML URL:
+            <input
+              id="xmlUrl"
+              type="text"
+              placeholder="./DataModelSchemaTest.xml or https://example.com/file.xml"
+            />
+          </label>
+
+          <button id="applySrcBtn" class="mini" type="button">Apply</button>
+          <button id="clearSrcBtn" class="mini" type="button">Clear</button>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Right panel">
+          <button
+            id="tabXml"
+            class="active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+          >
+            Original XML
+          </button>
+          <button id="tabSrc" type="button" role="tab" aria-selected="false">
+            Source XML
+          </button>
+          <button id="tabJson" type="button" role="tab" aria-selected="false">
+            Transformed JSON
+          </button>
+          <button id="tabZod" type="button" role="tab" aria-selected="false">
+            Zod Schema
+          </button>
+        </div>
+
+        <div id="panelXml" class="tab-content active" role="tabpanel">
+          <p class="hint">
+            Serialized live from the custom element’s DOM and highlighted with
+            highlight.js
+          </p>
+          <pre><code id="xmlCode" class="language-xml"></code></pre>
+        </div>
+
+        <div id="panelSrc" class="tab-content" role="tabpanel">
+          <p class="hint">
+            If <code>omb:src</code> is set, this is the XML that will be parsed
+            as input
+          </p>
+          <pre><code id="srcCode" class="language-xml"></code></pre>
+        </div>
+
+        <div id="panelJson" class="tab-content" role="tabpanel">
+          <p class="hint">Sanitized OMB model (JSON.stringify / parse)</p>
+          <json-viewer id="jsonViewer"></json-viewer>
+        </div>
+
+        <div id="panelZod" class="tab-content" role="tabpanel">
+          <p class="hint" style="display: flex; align-items: center; gap: 10px">
+            Generated JavaScript code from <code>toZodSchema(model)</code>
+            <button id="copyZodBtn" class="mini" type="button">Copy</button>
+            <span id="copyZodMsg" class="hint" style="margin-left: auto"></span>
+          </p>
+          <pre><code id="zodCode" class="language-javascript"></code></pre>
+        </div>
+      </div>
+    </main>
+
+    <my-element
+      id="ombRoot"
+      root-attr-1="root-attr-1-text-in-attr"
+      xmlns:xdm="http://www.netspective.org/Framework/Commons/XMLDataModel"
+    >
+      PCDATA in root.
+
+      <root-attr-1>root-attr-1-text</root-attr-1>
+
+      <test-boolean>yes</test-boolean>
+      <path-separator-char>:</path-separator-char>
+      <test-byte>96</test-byte>
+      <test-short>128</test-short>
+      <test-long>1234567890</test-long>
+      <test-float>3.1415926535</test-float>
+      <test-double>3.1415926535897932384626433</test-double>
+      <test-file>DataModelSchemaTest.xml</test-file>
+
+      <test-string-list omb:type="text-list"
+      >item1, item2, item3</test-string-list>
+      <test-string-array omb:type-as="z.string().transform(splitCsv).parse(raw)"
+      >item1, item2, item3</test-string-array>
+
+      <xdm:include file="DataModelSchemaTest-include.xml"></xdm:include>
+
+      <nested1 text="TestText1" integer="1" boolean="yes">
+        PCDATA in nested1.
+
+        <nested11 text="TestText11" integer="11"></nested11>
+
+        <nested11>
+          <type>type-C</type>
+          <text>TestText12</text>
+          <integer>12</integer>
+        </nested11>
+
+        <nested11
+          class="com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test"
+          text="CustomTestText12"
+          integer="122"
+          bit-mask="BIT_THREE | BIT_FIVE | BIT_EIGHT"
+          bit-three="on"
+          bit-ten="on"
+        ></nested11>
+      </nested1>
+    </my-element>
+
+    <script type="module">
+      import {
+        createOmbBuilder,
+        defaultTypedValue,
+        ObjectModelBuilderElement,
+      } from "../../../../natural-web-ua/xdm/omb.js";
+      import { toZodSchema } from "../../../../natural-web-ua/xdm/omb-zod.js";
+
+      class MyElement extends ObjectModelBuilderElement {
+        constructor() {
+          super({
+            typedValue: (raw, tag) => defaultTypedValue(raw, tag),
+          });
+        }
+      }
+      if (!customElements.get("my-element")) {
+        customElements.define("my-element", MyElement);
+      }
+
+      const root =
+        /** @type {any} */ (document.querySelector("#ombRoot"));
+      const xmlCode =
+        /** @type {HTMLElement} */ (document.querySelector("#xmlCode"));
+      const srcCode =
+        /** @type {HTMLElement} */ (document.querySelector("#srcCode"));
+      const zodCode =
+        /** @type {HTMLElement} */ (document.querySelector("#zodCode"));
+      const jsonViewer =
+        /** @type {any} */ (document.querySelector("#jsonViewer"));
+      const rebuildBtn =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#rebuildBtn",
+        ));
+
+      const tabXml =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#tabXml",
+        ));
+      const tabSrc =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#tabSrc",
+        ));
+      const tabJson =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#tabJson",
+        ));
+      const tabZod =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#tabZod",
+        ));
+
+      const panelXml = document.querySelector("#panelXml");
+      const panelSrc = document.querySelector("#panelSrc");
+      const panelJson = document.querySelector("#panelJson");
+      const panelZod = document.querySelector("#panelZod");
+
+      const toggleTags =
+        /** @type {HTMLInputElement} */ (document.querySelector(
+          "#toggleTags",
+        ));
+
+      const srcModeDom =
+        /** @type {HTMLInputElement} */ (document.querySelector(
+          "#srcModeDom",
+        ));
+      const srcModeXml =
+        /** @type {HTMLInputElement} */ (document.querySelector(
+          "#srcModeXml",
+        ));
+      const xmlFile =
+        /** @type {HTMLInputElement} */ (document.querySelector(
+          "#xmlFile",
+        ));
+      const xmlUrl =
+        /** @type {HTMLInputElement} */ (document.querySelector(
+          "#xmlUrl",
+        ));
+      const applySrcBtn =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#applySrcBtn",
+        ));
+      const clearSrcBtn =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#clearSrcBtn",
+        ));
+      const copyZodBtn =
+        /** @type {HTMLButtonElement} */ (document.querySelector(
+          "#copyZodBtn",
+        ));
+      const copyZodMsg =
+        /** @type {HTMLElement} */ (document.querySelector(
+          "#copyZodMsg",
+        ));
+
+      /** @type {string | null} */
+      let lastSourceXmlText = null;
+
+      /** @type {string | null} */
+      let lastBlobUrl = null;
+
+      /** @type {unknown | null} */
+      let lastOmbError = null;
+
+      // Factory builder used for Live DOM mode (sync, no fetch).
+      const factory = createOmbBuilder({
+        typedValue: (raw, tag) => defaultTypedValue(raw, tag),
+        typedValueByName: root.options?.typedValueByName,
+        isChildElemAttr: root.options?.isChildElemAttr,
+        ignoreWhitespaceText: root.options?.ignoreWhitespaceText,
+        ignoreComments: root.options?.ignoreComments,
+        ignoreElement: root.options?.ignoreElement,
+        createElement: root.options?.createElement,
+      });
+
+      function setTab(which) {
+        const xmlActive = which === "xml";
+        const srcActive = which === "src";
+        const jsonActive = which === "json";
+        const zodActive = which === "zod";
+
+        tabXml.classList.toggle("active", xmlActive);
+        tabSrc.classList.toggle("active", srcActive);
+        tabJson.classList.toggle("active", jsonActive);
+        tabZod.classList.toggle("active", zodActive);
+
+        tabXml.setAttribute("aria-selected", String(xmlActive));
+        tabSrc.setAttribute("aria-selected", String(srcActive));
+        tabJson.setAttribute("aria-selected", String(jsonActive));
+        tabZod.setAttribute("aria-selected", String(zodActive));
+
+        panelXml?.classList.toggle("active", xmlActive);
+        panelSrc?.classList.toggle("active", srcActive);
+        panelJson?.classList.toggle("active", jsonActive);
+        panelZod?.classList.toggle("active", zodActive);
+      }
+
+      tabXml.addEventListener("click", () => setTab("xml"));
+      tabSrc.addEventListener("click", () => setTab("src"));
+      tabJson.addEventListener("click", () => setTab("json"));
+      tabZod.addEventListener("click", () => setTab("zod"));
+
+      function formatXml(xml) {
+        const reg = /(>)(<)(\/*)/g;
+        const xmlStr = xml.replace(reg, "$1\n$2$3");
+        const padChar = "  ";
+        let pad = 0;
+        return xmlStr
+          .split("\n")
+          .map((line) => {
+            if (line.match(/^<\//)) pad = Math.max(pad - 1, 0);
+            const indent = padChar.repeat(pad);
+            if (
+              line.match(/^<[^!?].*[^/]>$/) &&
+              !line.startsWith("</") &&
+              !line.includes("/>") &&
+              !line.match(/^<.*>.*<\/.*>$/)
+            ) {
+              pad += 1;
+            }
+            return indent + line;
+          })
+          .join("\n");
+      }
+
+      function highlightCode(codeEl) {
+        if (codeEl.dataset) delete codeEl.dataset.highlighted;
+        const doHighlight = () => {
+          if (window.hljs && window.hljs.highlightElement) {
+            window.hljs.highlightElement(codeEl);
+            return true;
+          }
+          return false;
+        };
+        if (!doHighlight()) setTimeout(doHighlight, 50);
+      }
+
+      function toErrorJson(err) {
+        const e = /** @type {any} */ (err);
+        return {
+          ok: false,
+          kind: "omb:error",
+          message: String(e?.message ?? e ?? "Unknown error"),
+          name: typeof e?.name === "string" ? e.name : undefined,
+          stack: typeof e?.stack === "string" ? e.stack : undefined,
+          // keep detail payloads visible if provided
+          detail: e?.detail ?? undefined,
+        };
+      }
+
+      function renderXml() {
+        const raw = new XMLSerializer().serializeToString(root);
+        xmlCode.textContent = formatXml(raw);
+        highlightCode(xmlCode);
+      }
+
+      function renderSourceXml() {
+        const src = root.getAttribute("omb:src");
+        if (!src) {
+          srcCode.textContent = "";
+          return;
+        }
+
+        // If we have the exact text already (file upload or prefetch), show it.
+        if (
+          typeof lastSourceXmlText === "string" &&
+          lastSourceXmlText.length > 0
+        ) {
+          srcCode.textContent = formatXml(lastSourceXmlText);
+          highlightCode(srcCode);
+          return;
+        }
+
+        // Fallback: fetch to show what OMB will read (subject to CORS).
+        (async () => {
+          try {
+            const r = await fetch(src, {
+              headers: { Accept: "application/xml,text/xml,*/*" },
+            });
+            const text = await r.text();
+            lastSourceXmlText = text;
+            srcCode.textContent = formatXml(text);
+          } catch (e) {
+            srcCode.textContent = `<!-- unable to load source XML: ${
+              String(e)
+            } -->`;
+          }
+          highlightCode(srcCode);
+        })();
+      }
+
+      function renderJsonFromModel(model) {
+        const viewModel = model.toJSON({
+          withTags: toggleTags.checked,
+        });
+        jsonViewer.data = JSON.parse(JSON.stringify(viewModel));
+        if (jsonViewer.collapseAll) jsonViewer.collapseAll();
+        else if (jsonViewer.expandAll) jsonViewer.expandAll();
+      }
+
+      function renderJsonError(err) {
+        jsonViewer.data = toErrorJson(err);
+        if (jsonViewer.expandAll) jsonViewer.expandAll();
+      }
+
+      function renderJson() {
+        const src = (root.getAttribute("omb:src") ?? "").trim();
+
+        // External source path: use the custom element and show parser/fetch errors in JSON.
+        if (src.length > 0) {
+          if (lastOmbError) {
+            renderJsonError(lastOmbError);
+            return;
+          }
+          if (root.model) {
+            renderJsonFromModel(root.model);
+            return;
+          }
+          // If we haven't built yet, show a placeholder instead of stale data.
+          jsonViewer.data = {
+            ok: false,
+            kind: "omb:pending",
+            message: "Waiting for omb:built or omb:error…",
+          };
+          return;
+        }
+
+        // Live DOM path: factory is authoritative (no rebuild needed).
+        try {
+          const model = factory.buildFromDomRoot(root, { host: root });
+          renderJsonFromModel(model);
+        } catch (e) {
+          renderJsonError(e);
+        }
+      }
+
+      function renderZodFromModel(model) {
+        try {
+          zodCode.textContent = toZodSchema(model);
+        } catch (e) {
+          zodCode.textContent = `// unable to generate schema\n// ${
+            String(e?.message ?? e)
+          }`;
+        }
+        highlightCode(zodCode);
+      }
+
+      function renderZodError(err) {
+        zodCode.textContent = `// omb:error (schema unavailable)\n// ${
+          String(err?.message ?? err)
+        }\n`;
+        highlightCode(zodCode);
+      }
+
+      function renderZod() {
+        const src = (root.getAttribute("omb:src") ?? "").trim();
+
+        if (src.length > 0) {
+          if (lastOmbError) {
+            renderZodError(lastOmbError);
+            return;
+          }
+          if (root.model) {
+            renderZodFromModel(root.model);
+            return;
+          }
+          zodCode.textContent =
+            `// Waiting for omb:built or omb:error…\n`;
+          highlightCode(zodCode);
+          return;
+        }
+
+        try {
+          const model = factory.buildFromDomRoot(root, { host: root });
+          renderZodFromModel(model);
+        } catch (e) {
+          renderZodError(e);
+        }
+      }
+
+      async function copyTextToClipboard(text) {
+        const s = String(text ?? "");
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(s);
+          return;
+        }
+        const ta = document.createElement("textarea");
+        ta.value = s;
+        ta.setAttribute("readonly", "true");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+
+      copyZodBtn.addEventListener("click", async () => {
+        try {
+          await copyTextToClipboard(zodCode.textContent || "");
+          copyZodMsg.textContent = "Copied";
+          setTimeout(() => (copyZodMsg.textContent = ""), 900);
+        } catch (e) {
+          copyZodMsg.textContent = "Copy failed";
+          setTimeout(() => (copyZodMsg.textContent = ""), 1200);
+          console.error(e);
+        }
+      });
+
+      function renderAll() {
+        renderXml();
+        renderSourceXml();
+        renderJson();
+        renderZod();
+      }
+
+      async function applySourceSelection() {
+        // Always clear prior blob URL if we are switching sources.
+        if (lastBlobUrl) {
+          URL.revokeObjectURL(lastBlobUrl);
+          lastBlobUrl = null;
+        }
+        lastSourceXmlText = null;
+        lastOmbError = null;
+
+        if (srcModeDom.checked) {
+          root.removeAttribute("omb:src");
+          await root.rebuild();
+          return;
+        }
+
+        // XML mode
+        const file = xmlFile.files?.[0] ?? null;
+        const urlText = (xmlUrl.value ?? "").trim();
+
+        if (file) {
+          const text = await file.text();
+          lastSourceXmlText = text;
+          const blob = new Blob([text], { type: "application/xml" });
+          lastBlobUrl = URL.createObjectURL(blob);
+
+          root.setAttribute("omb:src", lastBlobUrl);
+          await root.rebuild();
+          return;
+        }
+
+        if (urlText.length > 0) {
+          root.setAttribute("omb:src", urlText);
+          // Pre-fetch for display (best effort; OMB will fetch too).
+          try {
+            const r = await fetch(urlText, {
+              headers: { Accept: "application/xml,text/xml,*/*" },
+            });
+            lastSourceXmlText = await r.text();
+          } catch {
+            lastSourceXmlText = null;
+          }
+          await root.rebuild();
+          return;
+        }
+
+        // No input selected
+        root.removeAttribute("omb:src");
+        await root.rebuild();
+      }
+
+      function clearSourceSelection() {
+        if (lastBlobUrl) {
+          URL.revokeObjectURL(lastBlobUrl);
+          lastBlobUrl = null;
+        }
+        lastSourceXmlText = null;
+        lastOmbError = null;
+        xmlFile.value = "";
+        xmlUrl.value = "";
+        srcModeDom.checked = true;
+        srcModeXml.checked = false;
+        root.removeAttribute("omb:src");
+        void root.rebuild();
+      }
+
+      root.addEventListener("omb:built", (e) => {
+        lastOmbError = null;
+        // ensure root.model is present (builder sets it), but trust the event detail if provided
+        if (e?.detail?.model) root.model = e.detail.model;
+        renderAll();
+      });
+
+      root.addEventListener("omb:error", (e) => {
+        // Capture the actual error so JSON pane can show it.
+        lastOmbError = e?.detail?.error ?? new Error("omb:error");
+        // keep views fresh; show whatever we can
+        renderAll();
+
+        // also surface the error in Source XML pane if it's empty
+        const err = lastOmbError;
+        if (
+          err &&
+          (!srcCode.textContent ||
+            srcCode.textContent.trim().length === 0)
+        ) {
+          srcCode.textContent = `<!-- omb:error: ${String(err)} -->`;
+          highlightCode(srcCode);
+        }
+      });
+
+      rebuildBtn.addEventListener("click", () => void root.rebuild());
+      toggleTags.addEventListener("change", renderAll);
+
+      applySrcBtn.addEventListener(
+        "click",
+        () => void applySourceSelection(),
+      );
+      clearSrcBtn.addEventListener("click", clearSourceSelection);
+
+      xmlFile.addEventListener("change", () => {
+        if (xmlFile.files?.length) {
+          srcModeXml.checked = true;
+          srcModeDom.checked = false;
+        }
+      });
+
+      xmlUrl.addEventListener("input", () => {
+        if ((xmlUrl.value ?? "").trim().length > 0) {
+          srcModeXml.checked = true;
+          srcModeDom.checked = false;
+        }
+      });
+
+      renderAll();
+      queueMicrotask(renderAll);
+      setTimeout(renderAll, 0);
+    </script>
+  </body>
+</html>

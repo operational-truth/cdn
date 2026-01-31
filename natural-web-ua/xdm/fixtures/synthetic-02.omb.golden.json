@@ -1,0 +1,1575 @@
+{
+  ".tag": {
+    "tagName": "root",
+    "tagToken": "root",
+    "attrs": {
+      "xmlnsOmb": "http://www.netspective.com/labs/agentx",
+      "xmlnsXdm": "http://www.netspective.org/Framework/Commons/XMLDataModel",
+      "rootAttr1": "root-attr-1-text",
+      "testBoolean": "yes",
+      "pathSeparatorChar": ":",
+      "testByte": "96",
+      "testShort": "128",
+      "testLong": "1234567890",
+      "testStringArray": "item1, item2, item3",
+      "testStringArrayBuiltin": "itemA, itemB, itemC"
+    },
+    "content": [
+      "\n\n    PCDATA in root.\n\n    "
+    ]
+  },
+  ".children": [
+    {
+      ".tag": {
+        "tagName": "nested11",
+        "tagToken": "nested11",
+        "attrs": {
+          "text": "hello world",
+          "integer": "12",
+          "tags": "alpha, beta, gamma"
+        },
+        "content": []
+      },
+      ".children": [],
+      "text": "HELLO WORLD",
+      "integer": 12,
+      "tags": [
+        "alpha",
+        "beta",
+        "gamma"
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "bitMaskEnum": "BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "bitMask": "BIT_ONE | BIT_FIVE"
+            },
+            "content": []
+          },
+          ".children": [],
+          "bitMask": 17
+        }
+      ],
+      "bitMaskEnum": "BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "bitMask": "BIT_ONE | BIT_FIVE"
+            },
+            "content": []
+          },
+          ".children": [],
+          "bitMask": 17
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "xdm:include",
+        "tagToken": "xdmInclude",
+        "attrs": {
+          "file": "DataModelSchemaTest-include.xml"
+        },
+        "content": []
+      },
+      ".children": [],
+      "file": "DataModelSchemaTest-include.xml"
+    },
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "text": "TestText1",
+          "integer": "1",
+          "boolean": "yes"
+        },
+        "content": [
+          "\n        PCDATA in nested1.\n\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11",
+              "integer": "11"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11",
+          "integer": 11
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-C",
+              "text": "TestText12",
+              "integer": "12"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-C",
+          "text": "TestText12",
+          "integer": 12
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": "122",
+              "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+              "bitThree": "on",
+              "bitTen": "on"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTestText12",
+          "integer": 122,
+          "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+          "bitThree": true,
+          "bitTen": true
+        }
+      ],
+      "text": "TestText1",
+      "integer": true,
+      "boolean": true,
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11",
+              "integer": "11"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11",
+          "integer": 11
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-C",
+              "text": "TestText12",
+              "integer": "12"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-C",
+          "text": "TestText12",
+          "integer": 12
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": "122",
+              "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+              "bitThree": "on",
+              "bitTen": "on"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTestText12",
+          "integer": 122,
+          "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+          "bitThree": true,
+          "bitTen": true
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "ignore-me",
+        "tagToken": "ignoreMe",
+        "attrs": {
+          "text": "doesn't matter"
+        },
+        "content": [
+          "\n        PCDATA in ignore-me.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested-ignore-me",
+            "tagToken": "nestedIgnoreMe",
+            "attrs": {
+              "text": "really doesn't matter",
+              "integer": "shouldn't care"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "really doesn't matter",
+          "integer": "shouldn't care"
+        }
+      ],
+      "text": "doesn't matter",
+      "nestedIgnoreMe": [
+        {
+          ".tag": {
+            "tagName": "nested-ignore-me",
+            "tagToken": "nestedIgnoreMe",
+            "attrs": {
+              "text": "really doesn't matter",
+              "integer": "shouldn't care"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "really doesn't matter",
+          "integer": "shouldn't care"
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "custom-1",
+        "tagToken": "custom1",
+        "attrs": {},
+        "content": [
+          "\n        PCDATA in custom-1.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested-custom-1",
+            "tagToken": "nestedCustom1",
+            "attrs": {
+              "text": "anc",
+              "integer": "1"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "anc",
+          "integer": true
+        }
+      ],
+      "nestedCustom1": [
+        {
+          ".tag": {
+            "tagName": "nested-custom-1",
+            "tagToken": "nestedCustom1",
+            "attrs": {
+              "text": "anc",
+              "integer": "1"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "anc",
+          "integer": true
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "xdm:template",
+        "tagToken": "xdmTemplate",
+        "attrs": {
+          "name": "test-template-1"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param1",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param1",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param2",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param2",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "nested1",
+            "tagToken": "nested1",
+            "attrs": {
+              "text": "TestNested1Template",
+              "integer": "100"
+            },
+            "content": [
+              "\n            PCDATA in TestNested1Template.\n            "
+            ]
+          },
+          ".children": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ],
+          "text": "TestNested1Template",
+          "integer": 100,
+          "nested11": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ]
+        }
+      ],
+      "name": "test-template-1",
+      "xdmTemplateParam": [
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param1",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param1",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param2",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param2",
+          "required": true
+        }
+      ],
+      "nested1": [
+        {
+          ".tag": {
+            "tagName": "nested1",
+            "tagToken": "nested1",
+            "attrs": {
+              "text": "TestNested1Template",
+              "integer": "100"
+            },
+            "content": [
+              "\n            PCDATA in TestNested1Template.\n            "
+            ]
+          },
+          ".children": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ],
+          "text": "TestNested1Template",
+          "integer": 100,
+          "nested11": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ]
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "xdm:include",
+        "tagToken": "xdmInclude",
+        "attrs": {
+          "template": "test-template-1",
+          "xdmParamParam1": "param1-value",
+          "xdmParamParam2": "4234"
+        },
+        "content": []
+      },
+      ".children": [],
+      "template": "test-template-1",
+      "xdmParamParam1": "param1-value",
+      "xdmParamParam2": 4234
+    },
+    {
+      ".tag": {
+        "tagName": "nested-1-custom-template",
+        "tagToken": "nested1CustomTemplate",
+        "attrs": {
+          "name": "test-nested-template-0"
+        },
+        "content": [
+          "\n        PCDATA in TestNested1CustomTemplate.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTemplateTestText12",
+              "integer": "772"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTemplateTestText12",
+          "integer": 772
+        }
+      ],
+      "name": "test-nested-template-0",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTemplateTestText12",
+              "integer": "772"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTemplateTestText12",
+          "integer": 772
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested-1-custom-template",
+        "tagToken": "nested1CustomTemplate",
+        "attrs": {
+          "name": "test-nested-template-1",
+          "extends": "test-nested-template-0"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11CustomTemplate",
+              "integer": "5213"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11CustomTemplate",
+          "integer": 5213
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-B",
+              "text": "TestText12CustomTemplate",
+              "integer": "2312"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-B",
+          "text": "TestText12CustomTemplate",
+          "integer": 2312
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "integer": "${(1024 * 2) + 10}",
+              "text": "${owner.class.name} ${this.class.name}"
+            },
+            "content": []
+          },
+          ".children": [],
+          "integer": "${(1024 * 2) + 10}",
+          "text": "${owner.class.name} ${this.class.name}"
+        }
+      ],
+      "name": "test-nested-template-1",
+      "extends": "test-nested-template-0",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11CustomTemplate",
+              "integer": "5213"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11CustomTemplate",
+          "integer": 5213
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-B",
+              "text": "TestText12CustomTemplate",
+              "integer": "2312"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-B",
+          "text": "TestText12CustomTemplate",
+          "integer": 2312
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "integer": "${(1024 * 2) + 10}",
+              "text": "${owner.class.name} ${this.class.name}"
+            },
+            "content": []
+          },
+          ".children": [],
+          "integer": "${(1024 * 2) + 10}",
+          "text": "${owner.class.name} ${this.class.name}"
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "extends": "test-nested-template-1"
+        },
+        "content": []
+      },
+      ".children": [],
+      "extends": "test-nested-template-1"
+    }
+  ],
+  "xmlnsOmb": "http://www.netspective.com/labs/agentx",
+  "xmlnsXdm": "http://www.netspective.org/Framework/Commons/XMLDataModel",
+  "rootAttr1": "root-attr-1-text",
+  "testBoolean": true,
+  "pathSeparatorChar": ":",
+  "testByte": 96,
+  "testShort": 128,
+  "testLong": 1234567890,
+  "testStringArray": [
+    "item1",
+    "item2",
+    "item3"
+  ],
+  "testStringArrayBuiltin": [
+    "itemA",
+    "itemB",
+    "itemC"
+  ],
+  "nested11": [
+    {
+      ".tag": {
+        "tagName": "nested11",
+        "tagToken": "nested11",
+        "attrs": {
+          "text": "hello world",
+          "integer": "12",
+          "tags": "alpha, beta, gamma"
+        },
+        "content": []
+      },
+      ".children": [],
+      "text": "HELLO WORLD",
+      "integer": 12,
+      "tags": [
+        "alpha",
+        "beta",
+        "gamma"
+      ]
+    }
+  ],
+  "nested1": [
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "bitMaskEnum": "BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "bitMask": "BIT_ONE | BIT_FIVE"
+            },
+            "content": []
+          },
+          ".children": [],
+          "bitMask": 17
+        }
+      ],
+      "bitMaskEnum": "BIT_ONE=1,BIT_THREE=4,BIT_FIVE=16",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "bitMask": "BIT_ONE | BIT_FIVE"
+            },
+            "content": []
+          },
+          ".children": [],
+          "bitMask": 17
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "text": "TestText1",
+          "integer": "1",
+          "boolean": "yes"
+        },
+        "content": [
+          "\n        PCDATA in nested1.\n\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11",
+              "integer": "11"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11",
+          "integer": 11
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-C",
+              "text": "TestText12",
+              "integer": "12"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-C",
+          "text": "TestText12",
+          "integer": 12
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": "122",
+              "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+              "bitThree": "on",
+              "bitTen": "on"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTestText12",
+          "integer": 122,
+          "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+          "bitThree": true,
+          "bitTen": true
+        }
+      ],
+      "text": "TestText1",
+      "integer": true,
+      "boolean": true,
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11",
+              "integer": "11"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11",
+          "integer": 11
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-C",
+              "text": "TestText12",
+              "integer": "12"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-C",
+          "text": "TestText12",
+          "integer": 12
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": "122",
+              "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+              "bitThree": "on",
+              "bitTen": "on"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTestText12",
+          "integer": 122,
+          "bitMask": "BIT_THREE | BIT_FIVE | BIT_EIGHT",
+          "bitThree": true,
+          "bitTen": true
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested1",
+        "tagToken": "nested1",
+        "attrs": {
+          "extends": "test-nested-template-1"
+        },
+        "content": []
+      },
+      ".children": [],
+      "extends": "test-nested-template-1"
+    }
+  ],
+  "xdmInclude": [
+    {
+      ".tag": {
+        "tagName": "xdm:include",
+        "tagToken": "xdmInclude",
+        "attrs": {
+          "file": "DataModelSchemaTest-include.xml"
+        },
+        "content": []
+      },
+      ".children": [],
+      "file": "DataModelSchemaTest-include.xml"
+    },
+    {
+      ".tag": {
+        "tagName": "xdm:include",
+        "tagToken": "xdmInclude",
+        "attrs": {
+          "template": "test-template-1",
+          "xdmParamParam1": "param1-value",
+          "xdmParamParam2": "4234"
+        },
+        "content": []
+      },
+      ".children": [],
+      "template": "test-template-1",
+      "xdmParamParam1": "param1-value",
+      "xdmParamParam2": 4234
+    }
+  ],
+  "ignoreMe": [
+    {
+      ".tag": {
+        "tagName": "ignore-me",
+        "tagToken": "ignoreMe",
+        "attrs": {
+          "text": "doesn't matter"
+        },
+        "content": [
+          "\n        PCDATA in ignore-me.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested-ignore-me",
+            "tagToken": "nestedIgnoreMe",
+            "attrs": {
+              "text": "really doesn't matter",
+              "integer": "shouldn't care"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "really doesn't matter",
+          "integer": "shouldn't care"
+        }
+      ],
+      "text": "doesn't matter",
+      "nestedIgnoreMe": [
+        {
+          ".tag": {
+            "tagName": "nested-ignore-me",
+            "tagToken": "nestedIgnoreMe",
+            "attrs": {
+              "text": "really doesn't matter",
+              "integer": "shouldn't care"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "really doesn't matter",
+          "integer": "shouldn't care"
+        }
+      ]
+    }
+  ],
+  "custom1": [
+    {
+      ".tag": {
+        "tagName": "custom-1",
+        "tagToken": "custom1",
+        "attrs": {},
+        "content": [
+          "\n        PCDATA in custom-1.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested-custom-1",
+            "tagToken": "nestedCustom1",
+            "attrs": {
+              "text": "anc",
+              "integer": "1"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "anc",
+          "integer": true
+        }
+      ],
+      "nestedCustom1": [
+        {
+          ".tag": {
+            "tagName": "nested-custom-1",
+            "tagToken": "nestedCustom1",
+            "attrs": {
+              "text": "anc",
+              "integer": "1"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "anc",
+          "integer": true
+        }
+      ]
+    }
+  ],
+  "xdmTemplate": [
+    {
+      ".tag": {
+        "tagName": "xdm:template",
+        "tagToken": "xdmTemplate",
+        "attrs": {
+          "name": "test-template-1"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param1",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param1",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param2",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param2",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "nested1",
+            "tagToken": "nested1",
+            "attrs": {
+              "text": "TestNested1Template",
+              "integer": "100"
+            },
+            "content": [
+              "\n            PCDATA in TestNested1Template.\n            "
+            ]
+          },
+          ".children": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ],
+          "text": "TestNested1Template",
+          "integer": 100,
+          "nested11": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ]
+        }
+      ],
+      "name": "test-template-1",
+      "xdmTemplateParam": [
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param1",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param1",
+          "required": true
+        },
+        {
+          ".tag": {
+            "tagName": "xdm:template-param",
+            "tagToken": "xdmTemplateParam",
+            "attrs": {
+              "name": "param2",
+              "required": "yes"
+            },
+            "content": []
+          },
+          ".children": [],
+          "name": "param2",
+          "required": true
+        }
+      ],
+      "nested1": [
+        {
+          ".tag": {
+            "tagName": "nested1",
+            "tagToken": "nested1",
+            "attrs": {
+              "text": "TestNested1Template",
+              "integer": "100"
+            },
+            "content": [
+              "\n            PCDATA in TestNested1Template.\n            "
+            ]
+          },
+          ".children": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ],
+          "text": "TestNested1Template",
+          "integer": 100,
+          "nested11": [
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "text": "${params.param1}",
+                  "integer": "${params.param2}"
+                },
+                "content": []
+              },
+              ".children": [],
+              "text": "${params.param1}",
+              "integer": "${params.param2}"
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "type": "type-A",
+                  "text": "TestText12",
+                  "integer": "12"
+                },
+                "content": []
+              },
+              ".children": [],
+              "type": "type-A",
+              "text": "TestText12",
+              "integer": 12
+            },
+            {
+              ".tag": {
+                "tagName": "nested11",
+                "tagToken": "nested11",
+                "attrs": {
+                  "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+                  "text": "CustomTestText12",
+                  "integer": "122"
+                },
+                "content": []
+              },
+              ".children": [],
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTestText12",
+              "integer": 122
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nested1CustomTemplate": [
+    {
+      ".tag": {
+        "tagName": "nested-1-custom-template",
+        "tagToken": "nested1CustomTemplate",
+        "attrs": {
+          "name": "test-nested-template-0"
+        },
+        "content": [
+          "\n        PCDATA in TestNested1CustomTemplate.\n        "
+        ]
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTemplateTestText12",
+              "integer": "772"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTemplateTestText12",
+          "integer": 772
+        }
+      ],
+      "name": "test-nested-template-0",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+              "text": "CustomTemplateTestText12",
+              "integer": "772"
+            },
+            "content": []
+          },
+          ".children": [],
+          "class": "com.netspective.commons.xdm.DataModelSchemaTest$CustomNested11Test",
+          "text": "CustomTemplateTestText12",
+          "integer": 772
+        }
+      ]
+    },
+    {
+      ".tag": {
+        "tagName": "nested-1-custom-template",
+        "tagToken": "nested1CustomTemplate",
+        "attrs": {
+          "name": "test-nested-template-1",
+          "extends": "test-nested-template-0"
+        },
+        "content": []
+      },
+      ".children": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11CustomTemplate",
+              "integer": "5213"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11CustomTemplate",
+          "integer": 5213
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-B",
+              "text": "TestText12CustomTemplate",
+              "integer": "2312"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-B",
+          "text": "TestText12CustomTemplate",
+          "integer": 2312
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "integer": "${(1024 * 2) + 10}",
+              "text": "${owner.class.name} ${this.class.name}"
+            },
+            "content": []
+          },
+          ".children": [],
+          "integer": "${(1024 * 2) + 10}",
+          "text": "${owner.class.name} ${this.class.name}"
+        }
+      ],
+      "name": "test-nested-template-1",
+      "extends": "test-nested-template-0",
+      "nested11": [
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "text": "TestText11CustomTemplate",
+              "integer": "5213"
+            },
+            "content": []
+          },
+          ".children": [],
+          "text": "TestText11CustomTemplate",
+          "integer": 5213
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "type": "type-B",
+              "text": "TestText12CustomTemplate",
+              "integer": "2312"
+            },
+            "content": []
+          },
+          ".children": [],
+          "type": "type-B",
+          "text": "TestText12CustomTemplate",
+          "integer": 2312
+        },
+        {
+          ".tag": {
+            "tagName": "nested11",
+            "tagToken": "nested11",
+            "attrs": {
+              "integer": "${(1024 * 2) + 10}",
+              "text": "${owner.class.name} ${this.class.name}"
+            },
+            "content": []
+          },
+          ".children": [],
+          "integer": "${(1024 * 2) + 10}",
+          "text": "${owner.class.name} ${this.class.name}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>OMB Hello</title>
+
+    <!-- PicoCSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+
+    <!-- json-viewer (UMD bundle; NOT the ESM dist that throws "import outside module") -->
+    <script
+      src="https://unpkg.com/@alenaksu/json-viewer@2.1.2/dist/json-viewer.bundle.js"
+    ></script>
+
+    <style>
+      :root {
+        font-size: 92%;
+      }
+      main {
+        padding-top: 1.25rem;
+        padding-bottom: 2rem;
+      }
+      header p {
+        margin-bottom: 0.25rem;
+      }
+      .pathline code {
+        font-size: 0.95em;
+      }
+      json-viewer {
+        display: block;
+        border: 1px solid var(--pico-muted-border-color);
+        border-radius: var(--pico-border-radius);
+        padding: 0.75rem;
+        background: var(--pico-background-color);
+        max-height: 70vh;
+        overflow: auto;
+      }
+      details {
+        margin-top: 0.75rem;
+      }
+      .muted {
+        color: var(--pico-muted-color);
+      }
+      code a {
+        text-decoration: none;
+      }
+      code a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <header>
+        <h1 style="margin-bottom: 0.4rem">
+          Natural Object Model OMB Custom Element
+        </h1>
+        <p class="muted">
+          This page loads an OMB XML fixture, builds a JavaScript object model,
+          and renders it as JSON.
+        </p>
+        <p class="pathline">
+          Fixture:
+          <code>
+            <a id="fixtureLink" href="#" target="_blank" rel="noreferrer"
+            >(loading…)</a>
+          </code>
+        </p>
+      </header>
+
+      <section>
+        <!-- The custom element that builds the object model -->
+        <my-element
+          id="ombRoot"
+          omb:src="../../../../natural-web-ua/xdm/fixtures/synthetic-02.omb.xml"
+        ></my-element>
+
+        <div style="margin-top: 1rem">
+          <h3 style="margin-bottom: 0.5rem">Rendered model</h3>
+          <json-viewer id="viewer"></json-viewer>
+        </div>
+
+        <details open>
+          <summary>How to inspect the built model in the browser</summary>
+          <ol>
+            <li>
+              Open DevTools
+              <span class="muted">(F12 or right click → Inspect)</span>.
+            </li>
+            <li>
+              Go to the Console tab and run:
+              <pre>
+<code>const omb = document.querySelector("#ombRoot");
+omb.model</code></pre>
+              <div class="muted">
+                Note: after <code>const omb = ...</code>, the console prints
+                <code>undefined</code>. That’s normal. Evaluate <code>omb</code>
+                or <code>omb.model</code> on the next line.
+              </div>
+            </li>
+            <li>
+              To get the same JSON you see on this page:
+              <pre><code>omb.model.toJSON({ withTags: true })</code></pre>
+            </li>
+            <li>
+              If you want a plain JS object (no class instances), do:
+              <pre>
+<code>const plain = JSON.parse(JSON.stringify(omb.model.toJSON({ withTags: true })));
+plain</code></pre>
+            </li>
+          </ol>
+        </details>
+      </section>
+    </main>
+
+    <script type="module">
+      import { ObjectModelBuilderElement } from "../../../../natural-web-ua/xdm/omb.js";
+
+      class MyElement extends ObjectModelBuilderElement {}
+      if (!customElements.get("my-element")) {
+        customElements.define("my-element", MyElement);
+      }
+
+      const root =
+        /** @type {any} */ (document.querySelector("#ombRoot"));
+      const viewer =
+        /** @type {any} */ (document.querySelector("#viewer"));
+      const fixtureLink = /** @type {HTMLAnchorElement | null} */ (
+        document.querySelector("#fixtureLink")
+      );
+
+      // Expose a convenient global for quick console inspection.
+      globalThis.ombRoot = root;
+
+      const normalizeForDisplay = (value) => {
+        if (typeof value !== "string" || value.length === 0) {
+          return "(unknown)";
+        }
+        // Show a clean-ish path for readability.
+        try {
+          const u = new URL(value, location.href);
+          return u.pathname;
+        } catch {
+          return value;
+        }
+      };
+
+      const updateFixtureLink = () => {
+        if (!fixtureLink) return;
+        // Attribute name contains ":" so use getAttribute.
+        const src = root?.getAttribute("omb:src");
+        if (typeof src !== "string" || src.length === 0) {
+          fixtureLink.textContent = "(unknown)";
+          fixtureLink.removeAttribute("href");
+          return;
+        }
+        fixtureLink.textContent = normalizeForDisplay(src);
+        fixtureLink.href = src;
+      };
+
+      function render() {
+        updateFixtureLink();
+
+        const model = root.model;
+        if (!model) return;
+        viewer.data = JSON.parse(
+          JSON.stringify(model.toJSON({ withTags: true })),
+        );
+      }
+
+      root.addEventListener("omb:built", render);
+      root.addEventListener("omb:error", (e) => {
+        updateFixtureLink();
+        viewer.data = { error: String(e?.detail?.error ?? e) };
+      });
+
+      // Initialize fixture label immediately.
+      updateFixtureLink();
+
+      // Trigger initial build if the element connectedCallback hasn't yet.
+      if (!root.model) {
+        root.rebuild().catch(() => {});
+      }
+    </script>
+  </body>
+</html>
