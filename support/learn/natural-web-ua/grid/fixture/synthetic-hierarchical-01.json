@@ -1,0 +1,354 @@
+{
+  "snapshot": {
+    "columns": [
+      {
+        "key": "id",
+        "title": "ID"
+      },
+      {
+        "key": "name",
+        "title": "Name"
+      },
+      {
+        "key": "manager",
+        "title": "Manager"
+      },
+      {
+        "key": "status",
+        "title": "Status"
+      }
+    ],
+    "rows": [
+      {
+        "id": "dept-ops",
+        "cells": {
+          "id": "dept-ops",
+          "name": "Operations",
+          "manager": "Darren",
+          "status": "Running"
+        },
+        "children": [
+          {
+            "id": "ops-1",
+            "cells": {
+              "id": "ops-1",
+              "name": "Fulfillment",
+              "manager": "Dana",
+              "status": "Running"
+            },
+            "children": [
+              {
+                "id": "ops-1a",
+                "cells": {
+                  "id": "ops-1a",
+                  "name": "Inbound",
+                  "manager": "Lena",
+                  "status": "Running"
+                },
+                "children": [
+                  {
+                    "id": "ops-1a-1",
+                    "cells": {
+                      "id": "ops-1a-1",
+                      "name": "Inbound Support",
+                      "manager": "Omari",
+                      "status": "Queued"
+                    },
+                    "children": [
+                      {
+                        "id": "ops-1a-1-1",
+                        "cells": {
+                          "id": "ops-1a-1-1",
+                          "name": "Inbound Escalations",
+                          "manager": "Priya",
+                          "status": "Done"
+                        },
+                        "children": [
+                          {
+                            "id": "ops-1a-1-1-1",
+                            "cells": {
+                              "id": "ops-1a-1-1-1",
+                              "name": "Inbound Escalations Tier 2",
+                              "manager": "Rey",
+                              "status": "Running"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "ops-1b",
+                "cells": {
+                  "id": "ops-1b",
+                  "name": "Outbound",
+                  "manager": "Rae",
+                  "status": "On Hold"
+                },
+                "children": [
+                  {
+                    "id": "ops-1b-1",
+                    "cells": {
+                      "id": "ops-1b-1",
+                      "name": "Field Ops",
+                      "manager": "Jamie",
+                      "status": "Running"
+                    },
+                    "children": [
+                      {
+                        "id": "ops-1b-1-1",
+                        "cells": {
+                          "id": "ops-1b-1-1",
+                          "name": "Field Ops East",
+                          "manager": "Tori",
+                          "status": "Queued"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ops-2",
+            "cells": {
+              "id": "ops-2",
+              "name": "Logistics",
+              "manager": "Mira",
+              "status": "On Hold"
+            },
+            "children": [
+              {
+                "id": "ops-2a",
+                "cells": {
+                  "id": "ops-2a",
+                  "name": "Trucking",
+                  "manager": "Luis",
+                  "status": "Running"
+                },
+                "children": [
+                  {
+                    "id": "ops-2a-1",
+                    "cells": {
+                      "id": "ops-2a-1",
+                      "name": "Regional",
+                      "manager": "Miko",
+                      "status": "Queued"
+                    },
+                    "children": [
+                      {
+                        "id": "ops-2a-1-1",
+                        "cells": {
+                          "id": "ops-2a-1-1",
+                          "name": "Regional North",
+                          "manager": "Sol",
+                          "status": "Queued"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dept-tech",
+        "cells": {
+          "id": "dept-tech",
+          "name": "Technology",
+          "manager": "Ravi",
+          "status": "Queued"
+        },
+        "children": [
+          {
+            "id": "tech-1",
+            "cells": {
+              "id": "tech-1",
+              "name": "Platform",
+              "manager": "Jess",
+              "status": "Done"
+            },
+            "children": [
+              {
+                "id": "tech-1a",
+                "cells": {
+                  "id": "tech-1a",
+                  "name": "Platform Services",
+                  "manager": "Aria",
+                  "status": "Running"
+                },
+                "children": [
+                  {
+                    "id": "tech-1a-1",
+                    "cells": {
+                      "id": "tech-1a-1",
+                      "name": "Platform Core",
+                      "manager": "Brooke",
+                      "status": "Queued"
+                    },
+                    "children": [
+                      {
+                        "id": "tech-1a-1-1",
+                        "cells": {
+                          "id": "tech-1a-1-1",
+                          "name": "Platform Core Ops",
+                          "manager": "Cruz",
+                          "status": "Done"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tech-2",
+            "cells": {
+              "id": "tech-2",
+              "name": "Security",
+              "manager": "Leo",
+              "status": "Running"
+            },
+            "children": [
+              {
+                "id": "tech-2a",
+                "cells": {
+                  "id": "tech-2a",
+                  "name": "Threat Response",
+                  "manager": "Noor",
+                  "status": "Running"
+                },
+                "children": [
+                  {
+                    "id": "tech-2a-1",
+                    "cells": {
+                      "id": "tech-2a-1",
+                      "name": "Threat Response Tier 1",
+                      "manager": "Rory",
+                      "status": "Queued"
+                    },
+                    "children": [
+                      {
+                        "id": "tech-2a-1-1",
+                        "cells": {
+                          "id": "tech-2a-1-1",
+                          "name": "Threat Response Tier 1.1",
+                          "manager": "Tara",
+                          "status": "On Hold"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tech-3",
+            "cells": {
+              "id": "tech-3",
+              "name": "R&D",
+              "manager": "Nia",
+              "status": "On Hold"
+            },
+            "children": [
+              {
+                "id": "tech-3a",
+                "cells": {
+                  "id": "tech-3a",
+                  "name": "Experiment Lab",
+                  "manager": "Uma",
+                  "status": "Running"
+                },
+                "children": [
+                  {
+                    "id": "tech-3a-1",
+                    "cells": {
+                      "id": "tech-3a-1",
+                      "name": "Prototype Design",
+                      "manager": "Vera",
+                      "status": "Queued"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dept-sales",
+        "cells": {
+          "id": "dept-sales",
+          "name": "Sales",
+          "manager": "Lyndsey",
+          "status": "Running"
+        },
+        "children": [
+          {
+            "id": "sales-1",
+            "cells": {
+              "id": "sales-1",
+              "name": "Account Services",
+              "manager": "Mila",
+              "status": "Running"
+            }
+          },
+          {
+            "id": "sales-2",
+            "cells": {
+              "id": "sales-2",
+              "name": "Enterprise",
+              "manager": "Saul",
+              "status": "On Hold"
+            }
+          },
+          {
+            "id": "sales-3",
+            "cells": {
+              "id": "sales-3",
+              "name": "International",
+              "manager": "Lina",
+              "status": "Queued"
+            }
+          }
+        ]
+      },
+      {
+        "id": "dept-cx",
+        "cells": {
+          "id": "dept-cx",
+          "name": "Customer Experience",
+          "manager": "Ivy",
+          "status": "Running"
+        },
+        "children": [
+          {
+            "id": "cx-1",
+            "cells": {
+              "id": "cx-1",
+              "name": "Community",
+              "manager": "Rene",
+              "status": "Running"
+            }
+          },
+          {
+            "id": "cx-2",
+            "cells": {
+              "id": "cx-2",
+              "name": "Support",
+              "manager": "Iris",
+              "status": "Done"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

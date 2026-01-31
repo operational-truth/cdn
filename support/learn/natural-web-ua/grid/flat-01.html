@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid fetch + plugin demo</title>
+    <script
+      type="module"
+      src="../../../../natural-web-ua/grid/grid.js"
+    ></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 24px;
+        max-width: 960px;
+      }
+      .panel {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .panel h1 {
+        margin-top: 0;
+        font-size: 20px;
+      }
+      .note {
+        color: rgba(15, 23, 42, 0.7);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>Fetch + filter/sort/pagination + virtualization</h1>
+      <p class="note">
+        This demo pulls a paginated snapshot from <code
+        >fixture/synthetic-flat-01.json</code>
+        and wires the filter, multi-sort, and pagination plugins. Virtualization
+        kicks in to keep the DOM light while you interact with the table.
+      </p>
+      <script id="flat-plugin-config" type="application/json">
+        {
+          "id": "flat-plugin-demo",
+          "title": "Fetch + plugin showcase",
+          "ui": {
+            "zebra": true,
+            "toolbar": { "enabled": true },
+            "virtualization": {
+              "enabled": true,
+              "viewportHeightPx": 320,
+              "viewportWidthPx": 820,
+              "bufferRows": 4,
+              "columnWidthPx": 140,
+              "rowThreshold": 24,
+              "columnThreshold": 4,
+              "columnBuffer": 2
+            }
+          },
+          "columns": [
+            { "key": "id", "title": "ID" },
+            { "key": "title", "title": "Work item" },
+            { "key": "category", "title": "Category" },
+            { "key": "status", "title": "Status" },
+            { "key": "score", "title": "Score", "align": "right" },
+            { "key": "notes", "title": "Notes" }
+          ],
+          "data": {
+            "kind": "fetch",
+            "url": "./fixture/synthetic-flat-01.json"
+          },
+          "plugins": [
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "filter",
+                "placeholder": "Search notes, status, categories..."
+              }
+            },
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "sort"
+              }
+            },
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "pagination",
+                "pageSize": 10,
+                "infoPrefix": "Showing rows",
+                "prevText": "Prev page",
+                "nextText": "Next page"
+              }
+            }
+          ]
+        }
+      </script>
+      <natural-grid
+        id="plugin-flat-grid"
+        data-init="json"
+        data-config-id="flat-plugin-config"
+      ></natural-grid>
+    </div>
+  </body>
+</html>

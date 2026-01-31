@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid tree plugin demo</title>
+    <script
+      type="module"
+      src="../../../../natural-web-ua/grid/grid.js"
+    ></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 24px;
+        max-width: 980px;
+      }
+      .panel {
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        border-radius: 12px;
+        padding: 20px;
+      }
+      .panel h1 {
+        margin-top: 0;
+        font-size: 20px;
+      }
+      .note {
+        color: rgba(15, 23, 42, 0.8);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>Tree + plugin + virtualization</h1>
+      <p class="note">
+        This tree example still uses the fetch-provider + filter/sort/pagination
+        pipeline. Tree expansion state and toolbar buttons live inside the tree
+        plugin, and virtualization keeps deep hierarchies manageable.
+      </p>
+      <p class="note">
+        The fixture now includes branches up to four levels deep so you can
+        explore multi-level expand/collapse, toolbar-driven “expand all”, and
+        virtualization behavior across many nested rows.
+      </p>
+      <script id="tree-plugin-config" type="application/json">
+        {
+          "id": "tree-demo",
+          "title": "Tree plugin showcase",
+          "ui": {
+            "zebra": true,
+            "toolbar": { "enabled": true },
+            "tree": { "enabled": true },
+            "virtualization": {
+              "enabled": true,
+              "viewportHeightPx": 340,
+              "viewportWidthPx": 820,
+              "rowHeightPx": 40,
+              "bufferRows": 3,
+              "columnWidthPx": 170
+            }
+          },
+          "columns": [
+            { "key": "id", "title": "ID" },
+            { "key": "name", "title": "Team" },
+            { "key": "manager", "title": "Manager" },
+            { "key": "status", "title": "Status" }
+          ],
+          "data": {
+            "kind": "fetch",
+            "url": "./fixture/synthetic-hierarchical-01.json"
+          },
+          "plugins": [
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "filter",
+                "placeholder": "Search across teams..."
+              }
+            },
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "sort"
+              }
+            },
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "pagination",
+                "pageSize": 6,
+                "infoPrefix": "Visible rows",
+                "prevText": "Prev",
+                "nextText": "Next"
+              }
+            },
+            {
+              "moduleUrl": "../../../../natural-web-ua/grid/grid-plugins-typical.js",
+              "options": {
+                "kind": "tree",
+                "toolbar": true,
+                "initiallyExpanded": [
+                  "dept-sales",
+                  "dept-ops",
+                  "dept-tech"
+                ],
+                "autoExpandDepth": 3,
+                "lazyLoadFn": "gridTreeTestLazyChildren",
+                "expandAllText": "Expand all nodes",
+                "collapseAllText": "Collapse all"
+              }
+            }
+          ]
+        }
+      </script>
+      <natural-grid
+        id="tree-plugin-grid"
+        data-init="json"
+        data-config-id="tree-plugin-config"
+      ></natural-grid>
+    </div>
+    <script>
+      globalThis.gridTreeTestLazyChildren = async (row) => {
+        if (!row) return [];
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        const label = (row.cells && row.cells.name) || row.id || "node";
+        return [
+          {
+            id: `${row.id}-auto`,
+            cells: {
+              id: `${row.id}-auto`,
+              name: `${label} (auto child)`,
+              manager: "Auto Load",
+              status: "Queued",
+            },
+          },
+        ];
+      };
+    </script>
+  </body>
+</html>

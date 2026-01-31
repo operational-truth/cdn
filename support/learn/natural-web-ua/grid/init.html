@@ -1,0 +1,454 @@
+<!-- lib/tabular-ux/grid-unstyled_test.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid styled + unstyled test</title>
+
+    <!-- Load the grid web component -->
+    <script
+      type="module"
+      src="../../../../natural-web-ua/grid/grid.js"
+    ></script>
+
+    <script>
+      // Example factory for data-init="factory"
+      globalThis.exampleGridFactory = () => ({
+        id: "factory-grid",
+        title: "Factory initialized",
+        ui: {
+          zebra: true,
+          toolbar: { enabled: false },
+          tree: { enabled: false },
+        },
+        columns: [
+          { key: "id", title: "ID" },
+          { key: "task", title: "Task" },
+          { key: "done", title: "Done" },
+        ],
+        data: {
+          kind: "static",
+          snapshot: {
+            columns: [
+              { key: "id", title: "ID" },
+              { key: "task", title: "Task" },
+              { key: "done", title: "Done" },
+            ],
+            rows: [
+              {
+                id: "t1",
+                cells: {
+                  id: "t1",
+                  task: "Wire config modes",
+                  done: true,
+                },
+              },
+              {
+                id: "t2",
+                cells: {
+                  id: "t2",
+                  task: "Add plugin demo later",
+                  done: false,
+                },
+              },
+            ],
+          },
+        },
+        plugins: [],
+      });
+    </script>
+
+    <style>
+      /* Page styling just for the demo layout (not the grid itself). */
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 24px;
+        max-width: 1050px;
+      }
+      .demo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+      .panel {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .panel h3 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .note {
+        color: rgba(0, 0, 0, 0.72);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      /* Example: overriding grid theme tokens from outside (styled only). */
+      natural-grid[data-demo="styled"][data-variant="warm"] {
+        --ng-fg: #111827;
+        --ng-border: rgba(17, 24, 39, 0.12);
+        --ng-header-bg: #fff7ed;
+        --ng-zebra-bg: rgba(251, 146, 60, 0.08);
+        --ng-row-hover-bg: rgba(251, 146, 60, 0.12);
+      }
+
+      /* Example: structural override via ::part (styled only). */
+      natural-grid[data-demo="styled"]::part(th) {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      /* If you want to style unstyled grids, do it at page-level (example). */
+      natural-grid[data-demo="unstyled"]::part(table) {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      natural-grid[data-demo="unstyled"]::part(th),
+      natural-grid[data-demo="unstyled"]::part(td) {
+        padding: 6px 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>natural-grid styled + unstyled test</h1>
+
+    <p class="note">
+      Left side shows default styled behavior (base styles + default modern
+      theme plugin). Right side shows unstyled behavior using <code
+      >data-unstyled</code>. The page includes small examples of overriding
+      tokens and using <code>::part(...)</code>.
+    </p>
+
+    <h2>1) grid from JSON (external script tag config)</h2>
+
+    <script id="json_grid__natural_grid_config" type="application/json">
+      {
+        "id": "json-grid",
+        "title": "JSON initialized",
+        "ui": {
+          "zebra": true,
+          "toolbar": { "enabled": false },
+          "tree": { "enabled": false }
+        },
+        "columns": [
+          { "key": "id", "title": "ID" },
+          { "key": "name", "title": "Name" },
+          { "key": "active", "title": "Active" },
+          { "key": "score", "title": "Score", "align": "right" }
+        ],
+        "data": {
+          "kind": "static",
+          "snapshot": {
+            "columns": [
+              { "key": "id", "title": "ID" },
+              { "key": "name", "title": "Name" },
+              { "key": "active", "title": "Active" },
+              { "key": "score", "title": "Score", "align": "right" }
+            ],
+            "rows": [
+              {
+                "id": "r1",
+                "cells": {
+                  "id": "r1",
+                  "name": "Alice",
+                  "active": true,
+                  "score": 92
+                }
+              },
+              {
+                "id": "r2",
+                "cells": {
+                  "id": "r2",
+                  "name": "Bob",
+                  "active": false,
+                  "score": 78
+                }
+              },
+              {
+                "id": "r3",
+                "cells": {
+                  "id": "r3",
+                  "name": "Charlie",
+                  "active": true,
+                  "score": 85
+                }
+              }
+            ]
+          }
+        },
+        "plugins": []
+      }
+    </script>
+
+    <div class="demo">
+      <div class="panel">
+        <h3>Styled (default theme)</h3>
+        <natural-grid
+          id="json-grid-styled"
+          data-demo="styled"
+          data-init="json"
+          data-config-id="json_grid__natural_grid_config"
+        ></natural-grid>
+      </div>
+
+      <div class="panel">
+        <h3>Unstyled (data-unstyled)</h3>
+        <natural-grid
+          id="json-grid-unstyled"
+          data-demo="unstyled"
+          data-init="json"
+          data-config-id="json_grid__natural_grid_config"
+          data-unstyled
+        ></natural-grid>
+      </div>
+    </div>
+
+    <h2>2) grid from JSON (script tag inside the custom element)</h2>
+
+    <div class="demo">
+      <div class="panel">
+        <h3>Styled (token override example)</h3>
+        <natural-grid
+          id="json-inside-grid-styled"
+          data-demo="styled"
+          data-variant="warm"
+          data-init="json"
+        >
+          <script type="application/json" data-natural-grid-config>
+            {
+              "id": "json-inside-grid-styled",
+              "title": "JSON inside <natural-grid> (warm tokens)",
+              "ui": {
+                "zebra": true,
+                "toolbar": { "enabled": false },
+                "tree": { "enabled": false }
+              },
+              "columns": [
+                { "key": "id", "title": "ID" },
+                { "key": "product", "title": "Product" },
+                { "key": "status", "title": "Status" }
+              ],
+              "data": {
+                "kind": "static",
+                "snapshot": {
+                  "columns": [
+                    { "key": "id", "title": "ID" },
+                    { "key": "product", "title": "Product" },
+                    { "key": "status", "title": "Status" }
+                  ],
+                  "rows": [
+                    {
+                      "id": "p1",
+                      "cells": {
+                        "id": "p1",
+                        "product": "Opsfolio",
+                        "status": "beta"
+                      }
+                    },
+                    {
+                      "id": "p2",
+                      "cells": {
+                        "id": "p2",
+                        "product": "Surveilr",
+                        "status": "stable"
+                      }
+                    },
+                    {
+                      "id": "p3",
+                      "cells": {
+                        "id": "p3",
+                        "product": "Spry",
+                        "status": "alpha"
+                      }
+                    }
+                  ]
+                }
+              },
+              "plugins": []
+            }
+          </script>
+        </natural-grid>
+      </div>
+
+      <div class="panel">
+        <h3>Unstyled (data-unstyled)</h3>
+        <natural-grid
+          id="json-inside-grid-unstyled"
+          data-demo="unstyled"
+          data-init="json"
+          data-unstyled
+        >
+          <script type="application/json" data-natural-grid-config>
+            {
+              "id": "json-inside-grid-unstyled",
+              "title": "JSON inside <natural-grid> (unstyled)",
+              "ui": {
+                "zebra": false,
+                "toolbar": { "enabled": false },
+                "tree": { "enabled": false }
+              },
+              "columns": [
+                { "key": "id", "title": "ID" },
+                { "key": "product", "title": "Product" },
+                { "key": "status", "title": "Status" }
+              ],
+              "data": {
+                "kind": "static",
+                "snapshot": {
+                  "columns": [
+                    { "key": "id", "title": "ID" },
+                    { "key": "product", "title": "Product" },
+                    { "key": "status", "title": "Status" }
+                  ],
+                  "rows": [
+                    {
+                      "id": "p1",
+                      "cells": {
+                        "id": "p1",
+                        "product": "Opsfolio",
+                        "status": "beta"
+                      }
+                    },
+                    {
+                      "id": "p2",
+                      "cells": {
+                        "id": "p2",
+                        "product": "Surveilr",
+                        "status": "stable"
+                      }
+                    },
+                    {
+                      "id": "p3",
+                      "cells": {
+                        "id": "p3",
+                        "product": "Spry",
+                        "status": "alpha"
+                      }
+                    }
+                  ]
+                }
+              },
+              "plugins": []
+            }
+          </script>
+        </natural-grid>
+      </div>
+    </div>
+
+    <h2>3) grid over HTML table (first table child)</h2>
+
+    <div class="demo">
+      <div class="panel">
+        <h3>Styled</h3>
+        <natural-grid
+          id="table-grid-styled"
+          data-demo="styled"
+          data-init="table"
+          data-title="HTML table initialized"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Language</th>
+                <th>Runtime</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-row-id="l1">
+                <td>l1</td>
+                <td>JavaScript</td>
+                <td>Browser</td>
+              </tr>
+              <tr data-row-id="l2">
+                <td>l2</td>
+                <td>TypeScript</td>
+                <td>Deno</td>
+              </tr>
+              <tr data-row-id="l3">
+                <td>l3</td>
+                <td>Rust</td>
+                <td>CLI</td>
+              </tr>
+            </tbody>
+          </table>
+        </natural-grid>
+      </div>
+
+      <div class="panel">
+        <h3>Unstyled</h3>
+        <natural-grid
+          id="table-grid-unstyled"
+          data-demo="unstyled"
+          data-init="table"
+          data-title="HTML table initialized (unstyled)"
+          data-unstyled
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Language</th>
+                <th>Runtime</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-row-id="l1">
+                <td>l1</td>
+                <td>JavaScript</td>
+                <td>Browser</td>
+              </tr>
+              <tr data-row-id="l2">
+                <td>l2</td>
+                <td>TypeScript</td>
+                <td>Deno</td>
+              </tr>
+              <tr data-row-id="l3">
+                <td>l3</td>
+                <td>Rust</td>
+                <td>CLI</td>
+              </tr>
+            </tbody>
+          </table>
+        </natural-grid>
+      </div>
+    </div>
+
+    <h2>4) grid from factory function (custom function returns config)</h2>
+
+    <div class="demo">
+      <div class="panel">
+        <h3>Styled</h3>
+        <natural-grid
+          id="factory-grid-styled"
+          data-demo="styled"
+          data-init="factory"
+          data-factory="exampleGridFactory"
+        ></natural-grid>
+      </div>
+
+      <div class="panel">
+        <h3>Unstyled</h3>
+        <natural-grid
+          id="factory-grid-unstyled"
+          data-demo="unstyled"
+          data-init="factory"
+          data-factory="exampleGridFactory"
+          data-unstyled
+        ></natural-grid>
+      </div>
+    </div>
+
+    <p class="note">
+      The fetch/filter/sort/pagination & tree + virtualization demos now live in
+      the dedicated
+      <a href="./grid-flat_test.html">flat grid demo</a> and
+      <a href="./grid-tree_test.html">tree grid demo</a>.
+    </p>
+  </body>
+</html>
