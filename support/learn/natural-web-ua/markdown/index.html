@@ -1,0 +1,451 @@
+<!-- markdown_test.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MarkdownElement demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem 1.25rem;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          sans-serif;
+        line-height: 1.5;
+        color: #111827;
+        background: #ffffff;
+      }
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        gap: 2rem;
+      }
+      .panel {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 1.25rem;
+      }
+      .panel h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.1rem;
+      }
+      .hint {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin: 0 0 1rem;
+      }
+      .row {
+        display: grid;
+        gap: 1rem;
+      }
+      @media (min-width: 900px) {
+        .row {
+          grid-template-columns: 1fr 1fr;
+          align-items: start;
+        }
+      }
+      code.k {
+        background: #f3f4f6;
+        padding: 0.1rem 0.35rem;
+        border-radius: 0.35rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 0.95em;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.75rem 0 0;
+      }
+      button {
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        border-radius: 10px;
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #f9fafb;
+      }
+    </style>
+
+    <script type="module" src="../../../../natural-web-ua/markdown/markdown.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <header class="panel">
+        <h1 style="margin: 0 0 0.25rem; font-size: 1.4rem">MarkdownElement demo</h1>
+        <p class="hint" style="margin: 0">
+          Demonstrates <code class="k">&lt;markdown-html&gt;</code> compatibility plus
+          <code class="k">styled</code> and <code class="k">style-prefix</code>.
+        </p>
+      </header>
+
+      <section class="panel">
+        <h2>1) Inline markdown, default styling (styled=true, prefix=md-)</h2>
+        <p class="hint">
+          Uses <code class="k">&lt;script type="text/markdown"&gt;</code> as the
+          source. Auto-renders by default.
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            # Hello from inline markdown
+
+            This is a demo of **MarkdownElement**. It renders GitHub-flavored markdown:
+
+            - task lists
+            - tables
+            - fenced code
+            - autolinks
+
+            - [ ] unchecked item
+            - [x] checked item
+
+            | Column | Value |
+            |:------:|------:|
+            | A      | 123   |
+            | B      | 456   |
+
+            ```js
+            console.log("hello");
+            ```
+
+            Jump to [a later section](#later-section).
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>2) Unstyled output (styled=false)</h2>
+        <p class="hint">
+          No CSS is injected. You can style it yourself (or inherit page styles).
+        </p>
+
+        <markdown-html styled="false">
+          <script type="text/markdown" data-dedent>
+            ## Plain output
+
+            This one is **unstyled**. It still outputs semantic HTML, but no typography CSS is injected.
+
+            - It will look like your site’s defaults
+            - Or you can provide your own templates
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>3) Change class/style prefix (style-prefix="doc-")</h2>
+        <p class="hint">
+          Changes the CSS classes and CSS variable prefix from <code class="k">md-</code>
+          to <code class="k">doc-</code>.
+        </p>
+
+        <markdown-html style-prefix="doc-">
+          <script type="text/markdown" data-dedent>
+            ## Prefixed styles
+
+            The wrapper element will use the `doc-` prefix now.
+
+            Try searching the DOM for `doc-root` instead of `md-root`.
+          </script>
+
+          <!-- Optional: add prefix-specific overrides -->
+          <template data-append>
+            <style>
+              .doc-root {
+                --doc-a: #0f766e;
+                --doc-pbg: #071a1f;
+                --doc-pc: #e6fffb;
+                --doc-c: #0b1020;
+              }
+            </style>
+          </template>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>4) Style templating (replace defaults)</h2>
+        <p class="hint">
+          Providing a bare <code class="k">&lt;template&gt;</code> replaces the default style block completely.
+        </p>
+
+        <markdown-html>
+          <template>
+            <style>
+              :host { display:block; }
+              .md-root { font: 16px/1.7 system-ui; max-width: 70ch; }
+              .md-root h1, .md-root h2 { letter-spacing: -0.02em; }
+              .md-root a { color: #7c3aed; }
+              .md-root pre { background: #111827; color: #e5e7eb; border-radius: 12px; padding: 1rem; overflow: auto; }
+              .md-root code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+            </style>
+          </template>
+
+          <script type="text/markdown" data-dedent>
+            # Replaced default CSS
+
+            This instance uses a custom, minimal style template.
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>5) no-shadow mode (renders into light DOM)</h2>
+        <p class="hint">
+          Useful when you want global CSS to apply. Note that the component renders into an internal container
+          so your authoring templates/scripts are not overwritten.
+        </p>
+
+        <div class="row">
+          <div>
+            <p class="hint">
+              Light DOM styles example: this page has default styling for <code class="k">h2</code> and <code class="k">p</code>,
+              but you could target the output with CSS too.
+            </p>
+            <markdown-html no-shadow>
+              <script type="text/markdown" data-dedent>
+                ## Light DOM rendering
+
+                This instance renders into the light DOM.
+              </script>
+            </markdown-html>
+          </div>
+
+          <div>
+            <p class="hint">DOM note: look for a child element with <code class="k">data-md-host</code>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>6) highlight.js test (JavaScript fenced code)</h2>
+        <p class="hint">
+          The component lazy-loads highlight.js when it sees <code class="k">pre code</code>.
+          Use a language hint (<code class="k">js</code> or <code class="k">javascript</code>) to encourage good highlighting.
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            ## Syntax highlighting
+
+            ```js
+            // Simple JS snippet
+            export function greet(name = "world") {
+              const when = new Date().toISOString();
+              return `Hello, ${name}! (${when})`;
+            }
+
+            console.log(greet("Shahid"));
+            ```
+
+            ```javascript
+            // A slightly different block (same language)
+            const nums = [1, 2, 3, 4, 5];
+            const sum = nums.reduce((a, b) => a + b, 0);
+            console.log({ sum });
+            ```
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>7) Mermaid test (flowchart + sequence)</h2>
+        <p class="hint">
+          Mermaid is lazy-loaded when a <code class="k">language-mermaid</code> block or <code class="k">.mermaid</code> node is detected.
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            ## Mermaid flowchart
+
+            💡 Typically we'd use \`\`\``mermaid` but in `<script>` block we use `<pre>`.
+
+            <pre class="mermaid">
+            flowchart TD
+              A[Author writes Markdown] --> B[MarkdownElement fetches / reads inline]
+              B --> C[remark/rehype pipeline]
+              C --> D[HTML in container]
+              D --> E[post-process: links, ids, hash scroll]
+              D --> F[optional: highlight.js / mermaid / KaTeX]
+            </pre>
+
+            ## Mermaid sequence diagram
+
+            <pre class="mermaid">
+            sequenceDiagram
+              participant U as User
+              participant E as &lt;markdown-html&gt;
+              participant CDN as CDN (esm.sh / jsdelivr)
+              U-&gt;&gt;E: loads page
+              E-&gt;&gt;CDN: lazy-load helpers if detected
+              E--&gt;&gt;U: rendered event + HTML output
+            </pre>
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>8) KaTeX test (inline + display math)</h2>
+        <p class="hint">
+          KaTeX is lazy-loaded when obvious math is detected (simple <code class="k">$...$</code> or <code class="k">$$...$$</code>).
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            ## Math rendering
+
+            Inline math: $E = mc^2$
+
+            Display math:
+
+            $$
+            \int_{0}^{\infty} e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+            $$
+
+            Note: this is just to verify auto-render triggers and doesn't throw.
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2 id="later-section">Later section (hash scrolling)</h2>
+        <p class="hint">
+          Clicking a link to <code class="k">#later-section</code> should scroll here after rendering.
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            ### This heading should have an id
+
+            If you loaded this page with a URL hash, the component should scroll to that anchor after render.
+          </script>
+        </markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>9) Relative URL rewriting test (img + link)</h2>
+        <p class="hint">
+          Loads <code class="k">./fixtures.md</code> so you can confirm that relative image and link targets
+          (e.g. <code class="k">./assets/example.png</code> and <code class="k">./assets/relative-link-target.html</code>)
+          are rewritten back to this directory even though the markdown is fetched via <code class="k">src</code>.
+        </p>
+
+        <markdown-html src="./fixtures.md"></markdown-html>
+      </section>
+
+      <section class="panel">
+        <h2>10) Manual render (no-auto)</h2>
+        <p class="hint">
+          Disable auto rendering and trigger it programmatically.
+        </p>
+
+        <markdown-html id="manual" no-auto>
+          <script type="text/markdown" data-dedent>
+            ## Manual render
+
+            This instance will only render when you call `el.render()`.
+          </script>
+        </markdown-html>
+
+        <div class="actions">
+          <button id="btn-render">Render now</button>
+          <button id="btn-update">Update markdown then render</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>11) code-meta test (badge + highlighted CLI meta)</h2>
+        <p class="hint">
+          When <code class="k">code-meta</code> is true (default), the language becomes a badge and the remainder
+          of the fence info becomes a highlighted CLI line above the code block.
+        </p>
+
+        <markdown-html>
+          <script type="text/markdown" data-dedent>
+            ## code-meta examples
+
+            ```bash task-2 -C task2Output --dep task-3 --descr "Another demo task"
+            echo "task-2 successful"
+            ```
+
+            ```envrc prepare-env -C ./.envrc --gitignore -X --descr "Generate .envrc file and add it to local .gitignore if it's not already there"
+            export SPRY_DB="sqlite://scf-2025.3.sqlite.db?mode=rwc"
+            export PORT=9227
+            ```
+          </script>
+        </markdown-html>
+
+        <p class="hint" style="margin-top: .75rem">
+          Disable the feature with <code class="k">code-meta="false"</code>.
+        </p>
+
+        <markdown-html code-meta="false">
+          <script type="text/markdown" data-dedent>
+            ```bash task-2 -C task2Output --dep task-3
+            echo "no meta header above this"
+            ```
+          </script>
+        </markdown-html>
+      </section>
+
+
+      <section class="panel">
+        <h2>Events</h2>
+        <p class="hint">
+          Listen to <code class="k">rendered</code> on the element, and
+          <code class="k">markdown-rendered</code> on <code class="k">window</code>.
+        </p>
+
+        <pre
+          id="log"
+          style="
+            margin: 0;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            overflow: auto;
+          "
+        ></pre>
+      </section>
+    </main>
+
+    <script>
+      const log = document.getElementById("log");
+      const append = (s) => {
+        log.textContent += s + "\n";
+        log.scrollTop = log.scrollHeight;
+      };
+
+      window.addEventListener("markdown-rendered", (e) => {
+        append("[window] markdown-rendered: " + JSON.stringify(e.detail));
+      });
+
+      document.querySelectorAll("markdown-html").forEach((el, idx) => {
+        el.addEventListener("rendered", (e) => {
+          append(`[el ${idx + 1}] rendered: ` + JSON.stringify(e.detail));
+        });
+        el.addEventListener("error", (e) => {
+          append(`[el ${idx + 1}] error: ` + (e.detail?.error?.message || "unknown"));
+        });
+      });
+
+      const manual = document.getElementById("manual");
+      document.getElementById("btn-render").addEventListener("click", async () => {
+        await manual.render();
+      });
+
+      document.getElementById("btn-update").addEventListener("click", async () => {
+        const s = manual.querySelector('script[type="text/markdown"]');
+        s.textContent =
+          "## Manual render (updated)\n\nUpdated at: " +
+          new Date().toISOString() +
+          "\n\n- This was changed by JS\n- Then `render()` was called\n";
+        await manual.render();
+      });
+    </script>
+  </body>
+</html>
