@@ -1,0 +1,4153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Design System Reference</title>
+
+    <!-- 
+    ====================================================
+    NATURAL DESIGN SYSTEM ("Natural DS") REFERENCE GUIDE
+    ====================================================
+    
+    This is a comprehensive, self-documenting reference for the 
+    Natural design system. It serves as both:
+    
+    1. A VISUAL PREVIEW of all available components
+    2. A CODE REFERENCE with detailed HTML comments explaining
+       the markup, CSS classes, and usage patterns
+    
+    Use this page as your guide when building documentation sites.
+    
+    DESIGN CHARACTERISTICS:
+    - Three-column layout (sidebar | content | TOC)
+    - Orange accent color (#f97316)
+    - Clean, minimal aesthetic with subtle shadows
+    - System font stack for fast loading
+    - Light gray background (#fafafa) with white components
+  -->
+
+    <style>
+      /* ============================================
+      CSS RESET & BASE STYLES
+      ============================================ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        /* System font stack */
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #0a0a0a;
+        background-color: #fafafa;
+      }
+
+      /* ============================================
+      LAYOUT: THREE-COLUMN GRID
+      ============================================
+
+      Structure:
+      [Left Sidebar: 280px] [Main Content: flex] [Right TOC: 200px]
+
+      The layout uses CSS Grid for the overall structure.
+      On mobile, sidebars would typically collapse into
+      hamburger menu and bottom sheet respectively.
+          */
+      .page-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr 200px;
+        grid-template-rows: auto auto 1fr;
+        min-height: 100vh;
+      }
+
+      /* ============================================
+      CONTEXT HEADER (Global Navigation Bar)
+      ============================================
+
+      Full-width dark header at the very top of the page.
+      Contains global navigation, notifications, and user area.
+
+      Structure:
+      .context-header
+        .context-header-left   - Logo/brand + nav links
+        .context-header-right  - Notifications, user menu, etc.
+
+      Styling:
+      - Dark background (#0a0a0a)
+      - Full width spanning all columns
+      - Sticky at top with high z-index
+      - Height: 48px
+          */
+      .context-header {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: #0a0a0a;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        border-bottom: 1px solid #262626;
+      }
+
+      .context-header-left {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .context-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .context-brand-icon {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .context-nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .context-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #a3a3a3;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.15s ease;
+      }
+
+      .context-nav-link:hover {
+        color: #ffffff;
+        background: #262626;
+      }
+
+      .context-nav-link.active {
+        color: #ffffff;
+        background: #262626;
+      }
+
+      .context-nav-link svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .context-header-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .context-icon-btn {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        color: #a3a3a3;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+        position: relative;
+      }
+
+      .context-icon-btn:hover {
+        color: #ffffff;
+        background: #262626;
+      }
+
+      .context-icon-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: #f97316;
+        border-radius: 50%;
+        border: 2px solid #0a0a0a;
+      }
+
+      .context-divider {
+        width: 1px;
+        height: 24px;
+        background: #333333;
+        margin: 0 8px;
+      }
+
+      .context-user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px 4px 4px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .context-user:hover {
+        background: #262626;
+      }
+
+      .context-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .context-user-name {
+        font-size: 13px;
+        color: #e5e5e5;
+        font-weight: 500;
+      }
+
+      .context-user-chevron {
+        color: #737373;
+      }
+
+      /* Full-width breadcrumb row spanning main + TOC columns */
+      .breadcrumb-row {
+        grid-column: 2 / 4;
+        grid-row: 2;
+        position: sticky;
+        top: 48px;
+        /* Below context header */
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e5e5e5;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ============================================
+      LEFT SIDEBAR
+      ============================================
+
+      Contains:
+      1. Logo/brand header
+      2. Search bar with keyboard shortcut
+      3. Subject Area selector
+      4. Categorized two level navigation links
+
+      Styling:
+      - Fixed position for scroll persistence
+      - White background
+      - Right border separator
+      - Internal padding with scrollable content
+          */
+      .left-sidebar {
+        position: fixed;
+        top: 48px;
+        /* Below context header */
+        left: 0;
+        width: 280px;
+        height: calc(100vh - 48px);
+        background: #ffffff;
+        border-right: 1px solid #e5e5e5;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* --- Sidebar Header: Logo & Theme Toggle --- */
+      .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        color: #0a0a0a;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .theme-toggle {
+        width: 32px;
+        height: 32px;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #737373;
+        transition: all 0.15s ease;
+      }
+
+      .theme-toggle:hover {
+        background: #f5f5f5;
+        color: #0a0a0a;
+      }
+
+      /* --- Search Bar --- 
+      Styled as a clickable button that would open a modal.
+      Shows ⌘K keyboard shortcut on the right.
+          */
+      .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .search-bar:hover {
+        border-color: #d4d4d4;
+        background: #fafafa;
+      }
+
+      .search-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #737373;
+      }
+
+      .search-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .search-placeholder {
+        font-size: 13px;
+      }
+
+      .search-shortcut {
+        display: flex;
+        gap: 4px;
+      }
+
+      .kbd {
+        padding: 2px 6px;
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        font-size: 11px;
+        font-family: inherit;
+        color: #737373;
+      }
+
+      /* --- Subject Area Selector Dropdown ---
+      A dropdown selector for switching between subject areas.
+      Uses dual chevrons icon (ChevronsUpDown).
+
+      Structure:
+      .subject-selector-wrapper  - Positioning container for dropdown
+        .subject-selector        - The trigger button
+          .subject-selector-icon - Grid icon with gradient
+          .subject-selector-name - Current selection text
+          .selector-chevrons     - Up/down chevrons icon
+        .subject-popup           - Dropdown container
+          .subject-option        - Each selectable option
+            .option-icon         - Icon for the option
+            .option-info         - Title + description
+            .option-checkmark    - Check icon (visible when selected)
+          */
+      .subject-selector-wrapper {
+        position: relative;
+        margin-bottom: 0;
+      }
+
+      .subject-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        width: 100%;
+        text-align: left;
+      }
+
+      .subject-selector:hover {
+        border-color: #d4d4d4;
+        background: #fafafa;
+      }
+
+      .subject-selector-icon {
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .subject-selector-name {
+        flex: 1;
+        font-size: 14px;
+        font-weight: 500;
+        color: #0a0a0a;
+      }
+
+      .selector-chevrons {
+        width: 16px;
+        height: 16px;
+        color: #737373;
+        flex-shrink: 0;
+      }
+
+      /* Subject Popup Dropdown */
+      .subject-popup {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: all 0.2s ease;
+        overflow: hidden;
+      }
+
+      .subject-popup.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .subject-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .subject-option:hover {
+        background: #f5f5f5;
+      }
+
+      .option-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: #f3f4f6;
+      }
+
+      .option-icon.active {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+      }
+
+      .option-info {
+        flex: 1;
+      }
+
+      .option-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #0a0a0a;
+      }
+
+      .option-description {
+        font-size: 12px;
+        color: #737373;
+        margin-top: 2px;
+      }
+
+      .option-checkmark {
+        width: 16px;
+        height: 16px;
+        color: #f97316;
+        opacity: 0;
+        margin-top: 4px;
+      }
+
+      .subject-option.selected .option-checkmark {
+        opacity: 1;
+      }
+
+      /* --- Navigation Section ---
+      Grouped navigation with category headers.
+      Each category contains a list of links.
+          */
+      .nav-section {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .nav-category {
+        font-size: 11px;
+        font-weight: 600;
+        color: #737373;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 8px 0 4px 0;
+        margin-top: 8px;
+      }
+
+      .nav-category:first-child {
+        margin-top: 0;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #525252;
+        font-size: 13px;
+        transition: all 0.15s ease;
+      }
+
+      .nav-link:hover {
+        background: #f5f5f5;
+        color: #0a0a0a;
+      }
+
+      /* Active navigation link - orange accent */
+      .nav-link.active {
+        background: #fff7ed;
+        color: #ea580c;
+        font-weight: 500;
+      }
+
+      .nav-link.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 3px;
+        height: 24px;
+        background: #f97316;
+        border-radius: 0 2px 2px 0;
+      }
+
+      .nav-icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+      }
+
+      /* ============================================
+      EXPANDABLE NAV ITEM WITH CHILDREN
+      ============================================
+
+      Two-level navigation tree with collapsible items.
+
+      Structure:
+      .nav-expandable
+        button.nav-link.nav-toggle  - Parent item (clickable to expand)
+          svg.nav-icon              - Icon for the item
+          span                      - Item label
+          svg.nav-chevron           - Chevron that rotates on expand
+        .nav-children               - Container for child links
+          a.nav-child-link          - Individual child link
+
+      Behavior:
+      - aria-expanded toggles between true/false
+      - Chevron rotates 180° when expanded
+      - Children container shown/hidden via display
+      - Left border connects children visually
+          */
+      .nav-expandable {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #525252;
+        font-size: 13px;
+        transition: all 0.15s ease;
+        cursor: pointer;
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-family: inherit;
+      }
+
+      .nav-toggle:hover {
+        background: #f5f5f5;
+        color: #0a0a0a;
+      }
+
+      .nav-chevron {
+        width: 14px;
+        height: 14px;
+        margin-left: auto;
+        transition: transform 0.2s ease;
+        opacity: 0.6;
+      }
+
+      .nav-toggle[aria-expanded="true"] .nav-chevron {
+        transform: rotate(180deg);
+      }
+
+      .nav-children {
+        margin-left: 20px;
+        padding-left: 12px;
+        border-left: 1px solid #e5e5e5;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-top: 2px;
+      }
+
+      .nav-child-link {
+        display: block;
+        padding: 6px 12px;
+        font-size: 13px;
+        color: #525252;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.15s ease;
+      }
+
+      .nav-child-link:hover {
+        background: #f5f5f5;
+        color: #0a0a0a;
+      }
+
+      .nav-child-link.active {
+        color: #ea580c;
+        background: #fff7ed;
+      }
+
+      /* ============================================
+      MAIN CONTENT AREA
+      ============================================
+
+      Contains the actual documentation content:
+      - Page title and description
+      - Section headings with anchor links
+      - Body text paragraphs
+      - Feature cards in a grid
+      - Callout/tip boxes
+      - Code blocks (simplified)
+
+      Styling:
+      - Centered with max-width for readability
+      - White background card
+      - Generous padding
+          */
+      .main-content {
+        grid-column: 2;
+        grid-row: 3;
+        padding: 24px 24px 40px 24px;
+      }
+
+      .content-wrapper {
+        max-width: 100%;
+      }
+
+      /* ============================================
+      BREADCRUMBS COMPONENT
+      ============================================
+
+      Full-width sticky navigation showing current location.
+      Uses .breadcrumb-row at grid level for full span.
+
+      Structure:
+      .breadcrumb-row (grid-level, spans main + TOC columns)
+        a.breadcrumb-item.home
+        .breadcrumb-separator
+        a.breadcrumb-item
+        .breadcrumb-separator
+        span.breadcrumb-item.current
+
+      Styling:
+      - Sticky at top with frosted glass background
+      - Spans from main content edge to page edge
+      - Orange hover states for links
+          */
+
+      .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #525252;
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+
+      .breadcrumb-item:hover:not(.current) {
+        color: #f97316;
+      }
+
+      .breadcrumb-item.home {
+        color: #737373;
+      }
+
+      .breadcrumb-item.home:hover {
+        color: #f97316;
+      }
+
+      .breadcrumb-item.current {
+        color: #0a0a0a;
+        font-weight: 500;
+        cursor: default;
+      }
+
+      .breadcrumb-separator {
+        color: #d4d4d4;
+        display: flex;
+        align-items: center;
+      }
+
+      .breadcrumb-separator svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* --- Page Header ---
+      Contains title, description, and action buttons
+          */
+      .page-header {
+        margin-bottom: 40px;
+        padding-top: 16px;
+      }
+
+      .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+      }
+
+      .page-description {
+        font-size: 16px;
+        color: #525252;
+        line-height: 1.7;
+        margin-bottom: 20px;
+      }
+
+      /* Action buttons row */
+      .page-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #525252;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .action-btn:hover {
+        border-color: #d4d4d4;
+        color: #0a0a0a;
+      }
+
+      .action-btn.primary {
+        background: #0a0a0a;
+        border-color: #0a0a0a;
+        color: #ffffff;
+      }
+
+      .action-btn.primary:hover {
+        background: #262626;
+      }
+
+      /* --- Section Headings ---
+      Each heading has an anchor link icon on hover
+          */
+      .section-heading {
+        font-size: 22px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin-top: 48px;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .section-heading:first-of-type {
+        margin-top: 0;
+      }
+
+      .anchor-link {
+        opacity: 0;
+        color: #737373;
+        text-decoration: none;
+        transition: opacity 0.15s ease;
+      }
+
+      .section-heading:hover .anchor-link {
+        opacity: 1;
+      }
+
+      .anchor-link:hover {
+        color: #f97316;
+      }
+
+      /* Subsection heading (h3) */
+      .subsection-heading {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin-top: 32px;
+        margin-bottom: 12px;
+      }
+
+      /* --- Body Text --- */
+      .body-text {
+        font-size: 15px;
+        color: #404040;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* --- Feature Cards Grid ---
+      2x2 grid of cards showcasing features/packages.
+      Each card has an icon, title, and description.
+          */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 24px 0;
+      }
+
+      .feature-card {
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .feature-card:hover {
+        border-color: #d4d4d4;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transform: translateY(-2px);
+      }
+
+      .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        font-size: 18px;
+      }
+
+      .feature-card:nth-child(1) .feature-icon {
+        background: #fff7ed;
+        color: #f97316;
+      }
+
+      .feature-card:nth-child(2) .feature-icon {
+        background: #eff6ff;
+        color: #3b82f6;
+      }
+
+      .feature-card:nth-child(3) .feature-icon {
+        background: #f0fdf4;
+        color: #22c55e;
+      }
+
+      .feature-card:nth-child(4) .feature-icon {
+        background: #faf5ff;
+        color: #a855f7;
+      }
+
+      .feature-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin-bottom: 6px;
+      }
+
+      .feature-desc {
+        font-size: 13px;
+        color: #737373;
+        line-height: 1.6;
+      }
+
+      /* --- Callout/Tip Box ---
+      Info box with left border accent.
+      Used for tips, warnings, notes.
+          */
+      .callout {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-left: 4px solid #f59e0b;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 24px 0;
+      }
+
+      .callout.info {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        border-left-color: #3b82f6;
+      }
+
+      .callout.tip {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+        border-left-color: #22c55e;
+      }
+
+      .callout-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #0a0a0a;
+        margin-bottom: 8px;
+      }
+
+      .callout-content {
+        font-size: 14px;
+        color: #404040;
+        line-height: 1.7;
+      }
+
+      /* --- Definition List ---
+      For terminology explanations
+          */
+      .definition-list {
+        margin: 24px 0;
+      }
+
+      .definition-item {
+        padding: 16px 0;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .definition-item:last-child {
+        border-bottom: none;
+      }
+
+      .definition-term {
+        font-weight: 600;
+        font-size: 15px;
+        color: #0a0a0a;
+        margin-bottom: 4px;
+      }
+
+      .definition-desc {
+        font-size: 14px;
+        color: #525252;
+        line-height: 1.7;
+      }
+
+      /* --- Code Block (Simplified) ---
+      Basic styling for inline and block code
+          */
+      code {
+        font-family: "SF Mono", Monaco, "Courier New", monospace;
+        font-size: 13px;
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: #e11d48;
+      }
+
+      .code-block {
+        background: #1e1e1e;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 16px 0;
+        overflow-x: auto;
+      }
+
+      .code-block code {
+        background: transparent;
+        color: #d4d4d4;
+        padding: 0;
+      }
+
+      .code-block .comment {
+        color: #6a9955;
+      }
+
+      .code-block .keyword {
+        color: #569cd6;
+      }
+
+      .code-block .string {
+        color: #ce9178;
+      }
+
+      .code-block .function {
+        color: #dcdcaa;
+      }
+
+      /* ============================================
+      ENHANCED CODE BLOCK WITH HEADER
+      ============================================
+      Code block with filename, language badge,
+      and copy button in header bar.
+          */
+      .code-block-enhanced {
+        background: #1e1e1e;
+        border-radius: 10px;
+        margin: 20px 0;
+        overflow: hidden;
+        border: 1px solid #333;
+      }
+
+      .code-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background: #2d2d2d;
+        border-bottom: 1px solid #404040;
+      }
+
+      .code-header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .code-filename {
+        font-size: 13px;
+        font-weight: 500;
+        color: #e0e0e0;
+        font-family: "SF Mono", Monaco, monospace;
+      }
+
+      .code-lang-badge {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: #404040;
+        color: #a0a0a0;
+      }
+
+      .code-lang-badge.ts {
+        background: #3178c6;
+        color: white;
+      }
+
+      .code-lang-badge.js {
+        background: #f7df1e;
+        color: #000;
+      }
+
+      .code-lang-badge.bash {
+        background: #4eaa25;
+        color: white;
+      }
+
+      .code-lang-badge.json {
+        background: #292929;
+        color: #f5a623;
+      }
+
+      .code-lang-badge.jsx {
+        background: #61dafb;
+        color: #000;
+      }
+
+      .code-lang-badge.css {
+        background: #264de4;
+        color: white;
+      }
+
+      .code-lang-badge.html {
+        background: #e34c26;
+        color: white;
+      }
+
+      .code-copy-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        background: transparent;
+        border: 1px solid #404040;
+        border-radius: 6px;
+        color: #a0a0a0;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .code-copy-btn:hover {
+        background: #404040;
+        color: #fff;
+      }
+
+      .code-content {
+        padding: 16px 20px;
+        overflow-x: auto;
+      }
+
+      .code-content pre {
+        margin: 0;
+        font-family: "SF Mono", Monaco, "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .code-content code {
+        background: transparent;
+        color: #d4d4d4;
+        padding: 0;
+      }
+
+      /* Line numbers */
+      .code-line {
+        display: flex;
+      }
+
+      .line-number {
+        color: #505050;
+        text-align: right;
+        padding-right: 16px;
+        min-width: 32px;
+        user-select: none;
+      }
+
+      .line-content {
+        flex: 1;
+      }
+
+      /* Highlighted line */
+      .code-line.highlighted {
+        background: rgba(249, 115, 22, 0.15);
+        margin: 0 -20px;
+        padding: 0 20px;
+      }
+
+      /* ============================================
+      TABS COMPONENT
+      ============================================
+      Horizontal tabs for switching between content
+      like different package managers or frameworks.
+          */
+      .tabs-container {
+        margin: 24px 0;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .tabs-header {
+        display: flex;
+        background: #f5f5f5;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .tab-button {
+        padding: 12px 20px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #525252;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.15s ease;
+      }
+
+      .tab-button:hover {
+        color: #0a0a0a;
+        background: #fafafa;
+      }
+
+      .tab-button.active {
+        color: #0a0a0a;
+        background: #fff;
+      }
+
+      .tab-button.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #f97316;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 0;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .tab-content .code-block-enhanced {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+      }
+
+      /* ============================================
+      STEPS COMPONENT
+      ============================================
+      Numbered vertical steps for tutorials
+      with connecting line and step content.
+          */
+      .steps-container {
+        margin: 24px 0;
+        position: relative;
+      }
+
+      .step {
+        display: flex;
+        gap: 20px;
+        padding-bottom: 32px;
+        position: relative;
+      }
+
+      .step:last-child {
+        padding-bottom: 0;
+      }
+
+      .step-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        background: #f97316;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+      }
+
+      .step-line {
+        width: 2px;
+        flex: 1;
+        background: #e5e5e5;
+        margin-top: 8px;
+      }
+
+      .step:last-child .step-line {
+        display: none;
+      }
+
+      .step-content {
+        flex: 1;
+        padding-top: 4px;
+      }
+
+      .step-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin-bottom: 8px;
+      }
+
+      .step-description {
+        font-size: 14px;
+        color: #525252;
+        line-height: 1.7;
+      }
+
+      /* ============================================
+      FILE TREE COMPONENT
+      ============================================
+      Displays directory structure with icons
+      for files and folders.
+          */
+      .file-tree {
+        background: #fafafa;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin: 20px 0;
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 13px;
+      }
+
+      .file-tree-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 0;
+        color: #404040;
+      }
+
+      .file-tree-item.folder {
+        color: #0a0a0a;
+        font-weight: 500;
+      }
+
+      .file-tree-item .icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+
+      .file-tree-item.folder .icon {
+        color: #f59e0b;
+      }
+
+      .file-tree-item.file .icon {
+        color: #737373;
+      }
+
+      .file-tree-item.file-ts .icon {
+        color: #3178c6;
+      }
+
+      .file-tree-item.file-json .icon {
+        color: #f5a623;
+      }
+
+      .file-tree-item.file-md .icon {
+        color: #083fa1;
+      }
+
+      .file-tree-item.file-css .icon {
+        color: #264de4;
+      }
+
+      .file-tree-item.file-html .icon {
+        color: #e34c26;
+      }
+
+      .file-tree-children {
+        padding-left: 24px;
+        border-left: 1px dashed #d4d4d4;
+        margin-left: 7px;
+      }
+
+      /* ============================================
+      ACCORDION COMPONENT
+      ============================================
+      Collapsible sections with toggle indicator.
+          */
+      .accordion {
+        margin: 20px 0;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .accordion-item {
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .accordion-item:last-child {
+        border-bottom: none;
+      }
+
+      .accordion-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        background: #fff;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .accordion-header:hover {
+        background: #fafafa;
+      }
+
+      .accordion-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: #0a0a0a;
+      }
+
+      .accordion-icon {
+        width: 20px;
+        height: 20px;
+        color: #737373;
+        transition: transform 0.2s ease;
+      }
+
+      .accordion-item.open .accordion-icon {
+        transform: rotate(180deg);
+      }
+
+      .accordion-content {
+        display: none;
+        padding: 0 20px 16px;
+        font-size: 14px;
+        color: #525252;
+        line-height: 1.7;
+      }
+
+      .accordion-item.open .accordion-content {
+        display: block;
+      }
+
+      /* ============================================
+      API REFERENCE TABLE
+      ============================================
+      Table for displaying API props, parameters,
+      or configuration options.
+          */
+      .api-table {
+        width: 100%;
+        margin: 20px 0;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      .api-table th {
+        text-align: left;
+        padding: 12px 16px;
+        background: #f5f5f5;
+        font-size: 12px;
+        font-weight: 600;
+        color: #525252;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .api-table td {
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #404040;
+        border-bottom: 1px solid #e5e5e5;
+        vertical-align: top;
+      }
+
+      .api-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .api-table .prop-name {
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 13px;
+        color: #e11d48;
+        background: #fef2f2;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .api-table .prop-type {
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 12px;
+        color: #3b82f6;
+      }
+
+      .api-table .prop-default {
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 12px;
+        color: #737373;
+      }
+
+      .api-table .prop-required {
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 11px;
+        color: #dc2626;
+        background: #fef2f2;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 6px;
+      }
+
+      /* ============================================
+      BADGE COMPONENT
+      ============================================
+      Small labels for status, version, etc.
+          */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+
+      .badge.default {
+        background: #f5f5f5;
+        color: #525252;
+      }
+
+      .badge.primary {
+        background: #fff7ed;
+        color: #ea580c;
+      }
+
+      .badge.success {
+        background: #f0fdf4;
+        color: #16a34a;
+      }
+
+      .badge.warning {
+        background: #fffbeb;
+        color: #d97706;
+      }
+
+      .badge.error {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+
+      .badge.info {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+
+      /* ============================================
+      IMAGE WITH CAPTION
+      ============================================
+      Styled image container with optional caption.
+          */
+      .image-container {
+        margin: 24px 0;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fafafa;
+      }
+
+      .image-container img {
+        width: 100%;
+        display: block;
+      }
+
+      .image-caption {
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #737373;
+        text-align: center;
+        border-top: 1px solid #e5e5e5;
+        background: #fff;
+      }
+
+      /* ============================================
+      KEYBOARD SHORTCUT DISPLAY
+      ============================================
+      Styled keyboard shortcuts inline.
+          */
+      .keyboard-shortcut {
+        display: inline-flex;
+        gap: 4px;
+      }
+
+      .keyboard-shortcut .key {
+        padding: 4px 8px;
+        background: #f5f5f5;
+        border: 1px solid #d4d4d4;
+        border-radius: 6px;
+        font-size: 12px;
+        font-family: "SF Mono", Monaco, monospace;
+        color: #404040;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      /* ============================================
+      EXAMPLE WRAPPER
+      ============================================
+      Container for live component examples
+      with optional label.
+          */
+      .example-wrapper {
+        margin: 20px 0;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .example-label {
+        padding: 8px 16px;
+        background: #f5f5f5;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 11px;
+        font-weight: 600;
+        color: #737373;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .example-content {
+        padding: 20px;
+        background: #fff;
+      }
+
+      /* ============================================
+      COLOR SWATCH
+      ============================================
+      Display colors with hex values.
+          */
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .color-swatch {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .color-preview {
+        height: 64px;
+      }
+
+      .color-info {
+        padding: 12px;
+        background: #fff;
+      }
+
+      .color-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin-bottom: 4px;
+      }
+
+      .color-value {
+        font-size: 12px;
+        font-family: "SF Mono", Monaco, monospace;
+        color: #737373;
+      }
+
+      /* ============================================
+      RIGHT SIDEBAR (Table of Contents)
+      ============================================
+
+      Displays "On this page" heading with list of
+      section links. Active section is highlighted.
+
+      Styling:
+      - Fixed position
+      - Minimal, clean appearance
+      - Orange accent for active item
+          */
+      .right-sidebar {
+        position: fixed;
+        top: 93px;
+        /* Below context header (48px) + breadcrumbs (~45px) */
+        right: 0;
+        width: 200px;
+        height: calc(100vh - 93px);
+        padding: 24px 20px;
+        overflow-y: auto;
+      }
+
+      .toc-title {
+        font-size: 11px;
+        font-weight: 600;
+        color: #737373;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+      }
+
+      /* ============================================
+      TOC LIST WITH FANCY LEFT INDICATOR
+      ============================================
+
+      Multi-level hierarchy with continuous left border
+      and orange highlight bar for active section.
+
+      Structure:
+      ul.toc-list (has continuous left border)
+        li
+          a.toc-link         - Top-level section
+          a.toc-link.nested  - Subsection (indented, lighter)
+          a.toc-link.active  - Currently visible (orange bar)
+
+      The active item shows an orange bar that overlays
+      the gray baseline, creating a scroll indicator effect.
+          */
+      .toc-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        position: relative;
+        padding-left: 0;
+        margin-left: 0;
+      }
+
+      .toc-link {
+        display: block;
+        font-size: 13px;
+        color: #525252;
+        text-decoration: none;
+        padding: 6px 0 6px 16px;
+        position: relative;
+        transition: all 0.15s ease;
+        border-left: 1px solid #e5e5e5;
+        margin-left: 0;
+      }
+
+      .toc-link:hover {
+        color: #0a0a0a;
+      }
+
+      /* Active state with orange highlight bar */
+      .toc-link.active {
+        color: #d97706;
+        font-weight: 500;
+        border-left: 2px solid #f97316;
+        padding-left: 15px;
+        /* Compensate for thicker border */
+      }
+
+      /* Nested TOC items (subsections) - indented with lighter text */
+      .toc-link.nested {
+        padding-left: 28px;
+        font-size: 12px;
+        color: #737373;
+      }
+
+      .toc-link.nested:hover {
+        color: #525252;
+      }
+
+      .toc-link.nested.active {
+        color: #d97706;
+        padding-left: 27px;
+        /* Compensate for thicker border */
+      }
+
+      /* ============================================
+      FOOTER NAVIGATION
+      ============================================
+      Previous/Next page links at bottom of content
+          */
+      .footer-nav {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 60px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .footer-link {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        text-decoration: none;
+        padding: 12px 16px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        transition: all 0.15s ease;
+        min-width: 180px;
+      }
+
+      .footer-link:hover {
+        border-color: #d4d4d4;
+        background: #fafafa;
+      }
+
+      .footer-link.next {
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .footer-label {
+        font-size: 11px;
+        color: #737373;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .footer-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #0a0a0a;
+      }
+
+      /* ============================================
+      RESPONSIVE NOTES
+      ============================================
+
+      For a real implementation, you would add:
+
+      @media (max-width: 1200px) {
+        - Hide right TOC sidebar
+        - Expand main content width
+      }
+
+      @media (max-width: 768px) {
+        - Convert left sidebar to hamburger menu
+        - Full-width main content
+        - Single-column feature grid
+        - Collapsible sections
+      }
+          */
+    </style>
+
+    <style>
+      @font-face {
+        font-family: "CameraPlainVariable";
+        src: url("https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2")
+          format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ============================================
+       PAGE LAYOUT CONTAINER
+       ============================================
+       
+       The root layout uses CSS Grid with three columns:
+       - Left sidebar: 280px fixed width
+       - Main content: flexible (1fr)
+       - Right sidebar: 200px fixed width
+       
+       Total grid definition: grid-template-columns: 280px 1fr 200px;
+  -->
+    <div class="page-layout">
+      <!-- ============================================
+         CONTEXT HEADER (Global Navigation)
+         ============================================
+         
+         Full-width dark header spanning all columns.
+         Contains global navigation, notifications, and user area.
+         
+         Structure:
+         .context-header
+           .context-header-left   - Brand + global nav links
+           .context-header-right  - Notifications, settings, user menu
+    -->
+      <header class="context-header">
+        <div class="context-header-left">
+          <a href="#" class="context-brand">
+            <div class="context-brand-icon">DS</div>
+            <span>Acme Inc</span>
+          </a>
+          <nav class="context-nav">
+            <a href="#" class="context-nav-link active">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                >
+                </path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              Docs
+            </a>
+            <a href="#" class="context-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                >
+                </path>
+              </svg>
+              GitHub
+            </a>
+            <a href="#" class="context-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                >
+                </path>
+              </svg>
+              Blog
+            </a>
+            <a href="#" class="context-nav-link">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                >
+                </path>
+              </svg>
+              Discord
+            </a>
+          </nav>
+        </div>
+        <div class="context-header-right">
+          <button class="context-icon-btn" aria-label="Search">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <button class="context-icon-btn" aria-label="Notifications">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge"></span>
+          </button>
+          <button class="context-icon-btn" aria-label="Settings">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              >
+              </path>
+            </svg>
+          </button>
+          <div class="context-divider"></div>
+          <div class="context-user">
+            <div class="context-avatar">JD</div>
+            <span class="context-user-name">John Doe</span>
+            <span class="context-user-chevron">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============================================
+         LEFT SIDEBAR - NAVIGATION
+         ============================================
+         
+         Structure:
+         1. .sidebar-header        - Logo + theme toggle
+         2. .search-bar            - Search input with keyboard shortcut
+         3. .subject-area-selector - subject area dropdown
+         4. .nav-section           - Navigation links grouped by category
+         
+         The sidebar is position: fixed and scrolls independently.
+    -->
+      <aside class="left-sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+          <a href="#" class="logo">
+            <div class="logo-icon">DS</div>
+            <span>Design System</span>
+          </a>
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <div class="search-left">
+            <svg
+              class="search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span class="search-placeholder">Search components...</span>
+          </div>
+          <div class="search-shortcut">
+            <kbd class="kbd">⌘</kbd>
+            <kbd class="kbd">K</kbd>
+          </div>
+        </div>
+
+        <!-- 
+        SUBJECT AREA SELECTOR
+        
+        A dropdown selector for switching between subject areas.
+        Uses dual chevrons icon (ChevronsUpDown).
+        Click button to open popup, select option to switch subject.
+      -->
+        <div class="subject-selector-wrapper">
+          <button
+            class="subject-selector"
+            id="subject-trigger"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <div class="subject-selector-icon">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+              </svg>
+            </div>
+            <span class="subject-selector-name">Subject 1</span>
+            <svg
+              class="selector-chevrons"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m7 15 5 5 5-5"></path>
+              <path d="m7 9 5-5 5 5"></path>
+            </svg>
+          </button>
+
+          <div class="subject-popup" id="subject-popup">
+            <div class="subject-option selected" data-value="subject-1">
+              <div class="option-icon active">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                </svg>
+              </div>
+              <div class="option-info">
+                <div class="option-title">Subject 1</div>
+                <div class="option-description">Primary subject area</div>
+              </div>
+              <svg
+                class="option-checkmark"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+
+            <div class="subject-option" data-value="subject-2">
+              <div class="option-icon">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#525252"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
+                </svg>
+              </div>
+              <div class="option-info">
+                <div class="option-title">Subject 2</div>
+                <div class="option-description">Secondary subject area</div>
+              </div>
+              <svg
+                class="option-checkmark"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+
+            <div class="subject-option" data-value="subject-3">
+              <div class="option-icon">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#525252"
+                  stroke-width="2"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                  <rect x="9" y="9" width="6" height="6"></rect>
+                </svg>
+              </div>
+              <div class="option-info">
+                <div class="option-title">Subject 3</div>
+                <div class="option-description">Tertiary subject area</div>
+              </div>
+              <svg
+                class="option-checkmark"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+
+            <div class="subject-option" data-value="subject-4">
+              <div class="option-icon">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#525252"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+                  >
+                  </path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </div>
+              <div class="option-info">
+                <div class="option-title">Subject 4</div>
+                <div class="option-description">Additional subject area</div>
+              </div>
+              <svg
+                class="option-checkmark"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-section">
+          <!-- Foundations Category -->
+          <div class="nav-category">Foundations</div>
+          <a href="#layout" class="nav-link active">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Layout Structure
+          </a>
+          <a href="#colors" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="13.5" cy="6.5" r="2.5"></circle>
+              <circle cx="6.5" cy="13.5" r="2.5"></circle>
+              <circle cx="17.5" cy="17.5" r="2.5"></circle>
+            </svg>
+            Color Palette
+          </a>
+          <a href="#typography" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            Typography
+          </a>
+          <a href="#spacing" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            Spacing
+          </a>
+
+          <!-- Components Category -->
+          <div class="nav-category">Components</div>
+
+          <!-- Two-Level Navigation Example
+             Expandable nav item with child links.
+             Uses aria-expanded for accessibility.
+        -->
+          <div class="nav-expandable">
+            <button class="nav-toggle" aria-expanded="true">
+              <svg
+                class="nav-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                >
+                </path>
+              </svg>
+              <span>Manual Setup</span>
+              <svg
+                class="nav-chevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="nav-children">
+              <a href="#" class="nav-child-link">React</a>
+              <a href="#" class="nav-child-link active">Vue</a>
+              <a href="#" class="nav-child-link">Svelte</a>
+              <a href="#" class="nav-child-link">Vanilla JS</a>
+            </div>
+          </div>
+
+          <a href="#code-blocks" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            Code Blocks
+          </a>
+          <a href="#tabs" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              >
+              </path>
+              <line x1="12" y1="4" x2="12" y2="8"></line>
+            </svg>
+            Tabs
+          </a>
+          <a href="#callouts" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Callouts
+          </a>
+          <a href="#cards" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            </svg>
+            Feature Cards
+          </a>
+          <a href="#accordion" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            Accordion
+          </a>
+          <a href="#file-tree" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+              >
+              </path>
+            </svg>
+            File Tree
+          </a>
+          <a href="#steps" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Steps
+          </a>
+          <a href="#tables" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="3" y1="15" x2="21" y2="15"></line>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+            API Tables
+          </a>
+          <a href="#badges" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+              >
+              </path>
+              <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            </svg>
+            Badges
+          </a>
+          <a href="#keyboard" class="nav-link">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+              <line x1="6" y1="8" x2="6.01" y2="8"></line>
+              <line x1="10" y1="8" x2="10.01" y2="8"></line>
+              <line x1="14" y1="8" x2="14.01" y2="8"></line>
+              <line x1="18" y1="8" x2="18.01" y2="8"></line>
+              <line x1="8" y1="12" x2="8.01" y2="12"></line>
+              <line x1="12" y1="12" x2="12.01" y2="12"></line>
+              <line x1="16" y1="12" x2="16.01" y2="12"></line>
+              <line x1="7" y1="16" x2="17" y2="16"></line>
+            </svg>
+            Keyboard Shortcuts
+          </a>
+        </nav>
+      </aside>
+
+      <!-- ============================================
+         BREADCRUMBS ROW (Full-width spanning main + TOC)
+         ============================================
+         
+         Structure:
+         .breadcrumb-row (grid-level, spans columns 2-3)
+           a.breadcrumb-item.home   - Home link with house icon
+           .breadcrumb-separator    - Chevron icon
+           a.breadcrumb-item        - Parent page link
+           .breadcrumb-separator    - Chevron icon
+           span.breadcrumb-item.current - Current page (non-clickable)
+         
+         Usage:
+         - Always start with home icon
+         - Last item should be .current (span, not anchor)
+         - Separator uses ChevronRight SVG
+         - This element sits at grid level to span full width
+    -->
+      <nav class="breadcrumb-row" aria-label="Breadcrumb">
+        <a href="#" class="breadcrumb-item home" aria-label="Home">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </a>
+        <span class="breadcrumb-separator" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </span>
+        <a href="#" class="breadcrumb-item">Documentation</a>
+        <span class="breadcrumb-separator" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </span>
+        <span class="breadcrumb-item current" aria-current="page"
+        >Design System Reference</span>
+      </nav>
+
+      <!-- ============================================
+         MAIN CONTENT AREA
+         ============================================
+         
+         The main content area contains all documentation sections.
+         Each section follows this pattern:
+         
+         1. Section heading with anchor link
+         2. Description explaining the component
+         3. Live example wrapped in .example-wrapper
+         4. Detailed HTML comment explaining markup
+         5. Usage notes as visible text
+    -->
+      <main class="main-content">
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <header class="page-header">
+            <h1 class="page-title">Design System Reference</h1>
+            <p class="page-description">
+              A comprehensive guide to all available components, layout regions,
+              and styling patterns in this design system. Use this page as your
+              reference when building documentation sites.
+            </p>
+          </header>
+
+          <!-- ============================================
+             SECTION: LAYOUT STRUCTURE
+             ============================================ -->
+          <section id="layout">
+            <h2 class="section-heading">
+              Layout Structure
+              <a href="#layout" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              The design system uses a three-column CSS Grid layout that
+              provides optimal reading experience for documentation content
+              while keeping navigation accessible.
+            </p>
+
+            <!-- 
+            LAYOUT GRID EXPLANATION
+            =======================
+            
+            The page layout is defined by .page-layout with:
+            
+            display: grid;
+            grid-template-columns: 280px 1fr 200px;
+            
+            Column 1 (280px): Left sidebar - fixed navigation
+            Column 2 (1fr):   Main content - flexible width
+            Column 3 (200px): Right sidebar - table of contents
+            
+            Both sidebars use position: fixed for scroll persistence.
+          -->
+
+            <div class="callout info">
+              <div class="callout-header">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Layout Grid
+              </div>
+              <div class="callout-content">
+                <strong>Left Sidebar:</strong> 280px fixed width<br>
+                <strong>Main Content:</strong> Flexible (1fr)<br>
+                <strong>Right TOC:</strong> 200px fixed width
+              </div>
+            </div>
+
+            <h3 class="subsection-heading">Left Sidebar Regions</h3>
+
+            <p class="body-text">
+              The left sidebar contains four distinct regions, each with
+              specific functionality:
+            </p>
+
+            <div class="definition-list">
+              <div class="definition-item">
+                <div class="definition-term">.sidebar-header</div>
+                <div class="definition-desc">
+                  Contains the logo/brand and theme toggle button. Uses flexbox
+                  with
+                  <code>justify-content: space-between</code>.
+                </div>
+              </div>
+              <div class="definition-item">
+                <div class="definition-term">.search-bar</div>
+                <div class="definition-desc">
+                  Clickable search trigger with keyboard shortcut indicator.
+                  Opens a modal for full-text search.
+                </div>
+              </div>
+              <div class="definition-item">
+                <div class="definition-term">.subject-area-selector</div>
+                <div class="definition-desc">
+                  Dropdown for switching between major subject areas.
+                </div>
+              </div>
+              <div class="definition-item">
+                <div class="definition-term">.nav-section</div>
+                <div class="definition-desc">
+                  Grouped navigation with category headers (<code
+                  >.nav-category</code>) and links (<code>.nav-link</code>).
+                  Active link uses <code>.nav-link.active</code>.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: COLOR PALETTE
+             ============================================ -->
+          <section id="colors">
+            <h2 class="section-heading">
+              Color Palette
+              <a href="#colors" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              The design system uses a carefully selected color palette with
+              orange as the primary accent color, providing good contrast and
+              visual hierarchy.
+            </p>
+
+            <!--
+            COLOR SYSTEM
+            ============
+            
+            Primary accent: #f97316 (orange-500)
+            Active states: #ea580c (orange-600)
+            
+            Backgrounds:
+            - Page: #fafafa (neutral-50)
+            - Cards: #ffffff (white)
+            - Subtle: #f5f5f5 (neutral-100)
+            
+            Text:
+            - Primary: #0a0a0a (neutral-950)
+            - Secondary: #404040 (neutral-700)
+            - Muted: #737373 (neutral-500)
+            
+            Borders:
+            - Default: #e5e5e5 (neutral-200)
+            - Hover: #d4d4d4 (neutral-300)
+          -->
+
+            <h3 class="subsection-heading">Accent Colors</h3>
+
+            <div class="color-grid">
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #f97316"></div>
+                <div class="color-info">
+                  <div class="color-name">Accent Primary</div>
+                  <div class="color-value">#f97316</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #ea580c"></div>
+                <div class="color-info">
+                  <div class="color-name">Accent Hover</div>
+                  <div class="color-value">#ea580c</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #fff7ed"></div>
+                <div class="color-info">
+                  <div class="color-name">Accent Light</div>
+                  <div class="color-value">#fff7ed</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #fdba74"></div>
+                <div class="color-info">
+                  <div class="color-name">Accent Muted</div>
+                  <div class="color-value">#fdba74</div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="subsection-heading">Semantic Colors</h3>
+
+            <div class="color-grid">
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #22c55e"></div>
+                <div class="color-info">
+                  <div class="color-name">Success</div>
+                  <div class="color-value">#22c55e</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #3b82f6"></div>
+                <div class="color-info">
+                  <div class="color-name">Info</div>
+                  <div class="color-value">#3b82f6</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #f59e0b"></div>
+                <div class="color-info">
+                  <div class="color-name">Warning</div>
+                  <div class="color-value">#f59e0b</div>
+                </div>
+              </div>
+              <div class="color-swatch">
+                <div class="color-preview" style="background: #dc2626"></div>
+                <div class="color-info">
+                  <div class="color-name">Error</div>
+                  <div class="color-value">#dc2626</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: TYPOGRAPHY
+             ============================================ -->
+          <section id="typography">
+            <h2 class="section-heading">
+              Typography
+              <a href="#typography" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              The design system uses a system font stack for optimal performance
+              and native feel across platforms. Code uses a monospace font
+              stack.
+            </p>
+
+            <!--
+            TYPOGRAPHY SYSTEM
+            =================
+            
+            Font Stack (body):
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                         'Helvetica Neue', Arial, sans-serif;
+            
+            Font Stack (code):
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            
+            Type Scale:
+            - Page title: 32px / 700 weight
+            - Section heading (h2): 22px / 600 weight
+            - Subsection (h3): 18px / 600 weight
+            - Body text: 15px / normal weight
+            - Small text: 13px
+            - Micro text: 11px
+            
+            Line Heights:
+            - Default: 1.6
+            - Body text: 1.8
+            - Headings: 1.2
+          -->
+
+            <div class="example-wrapper">
+              <div class="example-label">Type Scale</div>
+              <div class="example-content">
+                <h1
+                  style="font-size: 32px; font-weight: 700; margin-bottom: 8px"
+                >
+                  Page Title (32px/700)
+                </h1>
+                <h2
+                  style="font-size: 22px; font-weight: 600; margin-bottom: 8px"
+                >
+                  Section Heading (22px/600)
+                </h2>
+                <h3
+                  style="font-size: 18px; font-weight: 600; margin-bottom: 8px"
+                >
+                  Subsection (18px/600)
+                </h3>
+                <p style="font-size: 15px; margin-bottom: 8px">
+                  Body text paragraph (15px/normal)
+                </p>
+                <p style="font-size: 13px; color: #737373">
+                  Small text for captions (13px)
+                </p>
+              </div>
+            </div>
+
+            <h3 class="subsection-heading">Inline Code</h3>
+
+            <p class="body-text">
+              Inline code uses the <code>code</code> element with a rose/red
+              color for visual distinction: <code>font-family: monospace</code>.
+            </p>
+          </section>
+
+          <!-- ============================================
+             SECTION: SPACING
+             ============================================ -->
+          <section id="spacing">
+            <h2 class="section-heading">
+              Spacing
+              <a href="#spacing" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              The spacing system uses a 4px base unit with consistent
+              multipliers throughout the design system.
+            </p>
+
+            <!--
+            SPACING SCALE
+            =============
+            
+            4px  - Extra tight (gap between kbd elements)
+            8px  - Tight (gap between icon and text)
+            12px - Compact (padding in small elements)
+            16px - Default (sidebar padding, gap between sections)
+            20px - Comfortable (card padding, callout padding)
+            24px - Spacious (component margins)
+            32px - Section (margin between subsections)
+            40px - Large (page padding)
+            48px - Section heading margin-top
+            60px - Footer nav margin-top
+          -->
+
+            <table class="api-table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Value</th>
+                  <th>Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="prop-name">spacing-xs</span></td>
+                  <td><span class="prop-default">4px</span></td>
+                  <td>Gap between keyboard keys, minimal spacing</td>
+                </tr>
+                <tr>
+                  <td><span class="prop-name">spacing-sm</span></td>
+                  <td><span class="prop-default">8px</span></td>
+                  <td>Icon-text gaps, tight element spacing</td>
+                </tr>
+                <tr>
+                  <td><span class="prop-name">spacing-md</span></td>
+                  <td><span class="prop-default">16px</span></td>
+                  <td>Default padding, sidebar gaps</td>
+                </tr>
+                <tr>
+                  <td><span class="prop-name">spacing-lg</span></td>
+                  <td><span class="prop-default">24px</span></td>
+                  <td>Component margins, card padding</td>
+                </tr>
+                <tr>
+                  <td><span class="prop-name">spacing-xl</span></td>
+                  <td><span class="prop-default">40px</span></td>
+                  <td>Page padding, section spacing</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ============================================
+             SECTION: CODE BLOCKS
+             ============================================ -->
+          <section id="code-blocks">
+            <h2 class="section-heading">
+              Code Blocks
+              <a href="#code-blocks" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Code blocks come in two variants: basic blocks for simple snippets
+              and enhanced blocks with header, filename, language badge, and
+              copy functionality.
+            </p>
+
+            <!--
+            CODE BLOCK COMPONENT
+            ====================
+            
+            Basic code block:
+            .code-block
+              - Dark background (#1e1e1e)
+              - Monospace font
+              - Horizontal scroll for overflow
+            
+            Enhanced code block (.code-block-enhanced):
+              .code-header
+                .code-header-left
+                  .code-filename     - File name display
+                  .code-lang-badge   - Language indicator (add .ts, .js, .bash, .json, .jsx, .css, .html)
+                .code-copy-btn       - Copy to clipboard button
+              .code-content
+                pre > code           - The actual code content
+                  .code-line         - Individual lines
+                    .line-number     - Line number (optional)
+                    .line-content    - Code text
+                  .code-line.highlighted - Orange highlight for emphasis
+            
+            Language badge classes:
+            - .code-lang-badge.ts   → Blue (#3178c6)
+            - .code-lang-badge.js   → Yellow (#f7df1e)
+            - .code-lang-badge.bash → Green (#4eaa25)
+            - .code-lang-badge.json → Orange (#f5a623)
+            - .code-lang-badge.jsx  → Cyan (#61dafb)
+            - .code-lang-badge.css  → Blue (#264de4)
+            - .code-lang-badge.html → Orange (#e34c26)
+          -->
+
+            <h3 class="subsection-heading">Basic Code Block</h3>
+
+            <div class="code-block">
+              <code><span class="keyword">const</span> greeting = <span
+                  class="string"
+                >"Hello, World!"</span>;</code>
+            </div>
+
+            <h3 class="subsection-heading">Enhanced Code Block with Header</h3>
+
+            <div class="code-block-enhanced">
+              <div class="code-header">
+                <div class="code-header-left">
+                  <span class="code-filename">config.ts</span>
+                  <span class="code-lang-badge ts">TypeScript</span>
+                </div>
+                <button class="code-copy-btn">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2">
+                    </rect>
+                    <path
+                      d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                    >
+                    </path>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <div class="code-content">
+                <pre><code><div class="code-line"><span class="line-number">1</span><span class="line-content"><span class="keyword">export interface</span> Config {</span></div><div class="code-line highlighted"><span class="line-number">2</span><span class="line-content">  theme: <span class="string">'light'</span> | <span class="string">'dark'</span>;</span></div><div class="code-line highlighted"><span class="line-number">3</span><span class="line-content">  accentColor: string;</span></div><div class="code-line"><span class="line-number">4</span><span class="line-content">}</span></div></code></pre>
+              </div>
+            </div>
+
+            <div class="callout tip">
+              <div class="callout-header">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                  >
+                  </path>
+                </svg>
+                Line Highlighting
+              </div>
+              <div class="callout-content">
+                Add the <code>.highlighted</code> class to <code
+                >.code-line</code> elements to emphasize specific lines with an
+                orange background.
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: TABS
+             ============================================ -->
+          <section id="tabs">
+            <h2 class="section-heading">
+              Tabs
+              <a href="#tabs" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Tabs allow users to switch between different content views without
+              leaving the page. Common use cases include package managers,
+              frameworks, and language variants.
+            </p>
+
+            <!--
+            TABS COMPONENT
+            ==============
+            
+            Structure:
+            .tabs-container
+              .tabs-header
+                .tab-button          - Inactive tab
+                .tab-button.active   - Active tab (orange underline)
+              .tab-content           - Hidden content panel
+              .tab-content.active    - Visible content panel
+            
+            Styling:
+            - Header has gray background (#f5f5f5)
+            - Active tab has white background and orange border-bottom
+            - Content panels toggle visibility with display: none/block
+            
+            JavaScript:
+            - Add click handlers to .tab-button elements
+            - Toggle .active class on buttons and content panels
+            - Match data-tab attribute to tab-content id
+          -->
+
+            <div class="tabs-container">
+              <div class="tabs-header">
+                <button class="tab-button active" data-tab="npm">npm</button>
+                <button class="tab-button" data-tab="pnpm">pnpm</button>
+                <button class="tab-button" data-tab="yarn">yarn</button>
+                <button class="tab-button" data-tab="bun">bun</button>
+              </div>
+              <div class="tab-content active" id="tab-npm">
+                <div class="code-block-enhanced">
+                  <div class="code-header">
+                    <div class="code-header-left">
+                      <span class="code-filename">Terminal</span>
+                      <span class="code-lang-badge bash">bash</span>
+                    </div>
+                    <button class="code-copy-btn">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2">
+                        </rect>
+                        <path
+                          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                        >
+                        </path>
+                      </svg>
+                      Copy
+                    </button>
+                  </div>
+                  <div class="code-content">
+                    <pre><code><span class="keyword">npm</span> install package-name</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-content" id="tab-pnpm">
+                <div class="code-block-enhanced">
+                  <div class="code-header">
+                    <div class="code-header-left">
+                      <span class="code-filename">Terminal</span>
+                      <span class="code-lang-badge bash">bash</span>
+                    </div>
+                    <button class="code-copy-btn">Copy</button>
+                  </div>
+                  <div class="code-content">
+                    <pre><code><span class="keyword">pnpm</span> add package-name</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-content" id="tab-yarn">
+                <div class="code-block-enhanced">
+                  <div class="code-header">
+                    <div class="code-header-left">
+                      <span class="code-filename">Terminal</span>
+                      <span class="code-lang-badge bash">bash</span>
+                    </div>
+                    <button class="code-copy-btn">Copy</button>
+                  </div>
+                  <div class="code-content">
+                    <pre><code><span class="keyword">yarn</span> add package-name</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-content" id="tab-bun">
+                <div class="code-block-enhanced">
+                  <div class="code-header">
+                    <div class="code-header-left">
+                      <span class="code-filename">Terminal</span>
+                      <span class="code-lang-badge bash">bash</span>
+                    </div>
+                    <button class="code-copy-btn">Copy</button>
+                  </div>
+                  <div class="code-content">
+                    <pre><code><span class="keyword">bun</span> add package-name</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: CALLOUTS
+             ============================================ -->
+          <section id="callouts">
+            <h2 class="section-heading">
+              Callouts
+              <a href="#callouts" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Callouts draw attention to important information. Use them
+              sparingly to maintain impact. Three semantic variants are
+              available.
+            </p>
+
+            <!--
+            CALLOUT COMPONENT
+            =================
+            
+            Structure:
+            .callout                    - Default (amber/warning style)
+            .callout.info               - Blue information style
+            .callout.tip                - Green tip/success style
+              .callout-header
+                svg                     - Icon
+                span                    - Title text
+              .callout-content          - Body text
+            
+            Styling:
+            - 4px left border accent
+            - Light tinted background
+            - Matching border color
+            
+            When to use:
+            - Default: Important warnings, prerequisites
+            - Info: Additional context, explanations
+            - Tip: Best practices, recommendations
+          -->
+
+            <h3 class="subsection-heading">Default (Warning)</h3>
+
+            <div class="callout">
+              <div class="callout-header">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  >
+                  </path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                Warning
+              </div>
+              <div class="callout-content">
+                This is a default callout for important warnings or
+                prerequisites that users should be aware of before proceeding.
+              </div>
+            </div>
+
+            <h3 class="subsection-heading">Info Variant</h3>
+
+            <div class="callout info">
+              <div class="callout-header">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Info
+              </div>
+              <div class="callout-content">
+                Use <code>.callout.info</code> for additional context or
+                explanations that help users understand concepts better.
+              </div>
+            </div>
+
+            <h3 class="subsection-heading">Tip Variant</h3>
+
+            <div class="callout tip">
+              <div class="callout-header">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                  >
+                  </path>
+                </svg>
+                Tip
+              </div>
+              <div class="callout-content">
+                Use <code>.callout.tip</code> for best practices,
+                recommendations, and helpful suggestions that improve the user
+                experience.
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: FEATURE CARDS
+             ============================================ -->
+          <section id="cards">
+            <h2 class="section-heading">
+              Feature Cards
+              <a href="#cards" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Feature cards display related items in a grid layout. Each card
+              has an icon, title, and description with hover effects for
+              interactivity.
+            </p>
+
+            <!--
+            FEATURE CARD COMPONENT
+            ======================
+            
+            Structure:
+            .feature-grid              - 2-column grid container
+              .feature-card            - Individual card
+                .feature-icon          - Icon container (40x40px)
+                .feature-title         - Card heading
+                .feature-desc          - Card description
+            
+            Styling:
+            - White background with subtle border
+            - Hover: elevated shadow, translateY(-2px)
+            - Icon backgrounds are auto-colored by nth-child:
+              - 1st: Orange
+              - 2nd: Blue
+              - 3rd: Green
+              - 4th: Purple
+            
+            Grid:
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+          -->
+
+            <div class="feature-grid">
+              <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <div class="feature-title">Modular Design</div>
+                <div class="feature-desc">
+                  Components are self-contained and can be used independently.
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Customizable</div>
+                <div class="feature-desc">
+                  Override CSS variables to match your brand colors.
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Performant</div>
+                <div class="feature-desc">
+                  Minimal CSS with no JavaScript dependencies for base
+                  components.
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">Responsive</div>
+                <div class="feature-desc">
+                  Adapts to any screen size with mobile-first breakpoints.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: ACCORDION
+             ============================================ -->
+          <section id="accordion">
+            <h2 class="section-heading">
+              Accordion
+              <a href="#accordion" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Accordions hide content until expanded, perfect for FAQs,
+              troubleshooting guides, or advanced options that don't need to be
+              visible initially.
+            </p>
+
+            <!--
+            ACCORDION COMPONENT
+            ===================
+            
+            Structure:
+            .accordion
+              .accordion-item              - Individual collapsible section
+              .accordion-item.open         - Expanded state
+                .accordion-header          - Clickable trigger
+                  .accordion-title         - Question/heading text
+                  .accordion-icon          - Chevron (rotates 180° when open)
+                .accordion-content         - Hidden content (display: none)
+            
+            JavaScript:
+            - Toggle .open class on .accordion-item
+            - .accordion-content visibility controlled by CSS
+            - .accordion-icon rotates via transform: rotate(180deg)
+            
+            Styling:
+            - Grouped with shared border
+            - Hover state on header
+            - Smooth icon rotation transition
+          -->
+
+            <div class="accordion">
+              <div class="accordion-item open">
+                <div class="accordion-header">
+                  <span class="accordion-title"
+                  >How do I customize the accent color?</span>
+                  <svg
+                    class="accordion-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="accordion-content">
+                  Find all instances of <code>#f97316</code> in the CSS and
+                  replace with your preferred color. Also update the hover state
+                  color <code>#ea580c</code> to a darker shade of your accent.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="accordion-title"
+                  >Can I use this with React?</span>
+                  <svg
+                    class="accordion-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="accordion-content">
+                  Yes! The HTML structure and CSS classes can be directly used
+                  in JSX. Just convert <code>class</code> to <code
+                  >className</code> and add state management for interactive
+                  components.
+                </div>
+              </div>
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="accordion-title">Is dark mode supported?</span>
+                  <svg
+                    class="accordion-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="accordion-content">
+                  The theme toggle button is included in the sidebar. To
+                  implement dark mode, add a <code>.dark</code> class to <code
+                  >&lt;body&gt;</code> and define CSS custom properties with
+                  dark values.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: FILE TREE
+             ============================================ -->
+          <section id="file-tree">
+            <h2 class="section-heading">
+              File Tree
+              <a href="#file-tree" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              File trees display directory structures with appropriate icons for
+              folders and different file types. Nested items are connected with
+              dashed lines.
+            </p>
+
+            <!--
+            FILE TREE COMPONENT
+            ===================
+            
+            Structure:
+            .file-tree
+              .file-tree-item.folder       - Folder with yellow icon
+                svg.icon                   - Folder SVG
+                text                       - Folder name
+              .file-tree-children          - Nested items container
+                .file-tree-item.file       - Generic file (gray icon)
+                .file-tree-item.file-ts    - TypeScript file (blue icon)
+                .file-tree-item.file-json  - JSON file (orange icon)
+                .file-tree-item.file-md    - Markdown file (blue icon)
+                .file-tree-item.file-css   - CSS file (blue icon)
+                .file-tree-item.file-html  - HTML file (orange icon)
+            
+            Styling:
+            - Monospace font
+            - Dashed left border on nested children
+            - Icon colors based on file type class
+          -->
+
+            <div class="file-tree">
+              <div class="file-tree-item folder">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                  />
+                </svg>
+                project-root
+              </div>
+              <div class="file-tree-children">
+                <div class="file-tree-item folder">
+                  <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                    />
+                  </svg>
+                  src
+                </div>
+                <div class="file-tree-children">
+                  <div class="file-tree-item file file-ts">
+                    <svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    index.ts
+                  </div>
+                  <div class="file-tree-item file file-css">
+                    <svg
+                      class="icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    styles.css
+                  </div>
+                </div>
+                <div class="file-tree-item file file-json">
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                    />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  package.json
+                </div>
+                <div class="file-tree-item file file-md">
+                  <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                    />
+                    <polyline points="14 2 14 8 20 8" />
+                  </svg>
+                  README.md
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: STEPS
+             ============================================ -->
+          <section id="steps">
+            <h2 class="section-heading">
+              Steps
+              <a href="#steps" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Steps show a numbered progression through a multi-step process.
+              Each step has an indicator, connecting line, and content area.
+            </p>
+
+            <!--
+            STEPS COMPONENT
+            ===============
+            
+            Structure:
+            .steps-container
+              .step
+                .step-indicator
+                  .step-number        - Circular number badge (orange)
+                  .step-line          - Vertical connecting line
+                .step-content
+                  .step-title         - Step heading
+                  .step-description   - Step explanation
+            
+            Styling:
+            - Orange circular step numbers (32x32px)
+            - Gray connecting line between steps
+            - Last step has no line (.step:last-child .step-line display: none)
+            - Flexbox layout with gap: 20px
+          -->
+
+            <div class="steps-container">
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">1</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">Define the Structure</div>
+                  <div class="step-description">
+                    Create the HTML markup using the documented class names.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">2</div>
+                  <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">Apply Styling</div>
+                  <div class="step-description">
+                    Copy the relevant CSS or include the full stylesheet.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-indicator">
+                  <div class="step-number">3</div>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">Add Interactivity</div>
+                  <div class="step-description">
+                    Implement JavaScript for interactive components like tabs
+                    and accordions.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================
+             SECTION: API TABLES
+             ============================================ -->
+          <section id="tables">
+            <h2 class="section-heading">
+              API Tables
+              <a href="#tables" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              API tables display structured data like component props,
+              configuration options, or function parameters with consistent
+              styling.
+            </p>
+
+            <!--
+            API TABLE COMPONENT
+            ===================
+            
+            Structure:
+            table.api-table
+              thead
+                tr
+                  th           - Column headers (uppercase, gray bg)
+              tbody
+                tr
+                  td
+                    .prop-name     - Red code-styled property name
+                    .prop-required - "required" badge (optional)
+                    .prop-type     - Blue type annotation
+                    .prop-default  - Gray default value
+            
+            Styling:
+            - Rounded corners with border
+            - Alternating row colors (optional)
+            - Semantic colors for types and names
+          -->
+
+            <table class="api-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Default</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="prop-name">variant</span><span
+                      class="prop-required"
+                    >required</span>
+                  </td>
+                  <td>
+                    <span class="prop-type">"default" | "info" | "tip"</span>
+                  </td>
+                  <td><span class="prop-default">—</span></td>
+                  <td>Visual style variant for the callout</td>
+                </tr>
+                <tr>
+                  <td><span class="prop-name">title</span></td>
+                  <td><span class="prop-type">string</span></td>
+                  <td><span class="prop-default">undefined</span></td>
+                  <td>Header text displayed with icon</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="prop-name">children</span><span
+                      class="prop-required"
+                    >required</span>
+                  </td>
+                  <td><span class="prop-type">ReactNode</span></td>
+                  <td><span class="prop-default">—</span></td>
+                  <td>Content to display inside the callout</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ============================================
+             SECTION: BADGES
+             ============================================ -->
+          <section id="badges">
+            <h2 class="section-heading">
+              Badges
+              <a href="#badges" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Badges are small labels for status indicators, versions,
+              categories, or tags. Six semantic variants are available.
+            </p>
+
+            <!--
+            BADGE COMPONENT
+            ===============
+            
+            Structure:
+            span.badge.{variant}
+            
+            Variants:
+            - .badge.default  - Gray neutral
+            - .badge.primary  - Orange accent
+            - .badge.success  - Green positive
+            - .badge.warning  - Amber caution
+            - .badge.error    - Red negative
+            - .badge.info     - Blue informational
+            
+            Styling:
+            - Uppercase text
+            - Small font (11px)
+            - Rounded corners (6px)
+            - Light background with darker text
+          -->
+
+            <div class="example-wrapper">
+              <div class="example-label">All Variants</div>
+              <div
+                class="example-content"
+                style="display: flex; gap: 8px; flex-wrap: wrap"
+              >
+                <span class="badge default">Default</span>
+                <span class="badge primary">Primary</span>
+                <span class="badge success">Success</span>
+                <span class="badge warning">Warning</span>
+                <span class="badge error">Error</span>
+                <span class="badge info">Info</span>
+              </div>
+            </div>
+
+            <p class="body-text">
+              Use badges inline with text to highlight status: The API is
+              <span class="badge success">Stable</span> and ready for production
+              use.
+            </p>
+          </section>
+
+          <!-- ============================================
+             SECTION: KEYBOARD SHORTCUTS
+             ============================================ -->
+          <section id="keyboard">
+            <h2 class="section-heading">
+              Keyboard Shortcuts
+              <a href="#keyboard" class="anchor-link">#</a>
+            </h2>
+
+            <p class="body-text">
+              Display keyboard shortcuts with styled key indicators that mimic
+              physical keys.
+            </p>
+
+            <!--
+            KEYBOARD SHORTCUT COMPONENT
+            ===========================
+            
+            Structure:
+            span.keyboard-shortcut
+              span.key     - Individual key
+              span.key     - Additional keys in combination
+            
+            Styling:
+            - Gray background with subtle border
+            - Monospace font
+            - Box shadow for 3D effect
+            - 4px gap between keys
+          -->
+
+            <div class="example-wrapper">
+              <div class="example-label">Examples</div>
+              <div
+                class="example-content"
+                style="display: flex; gap: 24px; flex-wrap: wrap"
+              >
+                <div>
+                  <span
+                    style="color: #737373; font-size: 13px; margin-right: 8px"
+                  >Search:</span>
+                  <span class="keyboard-shortcut">
+                    <span class="key">⌘</span>
+                    <span class="key">K</span>
+                  </span>
+                </div>
+                <div>
+                  <span
+                    style="color: #737373; font-size: 13px; margin-right: 8px"
+                  >Save:</span>
+                  <span class="keyboard-shortcut">
+                    <span class="key">Ctrl</span>
+                    <span class="key">S</span>
+                  </span>
+                </div>
+                <div>
+                  <span
+                    style="color: #737373; font-size: 13px; margin-right: 8px"
+                  >Copy:</span>
+                  <span class="keyboard-shortcut">
+                    <span class="key">⌘</span>
+                    <span class="key">C</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer Navigation -->
+          <nav class="footer-nav">
+            <a href="#" class="footer-link">
+              <span class="footer-label">Previous</span>
+              <span class="footer-title">Introduction</span>
+            </a>
+            <a href="#" class="footer-link next">
+              <span class="footer-label">Next</span>
+              <span class="footer-title">Customization</span>
+            </a>
+          </nav>
+        </div>
+      </main>
+
+      <!-- ============================================
+         RIGHT SIDEBAR - TABLE OF CONTENTS
+         ============================================
+         
+         Structure:
+         .right-sidebar
+           .toc-title        - "On this page" heading
+           ul.toc-list       - List with continuous left border
+             li
+               a.toc-link         - Top-level section link
+               a.toc-link.nested  - Subsection link (indented, lighter)
+               a.toc-link.active  - Currently visible (orange highlight bar)
+         
+         Features:
+         - Continuous gray left border as baseline
+         - Orange highlight bar overlays active section
+         - Multi-level hierarchy with nested items
+         - Smooth transitions on state changes
+         
+         The TOC is position: fixed and highlights the current section
+         based on scroll position (requires JavaScript).
+    -->
+      <aside class="right-sidebar">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          <!-- Foundations section -->
+          <li><a href="#layout" class="toc-link active">Introduction</a></li>
+          <li><a href="#colors" class="toc-link">Color Palette</a></li>
+          <li><a href="#typography" class="toc-link">Typography</a></li>
+          <li><a href="#spacing" class="toc-link">Spacing</a></li>
+
+          <!-- Components section with nested items -->
+          <li><a href="#code-blocks" class="toc-link">Code Blocks</a></li>
+          <li><a href="#code-basic" class="toc-link nested">Basic Usage</a></li>
+          <li>
+            <a href="#code-enhanced" class="toc-link nested">Enhanced Block</a>
+          </li>
+
+          <li><a href="#tabs" class="toc-link">Tabs</a></li>
+
+          <li><a href="#callouts" class="toc-link">Callouts</a></li>
+          <li>
+            <a href="#callout-default" class="toc-link nested">Default</a>
+          </li>
+          <li>
+            <a href="#callout-info" class="toc-link nested">Info Variant</a>
+          </li>
+          <li>
+            <a href="#callout-tip" class="toc-link nested">Tip Variant</a>
+          </li>
+
+          <li><a href="#cards" class="toc-link">Feature Cards</a></li>
+          <li><a href="#accordion" class="toc-link">Accordion</a></li>
+
+          <!-- Patterns section with nested items -->
+          <li><a href="#file-tree" class="toc-link">File Tree</a></li>
+          <li><a href="#steps" class="toc-link">Steps</a></li>
+
+          <li><a href="#tables" class="toc-link">API Tables</a></li>
+          <li>
+            <a href="#table-props" class="toc-link nested">Props Table</a>
+          </li>
+          <li>
+            <a href="#table-events" class="toc-link nested">Events Table</a>
+          </li>
+
+          <li><a href="#badges" class="toc-link">Badges</a></li>
+          <li><a href="#keyboard" class="toc-link">Keyboard Shortcuts</a></li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- ============================================
+       INTERACTIVE SCRIPTS
+       ============================================
+       
+       Minimal JavaScript for component interactivity:
+       1. Tab switching
+       2. Accordion toggling
+       3. Copy to clipboard
+       4. TOC scroll spy
+  -->
+    <script>
+      // Tab switching
+      document.querySelectorAll(".tab-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const tabId = button.dataset.tab;
+          const container = button.closest(".tabs-container");
+
+          // Update buttons
+          container.querySelectorAll(".tab-button").forEach((btn) => {
+            btn.classList.remove("active");
+          });
+          button.classList.add("active");
+
+          // Update content
+          container.querySelectorAll(".tab-content").forEach(
+            (content) => {
+              content.classList.remove("active");
+            },
+          );
+          container.querySelector(`#tab-${tabId}`).classList.add(
+            "active",
+          );
+        });
+      });
+
+      // Accordion toggling
+      document.querySelectorAll(".accordion-header").forEach(
+        (header) => {
+          header.addEventListener("click", () => {
+            const item = header.closest(".accordion-item");
+            item.classList.toggle("open");
+          });
+        },
+      );
+
+      // Copy to clipboard
+      document.querySelectorAll(".code-copy-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const codeBlock = button.closest(".code-block-enhanced");
+          const code = codeBlock.querySelector("code").textContent;
+
+          try {
+            await navigator.clipboard.writeText(code);
+            const originalText = button.innerHTML;
+            button.innerHTML = "✓ Copied!";
+            setTimeout(() => {
+              button.innerHTML = originalText;
+            }, 2000);
+          } catch (err) {
+            console.error("Failed to copy:", err);
+          }
+        });
+      });
+
+      // TOC scroll spy
+      const sections = document.querySelectorAll("section[id]");
+      const tocLinks = document.querySelectorAll(".toc-link");
+
+      const observerOptions = {
+        rootMargin: "-20% 0% -80% 0%",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            tocLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === `#${id}`) {
+                link.classList.add("active");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Toggle expandable navigation items
+      document.querySelectorAll(".nav-toggle").forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const expanded =
+            toggle.getAttribute("aria-expanded") === "true";
+          toggle.setAttribute("aria-expanded", !expanded);
+          const children = toggle.nextElementSibling;
+          if (children && children.classList.contains("nav-children")) {
+            children.style.display = expanded ? "none" : "flex";
+          }
+        });
+      });
+
+      // Subject Area Selector popup toggle
+      const subjectTrigger = document.getElementById("subject-trigger");
+      const subjectPopup = document.getElementById("subject-popup");
+
+      if (subjectTrigger && subjectPopup) {
+        subjectTrigger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isOpen = subjectPopup.classList.contains("open");
+          subjectPopup.classList.toggle("open");
+          subjectTrigger.setAttribute("aria-expanded", !isOpen);
+        });
+
+        // Close popup when clicking outside
+        document.addEventListener("click", (e) => {
+          if (
+            !subjectPopup.contains(e.target) &&
+            !subjectTrigger.contains(e.target)
+          ) {
+            subjectPopup.classList.remove("open");
+            subjectTrigger.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        // Handle option selection
+        document.querySelectorAll(".subject-option").forEach(
+          (option) => {
+            option.addEventListener("click", () => {
+              // Remove selected from all options
+              document.querySelectorAll(".subject-option").forEach(
+                (opt) => {
+                  opt.classList.remove("selected");
+                  opt.querySelector(".option-icon").classList.remove(
+                    "active",
+                  );
+                },
+              );
+              // Add selected to clicked option
+              option.classList.add("selected");
+              option.querySelector(".option-icon").classList.add(
+                "active",
+              );
+              // Update the button text
+              const title =
+                option.querySelector(".option-title").textContent;
+              document.querySelector(".subject-selector-name")
+                .textContent = title;
+              // Close popup
+              subjectPopup.classList.remove("open");
+              subjectTrigger.setAttribute("aria-expanded", "false");
+            });
+          },
+        );
+      }
+    </script>
+  </body>
+</html>
