@@ -149,8 +149,8 @@ function injectPluginBaseStyles(api) {
       height: 12px;
       display: block;
     }
-    .grid-sort-header[data-sort-direction="asc"] .grid-sort-icon,
-    .grid-sort-header[data-sort-direction="desc"] .grid-sort-icon {
+    .grid-sort-header[data-nwua-sort-direction="asc"] .grid-sort-icon,
+    .grid-sort-header[data-nwua-sort-direction="desc"] .grid-sort-icon {
       color: #0f62f7;
     }
     .grid-pagination-toolbar {
@@ -351,9 +351,9 @@ function createSortPlugin(api, _options = {}) {
     label.textContent = column.title;
     button.append(label, icon);
     if (direction) {
-      button.dataset.sortDirection = direction;
+      button.dataset.nwuaSortDirection = direction;
     } else {
-      button.removeAttribute("data-sort-direction");
+      button.removeAttribute("data-nwua-sort-direction");
     }
     return button;
   };
@@ -679,7 +679,7 @@ function createTreePlugin(api, options = {}) {
   const handleClick = (event) => {
     const button = event.target.closest(".expander");
     if (!button) return;
-    const rowId = button.closest("tr")?.getAttribute("data-row-id");
+    const rowId = button.closest("tr")?.getAttribute("data-nwua-row-id");
     if (rowId) toggleRow(rowId);
   };
 

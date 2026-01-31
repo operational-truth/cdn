@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid optimal table upgrade</title>
+    <meta
+      name="description"
+      content="Demonstrate upgrading plain tables via naturalGridUpgrade and upgradeToNaturalGrids."
+    />
+    <style>
+      :root {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: #f5f7fb;
+        color: #0f172a;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 32px 16px 48px;
+        background: radial-gradient(circle at top, #ffffff, #eef2ff 60%);
+      }
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      header {
+        margin-bottom: 24px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
+      header p {
+        margin: 8px 0 0;
+        color: #475467;
+        line-height: 1.5;
+      }
+      .grid-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 22px 26px;
+        margin-bottom: 24px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+      }
+      .grid-card h2 {
+        margin-bottom: 8px;
+      }
+      .grid-card p {
+        margin: 0 0 12px;
+        color: #475467;
+        line-height: 1.5;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid rgba(15, 23, 42, 0.15);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px 12px;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+      }
+      th {
+        background: #eef2ff;
+        font-weight: 600;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Optimal table upgrade flow</h1>
+        <p>
+          The grid can enhance an existing HTML table without the page needing to
+          reference <code>&lt;natural-grid&gt;</code>. Call
+          <code>naturalGridUpgrade(id)</code> for a specific table or let
+          <code>upgradeToNaturalGrids()</code> automatically convert every
+          <code>table[data-nwua-grid]</code> on the page after load.
+        </p>
+      </header>
+
+      <section class="grid-card">
+        <h2>Manual upgrade (explicit call)</h2>
+        <p>
+          Assign an <code>id</code> to the table and call
+          <code>naturalGridUpgrade("manual-table")</code> once the DOM is ready.
+          This is great when you only have one legacy table or need to control the
+          timing of the transformation.
+        </p>
+        <table id="manual-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Language</th>
+              <th>Runtime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>l1</td>
+              <td>JavaScript</td>
+              <td>Browser</td>
+            </tr>
+            <tr>
+              <td>l2</td>
+              <td>TypeScript</td>
+              <td>Deno</td>
+            </tr>
+            <tr>
+              <td>l3</td>
+              <td>Rust</td>
+              <td>CLI</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="grid-card">
+        <h2>Declarative upgrade (selector driven)</h2>
+        <p>
+          Tag any table with <code>data-nwua-grid</code> and optionally mix in
+          attributes like <code>data-nwua-grid-theme="modern"</code>.
+          <code>upgradeToNaturalGrids()</code> finds these tables, reads the
+          metadata, and replaces them with Natural instances after load. This
+          keeps your HTML markup simple and future-proof.
+        </p>
+        <table data-nwua-grid='{"theme":"modern"}'>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>p1</td>
+              <td>Opsfolio</td>
+              <td>Beta</td>
+            </tr>
+            <tr>
+              <td>p2</td>
+              <td>Surveilr</td>
+              <td>Stable</td>
+            </tr>
+            <tr>
+              <td>p3</td>
+              <td>Spry</td>
+              <td>Alpha</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <script type="module">
+      import {
+        naturalGridUpgrade,
+        upgradeToNaturalGrids,
+      } from "../../../../natural-web-ua/grid/grid.js";
+
+      const bootstrap = () => {
+        naturalGridUpgrade("manual-table");
+        upgradeToNaturalGrids();
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bootstrap);
+      } else {
+        bootstrap();
+      }
+    </script>
+  </body>
+</html>

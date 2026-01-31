@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid optimal table upgrade</title>
+    <script
+      type="module"
+      src="../../../../natural-web-ua/grid/grid.js"
+    ></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 24px;
+        max-width: 920px;
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      .panel {
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        background: #fff;
+        box-shadow: 0 25px 40px rgba(15, 23, 42, 0.08);
+        padding: 24px;
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 26px;
+      }
+      .note {
+        background: #eef2ff;
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 18px;
+      }
+      .grid-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+      natural-grid {
+        width: 100%;
+        height: 360px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 6px 8px;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>HTML-first table upgrade (preferred)</h1>
+      <p class="note">
+        We treat the HTML table as the authoritative source of truth and let
+        <code>natural-grid</code> enhance it. This keeps the markup readable,
+        accessible, and easy to edit without synchronizing JSON snapshots. JSON
+        configs can still be helpful for quick prototypes, but for production
+        content we first author the table and then ask the grid to upgrade it
+        via <code>data-nwua-init="table"</code> with the table as the first child.
+      </p>
+      <div class="grid-wrapper">
+        <div>
+          <h3>Styled grid</h3>
+          <natural-grid
+            id="optimal-grid-styled"
+            data-nwua-demo="styled"
+            data-nwua-init="table"
+            data-nwua-title="HTML-first table"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Language</th>
+                  <th>Runtime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-nwua-row-id="l1">
+                  <td>l1</td>
+                  <td>JavaScript</td>
+                  <td>Browser</td>
+                </tr>
+                <tr data-nwua-row-id="l2">
+                  <td>l2</td>
+                  <td>TypeScript</td>
+                  <td>Deno</td>
+                </tr>
+                <tr data-nwua-row-id="l3">
+                  <td>l3</td>
+                  <td>Rust</td>
+                  <td>CLI</td>
+                </tr>
+              </tbody>
+            </table>
+          </natural-grid>
+        </div>
+        <div>
+          <h3>Unstyled grid</h3>
+          <natural-grid
+            id="optimal-grid-unstyled"
+            data-nwua-demo="unstyled"
+            data-nwua-init="table"
+            data-nwua-title="HTML-first table (unstyled)"
+            data-nwua-unstyled
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Language</th>
+                  <th>Runtime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-nwua-row-id="l1">
+                  <td>l1</td>
+                  <td>JavaScript</td>
+                  <td>Browser</td>
+                </tr>
+                <tr data-nwua-row-id="l2">
+                  <td>l2</td>
+                  <td>TypeScript</td>
+                  <td>Deno</td>
+                </tr>
+                <tr data-nwua-row-id="l3">
+                  <td>l3</td>
+                  <td>Rust</td>
+                  <td>CLI</td>
+                </tr>
+              </tbody>
+            </table>
+          </natural-grid>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

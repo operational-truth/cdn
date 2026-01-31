@@ -12,7 +12,7 @@
     ></script>
 
     <script>
-      // Example factory for data-init="factory"
+      // Example factory for data-nwua-init="factory"
       globalThis.exampleGridFactory = () => ({
         id: "factory-grid",
         title: "Factory initialized",
@@ -88,7 +88,7 @@
       }
 
       /* Example: overriding grid theme tokens from outside (styled only). */
-      natural-grid[data-demo="styled"][data-variant="warm"] {
+      natural-grid[data-nwua-demo="styled"][data-nwua-variant="warm"] {
         --ng-fg: #111827;
         --ng-border: rgba(17, 24, 39, 0.12);
         --ng-header-bg: #fff7ed;
@@ -97,18 +97,18 @@
       }
 
       /* Example: structural override via ::part (styled only). */
-      natural-grid[data-demo="styled"]::part(th) {
+      natural-grid[data-nwua-demo="styled"]::part(th) {
         position: sticky;
         top: 0;
         z-index: 1;
       }
 
       /* If you want to style unstyled grids, do it at page-level (example). */
-      natural-grid[data-demo="unstyled"]::part(table) {
+      natural-grid[data-nwua-demo="unstyled"]::part(table) {
         border: 1px solid rgba(0, 0, 0, 0.2);
       }
-      natural-grid[data-demo="unstyled"]::part(th),
-      natural-grid[data-demo="unstyled"]::part(td) {
+      natural-grid[data-nwua-demo="unstyled"]::part(th),
+      natural-grid[data-nwua-demo="unstyled"]::part(td) {
         padding: 6px 10px;
       }
     </style>
@@ -120,7 +120,7 @@
     <p class="note">
       Left side shows default styled behavior (base styles + default modern
       theme plugin). Right side shows unstyled behavior using <code
-      >data-unstyled</code>. The page includes small examples of overriding
+      >data-nwua-unstyled</code>. The page includes small examples of overriding
       tokens and using <code>::part(...)</code>.
     </p>
 
@@ -190,20 +190,20 @@
         <h3>Styled (default theme)</h3>
         <natural-grid
           id="json-grid-styled"
-          data-demo="styled"
-          data-init="json"
-          data-config-id="json_grid__natural_grid_config"
+          data-nwua-demo="styled"
+          data-nwua-init="json"
+          data-nwua-config-id="json_grid__natural_grid_config"
         ></natural-grid>
       </div>
 
       <div class="panel">
-        <h3>Unstyled (data-unstyled)</h3>
+        <h3>Unstyled (data-nwua-unstyled)</h3>
         <natural-grid
           id="json-grid-unstyled"
-          data-demo="unstyled"
-          data-init="json"
-          data-config-id="json_grid__natural_grid_config"
-          data-unstyled
+          data-nwua-demo="unstyled"
+          data-nwua-init="json"
+          data-nwua-config-id="json_grid__natural_grid_config"
+          data-nwua-unstyled
         ></natural-grid>
       </div>
     </div>
@@ -215,11 +215,11 @@
         <h3>Styled (token override example)</h3>
         <natural-grid
           id="json-inside-grid-styled"
-          data-demo="styled"
-          data-variant="warm"
-          data-init="json"
+          data-nwua-demo="styled"
+          data-nwua-variant="warm"
+          data-nwua-init="json"
         >
-          <script type="application/json" data-natural-grid-config>
+          <script type="application/json" data-nwua-natural-grid-config>
             {
               "id": "json-inside-grid-styled",
               "title": "JSON inside <natural-grid> (warm tokens)",
@@ -276,14 +276,14 @@
       </div>
 
       <div class="panel">
-        <h3>Unstyled (data-unstyled)</h3>
+        <h3>Unstyled (data-nwua-unstyled)</h3>
         <natural-grid
           id="json-inside-grid-unstyled"
-          data-demo="unstyled"
-          data-init="json"
-          data-unstyled
+          data-nwua-demo="unstyled"
+          data-nwua-init="json"
+          data-nwua-unstyled
         >
-          <script type="application/json" data-natural-grid-config>
+          <script type="application/json" data-nwua-natural-grid-config>
             {
               "id": "json-inside-grid-unstyled",
               "title": "JSON inside <natural-grid> (unstyled)",
@@ -340,85 +340,6 @@
       </div>
     </div>
 
-    <h2>3) grid over HTML table (first table child)</h2>
-
-    <div class="demo">
-      <div class="panel">
-        <h3>Styled</h3>
-        <natural-grid
-          id="table-grid-styled"
-          data-demo="styled"
-          data-init="table"
-          data-title="HTML table initialized"
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Language</th>
-                <th>Runtime</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr data-row-id="l1">
-                <td>l1</td>
-                <td>JavaScript</td>
-                <td>Browser</td>
-              </tr>
-              <tr data-row-id="l2">
-                <td>l2</td>
-                <td>TypeScript</td>
-                <td>Deno</td>
-              </tr>
-              <tr data-row-id="l3">
-                <td>l3</td>
-                <td>Rust</td>
-                <td>CLI</td>
-              </tr>
-            </tbody>
-          </table>
-        </natural-grid>
-      </div>
-
-      <div class="panel">
-        <h3>Unstyled</h3>
-        <natural-grid
-          id="table-grid-unstyled"
-          data-demo="unstyled"
-          data-init="table"
-          data-title="HTML table initialized (unstyled)"
-          data-unstyled
-        >
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Language</th>
-                <th>Runtime</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr data-row-id="l1">
-                <td>l1</td>
-                <td>JavaScript</td>
-                <td>Browser</td>
-              </tr>
-              <tr data-row-id="l2">
-                <td>l2</td>
-                <td>TypeScript</td>
-                <td>Deno</td>
-              </tr>
-              <tr data-row-id="l3">
-                <td>l3</td>
-                <td>Rust</td>
-                <td>CLI</td>
-              </tr>
-            </tbody>
-          </table>
-        </natural-grid>
-      </div>
-    </div>
-
     <h2>4) grid from factory function (custom function returns config)</h2>
 
     <div class="demo">
@@ -426,9 +347,9 @@
         <h3>Styled</h3>
         <natural-grid
           id="factory-grid-styled"
-          data-demo="styled"
-          data-init="factory"
-          data-factory="exampleGridFactory"
+          data-nwua-demo="styled"
+          data-nwua-init="factory"
+          data-nwua-factory="exampleGridFactory"
         ></natural-grid>
       </div>
 
@@ -436,19 +357,12 @@
         <h3>Unstyled</h3>
         <natural-grid
           id="factory-grid-unstyled"
-          data-demo="unstyled"
-          data-init="factory"
-          data-factory="exampleGridFactory"
-          data-unstyled
+          data-nwua-demo="unstyled"
+          data-nwua-init="factory"
+          data-nwua-factory="exampleGridFactory"
+          data-nwua-unstyled
         ></natural-grid>
       </div>
     </div>
-
-    <p class="note">
-      The fetch/filter/sort/pagination & tree + virtualization demos now live in
-      the dedicated
-      <a href="./grid-flat_test.html">flat grid demo</a> and
-      <a href="./grid-tree_test.html">tree grid demo</a>.
-    </p>
   </body>
 </html>

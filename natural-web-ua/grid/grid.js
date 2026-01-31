@@ -13,26 +13,26 @@
  *
  * 1) Configuration resolution (NaturalGridSpec)
  * The grid resolves its configuration in a prioritized sequence:
- * - Inline JSON: a `<script type="application/json" data-natural-grid-config>` (or any JSON script)
+ * - Inline JSON: a `<script type="application/json" data-nwua-natural-grid-config>` (or any JSON script)
  *   inside the element is parsed and used as the config.
- * - External JSON: a `<script type="application/json">` elsewhere, referenced by `data-config-id`.
+ * - External JSON: a `<script type="application/json">` elsewhere, referenced by `data-nwua-config-id`.
  * - External table upgrade using {@link naturalGridUpgrade}: an external `<table>` elsewhere in the
- *   document is upgraded into a minimal config when referenced by id (for example, via `data-table-id`).
+ *   document is upgraded into a minimal config when referenced by id (for example, via `data-nwua-table-id`).
  *   This enables progressive enhancement of legacy pages where the grid wrapper is separate from the
  *   table.
  * - Legacy table upgrade: an inline `<table>` inside the element is upgraded into a minimal config
  *   via {@link gridSpecFromTable}.
- * - Factory function: `data-factory="globalFnName"` calls `globalThis[globalFnName](this)` to obtain
+ * - Factory function: `data-nwua-factory="globalFnName"` calls `globalThis[globalFnName](this)` to obtain
  *   a config object.
  *
- * Authors can force a resolution mode via `data-init="json|table|factory"` (and optionally `external-table`
+ * Authors can force a resolution mode via `data-nwua-init="json|table|factory"` (and optionally `external-table`
  * if implemented). When omitted, the grid tries all sources in the order above.
  *
  * Notes on external table upgrade
- * - The external-table strategy should locate `document.getElementById(data-table-id)` and, if it is an
+ * - The external-table strategy should locate `document.getElementById(data-nwua-table-id)` and, if it is an
  *   `HTMLTableElement`, call {@link gridSpecFromTable} to generate a {@link NaturalGridSpec}.
  * - The resulting `spec.id` can come from the grid element `id` (preferred) or fall back to a generated id,
- *   while the title can come from `data-title` or be omitted.
+ *   while the title can come from `data-nwua-title` or be omitted.
  *
  * 2) Data providers (NaturalGridDataProvider)
  * Data loading is abstracted behind “data provider” factories keyed by `config.data.kind`.
@@ -69,7 +69,7 @@
  *
  * Where supported, the grid uses constructable stylesheets (ShadowRoot.adoptedStyleSheets) for
  * performance; otherwise it falls back to injected `<style>` tags. Default styles can be disabled
- * entirely via `data-unstyled`.
+ * entirely via `data-nwua-unstyled`.
  *
  * A built-in presentation plugin injects the default “modern” theme CSS from
  * {@link modernThemeCss}.
@@ -97,13 +97,13 @@
  * Attributes and behavior
  *
  * Observed attributes trigger full re-initialization after the first successful init:
- * - `data-init`: force config resolution mode (`json`, `table`, or `factory`)
- * - `data-config-id`: id of an external JSON `<script>` containing NaturalGridSpec
- * - `data-factory`: global function name returning NaturalGridSpec
- * - `data-title`: optional title override used by table upgrade paths
- * - `data-theme`: reserved for future theme selection (theme currently controlled by plugins)
- * - `data-unstyled`: disable all default style injection
- * - `data-table-id`: id of an external `<table>` element to upgrade into a grid (external-table strategy)
+ * - `data-nwua-init`: force config resolution mode (`json`, `table`, or `factory`)
+ * - `data-nwua-config-id`: id of an external JSON `<script>` containing NaturalGridSpec
+ * - `data-nwua-factory`: global function name returning NaturalGridSpec
+ * - `data-nwua-title`: optional title override used by table upgrade paths
+ * - `data-nwua-theme`: reserved for future theme selection (theme currently controlled by plugins)
+ * - `data-nwua-unstyled`: disable all default style injection
+ * - `data-nwua-table-id`: id of an external `<table>` element to upgrade into a grid (external-table strategy)
  *
  * Events
  *
@@ -131,7 +131,7 @@
  * 1) Inline JSON config:
  * ```html
  * <natural-grid>
- *   <script type="application/json" data-natural-grid-config>
+ *   <script type="application/json" data-nwua-natural-grid-config>
  *     {
  *       "id": "patients",
  *       "title": "Patients",
@@ -151,12 +151,12 @@
  *   <tbody><tr><td>1</td><td>Ada</td></tr></tbody>
  * </table>
  *
- * <natural-grid data-init="table" data-table-id="legacyPatients" data-title="Patients"></natural-grid>
+ * <natural-grid data-nwua-init="table" data-nwua-table-id="legacyPatients" data-nwua-title="Patients"></natural-grid>
  * ```
  *
  * 3) Legacy inline table upgrade:
  * ```html
- * <natural-grid data-init="table" data-title="Upgraded Table">
+ * <natural-grid data-nwua-init="table" data-nwua-title="Upgraded Table">
  *   <table>
  *     <thead><tr><th>ID</th><th>Name</th></tr></thead>
  *     <tbody><tr><td>1</td><td>Ada</td></tr></tbody>
@@ -261,7 +261,7 @@ function gridSpecFromTable(table, hints) {
     ? Array.from(table.tBodies[0].rows)
     : [];
   const rows = bodyRows.map((tr, idx) => {
-    const rid = tr.getAttribute("data-row-id") || `${hints.id}__r${idx + 1}`;
+    const rid = tr.getAttribute("data-nwua-row-id") || `${hints.id}__r${idx + 1}`;
     const tds = Array.from(tr.cells);
     /** @type {Record<string, unknown>} */
     const cells = {};
@@ -301,7 +301,7 @@ function gridSpecFromTable(table, hints) {
  *   title?: string,
  *   /** Optional theme attribute to apply (e.g. "modern"). *\/
  *   theme?: string,
- *   /** Disable default style injection (sets data-unstyled). *\/
+ *   /** Disable default style injection (sets data-nwua-unstyled). *\/
  *   unstyled?: boolean,
  *   /** If true, keeps the original table in DOM but hides it, inserting the Natural element after it. *\/
  *   keepOriginal?: boolean,
@@ -346,15 +346,15 @@ export function naturalGridUpgrade(id, options = {}) {
   // Create the Natural element and embed config as inline JSON.
   const ng = document.createElement(naturalTag);
   ng.setAttribute("id", naturalId);
-  ng.setAttribute("data-init", "json");
+  ng.setAttribute("data-nwua-init", "json");
 
-  if (opts.theme != null) ng.setAttribute("data-theme", String(opts.theme));
-  if (opts.unstyled) ng.setAttribute("data-unstyled", "");
+  if (opts.theme != null) ng.setAttribute("data-nwua-theme", String(opts.theme));
+  if (opts.unstyled) ng.setAttribute("data-nwua-unstyled", "");
   if (opts.copyClass && el.className) ng.className = el.className;
 
   const script = document.createElement("script");
   script.type = "application/json";
-  script.setAttribute("data-natural-grid-config", "");
+  script.setAttribute("data-nwua-natural-grid-config", "");
   script.textContent = JSON.stringify(spec);
   ng.appendChild(script);
 
@@ -373,6 +373,84 @@ export function naturalGridUpgrade(id, options = {}) {
   }
 
   return ng;
+}
+
+const DEFAULT_NWUA_GRID_SELECTOR = "table[data-nwua-grid]";
+
+function makeAutoTableId() {
+  if (typeof globalThis.crypto?.randomUUID === "function") {
+    return `nwua-table-${globalThis.crypto.randomUUID()}`;
+  }
+  return `nwua-table-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+}
+
+function parseUpgradeAttribute(value) {
+  if (!value) return {};
+  const trimmed = String(value).trim();
+  if (!trimmed) return {};
+  if (!trimmed.startsWith("{")) return {};
+  try {
+    const parsed = JSON.parse(trimmed);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (error) {
+    console.warn("upgradeToNaturalGrids: unable to parse data-nwua-grid JSON", error);
+    return {};
+  }
+}
+
+function parseDatasetFlag(value) {
+  if (value === undefined) return undefined;
+  const normalized = String(value).trim().toLowerCase();
+  if (normalized === "false" || normalized === "0") return false;
+  return true;
+}
+
+function buildDatasetOptions(table) {
+  const opts = {};
+  if (table.dataset.nwuaGridId) opts.naturalId = table.dataset.nwuaGridId;
+  if (table.dataset.nwuaGridTitle) opts.title = table.dataset.nwuaGridTitle;
+  if (table.dataset.nwuaGridTheme) opts.theme = table.dataset.nwuaGridTheme;
+  const unstyled = parseDatasetFlag(table.dataset.nwuaGridUnstyled);
+  if (typeof unstyled === "boolean") opts.unstyled = unstyled;
+  const keepOriginal = parseDatasetFlag(table.dataset.nwuaGridKeepOriginal);
+  if (typeof keepOriginal === "boolean") opts.keepOriginal = keepOriginal;
+  const copyClass = parseDatasetFlag(table.dataset.nwuaGridCopyClass);
+  if (typeof copyClass === "boolean") opts.copyClass = copyClass;
+  return opts;
+}
+
+/**
+ * Upgrade every matching legacy table into a <natural-grid> powered view.
+ *
+ * The optional `selector` defaults to `table[data-nwua-grid]` and can be tightened
+ * for more specific flows. Each table may include additional dataset hooks like
+ * `data-nwua-grid-theme` or `data-nwua-grid-unstyled`, or embed JSON inside
+ * `data-nwua-grid`. The optional `defaultOptions` override prepends any auto-collected
+ * options when calling {@link naturalGridUpgrade}.
+ *
+ * @param {string} [selector]
+ * @param {Partial<Parameters<typeof naturalGridUpgrade>[1]>} [defaultOptions]
+ * @returns {HTMLElement[]}
+ */
+export function upgradeToNaturalGrids(selector = DEFAULT_NWUA_GRID_SELECTOR, defaultOptions = {}) {
+  if (typeof document === "undefined") return [];
+  const tables = Array.from(document.querySelectorAll(selector));
+  const upgraded = [];
+  for (const table of tables) {
+    if (!(table instanceof HTMLTableElement)) continue;
+    const tableId = table.id || makeAutoTableId();
+    if (!table.id) table.id = tableId;
+    const attrOptions = parseUpgradeAttribute(table.getAttribute("data-nwua-grid"));
+    const datasetOptions = buildDatasetOptions(table);
+    const opts = {
+      ...defaultOptions,
+      ...datasetOptions,
+      ...attrOptions,
+    };
+    const natural = naturalGridUpgrade(tableId, opts);
+    if (natural) upgraded.push(natural);
+  }
+  return upgraded;
 }
 // This helper is intentionally minimal so upgrades stay predictable and the generated
 // config can be inspected before being embedded.
@@ -509,7 +587,7 @@ function baseStyles() {
       color: var(--ng-fg);
     }
 
-    tbody tr[data-zebra="1"]:nth-child(even) td {
+    tbody tr[data-nwua-zebra="1"]:nth-child(even) td {
       background: var(--ng-zebra-bg);
     }
 
@@ -594,7 +672,7 @@ function baseStyles() {
 // Built-in theme kept minimal so plugins and consumers can override per host or global tokenization.
 function modernThemeCss() {
   return `
-    :host(:not([data-theme])), :host([data-theme="modern"]) {
+    :host(:not([data-nwua-theme])), :host([data-nwua-theme="modern"]) {
       --ng-font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
       --ng-font-size: 14px;
       --ng-line-height: 1.55;
@@ -617,16 +695,16 @@ function modernThemeCss() {
       --ng-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
     }
 
-    :host(:not([data-theme])) ::part(table),
-    :host([data-theme="modern"]) ::part(table) {
+    :host(:not([data-nwua-theme])) ::part(table),
+    :host([data-nwua-theme="modern"]) ::part(table) {
       background: #ffffff;
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 6px;
       box-shadow: none;
     }
 
-    :host(:not([data-theme])) ::part(td),
-    :host([data-theme="modern"]) ::part(td) {
+    :host(:not([data-nwua-theme])) ::part(td),
+    :host([data-nwua-theme="modern"]) ::part(td) {
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
   `;
@@ -1085,12 +1163,12 @@ function restoreFocusedState(state) {
 export class NaturalGrid extends HTMLElement {
   static get observedAttributes() {
     return [
-      "data-init",
-      "data-config-id",
-      "data-factory",
-      "data-title",
-      "data-theme",
-      "data-unstyled",
+      "data-nwua-init",
+      "data-nwua-config-id",
+      "data-nwua-factory",
+      "data-nwua-title",
+      "data-nwua-theme",
+      "data-nwua-unstyled",
     ];
   }
 
@@ -1208,11 +1286,11 @@ export class NaturalGrid extends HTMLElement {
   }
 
   /**
-   * Determine whether the host should inject default styles; can be disabled via `data-unstyled`.
+   * Determine whether the host should inject default styles; can be disabled via `data-nwua-unstyled`.
    * @returns {boolean}
    */
   #shouldInjectStyles() {
-    return !this.hasAttribute("data-unstyled");
+    return !this.hasAttribute("data-nwua-unstyled");
   }
 
   /**
@@ -1545,21 +1623,21 @@ export class NaturalGrid extends HTMLElement {
   // deno-lint-ignore require-await
   async #resolveConfig() {
     // Try to read config via attribute-specified JSON/table/factory in prioritized order.
-    const explicitMode = (this.getAttribute("data-init") || "").trim()
+    const explicitMode = (this.getAttribute("data-nwua-init") || "").trim()
       .toLowerCase();
 
     // Prefer inline <script type="application/json"> blocks for quick config.
     const tryInternalJson = () => {
       const script = this.querySelector(
-        'script[type="application/json"][data-natural-grid-config]',
+        'script[type="application/json"][data-nwua-natural-grid-config]',
       ) ||
         this.querySelector('script[type="application/json"]');
       return /** @type {NaturalGridSpec|null} */ (parseJsonScript(script));
     };
 
-    // Next, look for a globally referenced JSON block via data-config-id.
+    // Next, look for a globally referenced JSON block via data-nwua-config-id.
     const tryExternalJson = () => {
-      const cfgId = this.getAttribute("data-config-id") || "";
+      const cfgId = this.getAttribute("data-nwua-config-id") || "";
       return /** @type {NaturalGridSpec|null} */ (parseJsonScript(byId(cfgId)));
     };
 
@@ -1569,13 +1647,13 @@ export class NaturalGrid extends HTMLElement {
       if (!(t instanceof HTMLTableElement)) return null;
       const id = this.getAttribute("id") ||
         (globalThis.crypto?.randomUUID?.() ?? `grid_${Date.now()}`);
-      const title = (this.getAttribute("data-title") || "").trim() || undefined;
+      const title = (this.getAttribute("data-nwua-title") || "").trim() || undefined;
       return gridSpecFromTable(t, { id, title });
     };
 
     // Allow authors to provide a factory function name that returns a config object.
     const tryFactory = () => {
-      const fnName = (this.getAttribute("data-factory") || "").trim();
+      const fnName = (this.getAttribute("data-nwua-factory") || "").trim();
       if (!fnName) return null;
       const fn = /** @type {any} */ (globalThis)[fnName];
       if (typeof fn !== "function") return null;
@@ -1979,8 +2057,8 @@ export class NaturalGrid extends HTMLElement {
 
       const tr = document.createElement("tr");
       tr.part = "tr";
-      tr.setAttribute("data-zebra", zebra);
-      tr.setAttribute("data-row-id", String(r.id));
+      tr.setAttribute("data-nwua-zebra", zebra);
+      tr.setAttribute("data-nwua-row-id", String(r.id));
       tbody.appendChild(tr);
 
       for (let i = 0; i < visibleColumns.length; i++) {

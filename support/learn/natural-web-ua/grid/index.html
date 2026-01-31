@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>natural-grid learning hub</title>
+    <meta
+      name="description"
+      content="Tabbed walkthrough of the core natural-grid demos (init, flat data, tree) for junior engineers."
+    />
+    <style>
+      :root {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: #111827;
+        background: #f3f4f6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top left, #ffffff, #eef2ff 40%);
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 24px 48px;
+      }
+      header {
+        margin-bottom: 24px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+      header p {
+        margin: 10px 0 0;
+        color: #475467;
+        max-width: 760px;
+        font-size: 1rem;
+      }
+      .changelog {
+        margin: 16px 0 24px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .tabs button {
+        border: none;
+        border-radius: 999px;
+        padding: 10px 20px;
+        background: #e2e8f0;
+        color: #0f172a;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .tabs button.active {
+        background: #0f62ff;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(15, 99, 255, 0.25);
+      }
+      .tab-content {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        padding: 20px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .tab-panel h2 {
+        margin-top: 0;
+      }
+      .tab-panel iframe {
+        width: 100%;
+        height: 420px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 12px;
+        margin-top: 16px;
+      }
+      .learning-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .learning-points .point {
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #f8fafc;
+        border: 1px solid rgba(15, 23, 42, 0.06);
+        font-size: 0.88rem;
+      }
+      @media (max-width: 640px) {
+        .tabs button {
+          flex: 1;
+        }
+        .tab-panel iframe {
+          height: 360px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>natural-grid learning hub</h1>
+        <p>
+          These demos show how the custom element resolves configs, connects
+          plugins, and upgrades HTML tables. The first tab highlights the
+          preferred HTML-first workflow, then the other tabs explore config
+          tricks, plugin composition, and tree behavior.
+        </p>
+      </header>
+      <div class="changelog">
+        <strong>What to focus on:</strong>
+        <div class="learning-points">
+          <div class="point">
+            <strong>Config sources:</strong> init.html shows the JSON + factory +
+            table upgrade hierarchy and how to override tokens with CSS.
+          </div>
+          <div class="point">
+            <strong>HTML-first source-of-truth:</strong> optimal.html explains why
+            we author a regular table first and then enhance it through
+            <code>data-nwua-init="table"</code> so the markup stays editable.
+          </div>
+          <div class="point">
+            <strong>Acceptable fallback:</strong> acceptable-01.html retains the
+            explicit <code>&lt;natural-grid&gt;</code> markup and showcases token
+            overrides for those who still prefer the raw component.
+          </div>
+          <div class="point">
+            <strong>Plugin pack:</strong> flat-01.html wires filter, sort,
+            pagination, and virtualization from grid-plugins-typical.js.
+          </div>
+          <div class="point">
+            <strong>Tree behavior:</strong> tree-01.html layers the tree plugin
+            on top of the same pipeline plus lazy loading and toolbar controls.
+          </div>
+        </div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="learning tabs">
+        <button type="button" class="active" data-tab="optimal" role="tab" aria-selected="true">HTML-first tables</button>
+        <button type="button" data-tab="init" role="tab" aria-selected="false">Config &amp; Themes</button>
+        <button type="button" data-tab="flat" role="tab" aria-selected="false">Flat data + UI</button>
+        <button type="button" data-tab="tree" role="tab" aria-selected="false">Tree mode</button>
+      </div>
+      <div class="tab-content">
+        <section class="tab-panel active" id="panel-optimal" role="tabpanel">
+          <h2>The preferred HTML enhancement path</h2>
+          <p>
+            Author a normal HTML table and then ask the grid to upgrade it via
+            <code>data-nwua-init="table"</code>. The table remains the editable source
+            of truth, the grid simply reads and renders it inside the shadow
+            root, and you can still style the output via tokens or
+            <code>::part</code>. This allows us to keep the markup accessible and
+            version-friendly while still getting the benefit of the plugin stack.
+            JSON configs are still acceptable for quick prototypes or small
+            widgets, but keep them lightweight and treat them as secondary to real
+            HTML data where possible.
+          </p>
+          <iframe src="optimal.html" title="natural-grid HTML-first tutorial"></iframe>
+        </section>
+        <section class="tab-panel" id="panel-init" role="tabpanel">
+          <h2>Initialization &amp; token overrides</h2>
+          <p>
+            The <code>init.html</code> demo proves the grid can hydrate from inline
+            JSON, factory functions, or table upgrades. Use the custom element’s
+            <code>data-nwua-init</code>, <code>data-nwua-config-id</code>, and <code>data-nwua-title</code>
+            attributes to force different resolution modes. The page also
+            demonstrates how to restyle both the built-in theme and the
+            unstyled presentation with CSS tokens.
+          </p>
+          <iframe src="init.html" title="natural-grid init demo"></iframe>
+        </section>
+        <section class="tab-panel" id="panel-flat" role="tabpanel">
+          <h2>Plugin-driven flat grid</h2>
+          <p>
+            <code>flat-01.html</code> wires the fetch data provider with a plugin
+            pack: global filter, multi-column sort, pagination, and virtualization.
+            The config is managed in a JSON script, letting the UI stay predictable
+            even when rows or columns evolve. Notice the toolbar states, the
+            virtualized viewport height, and how pagination controls come from
+            <code>grid-plugins-typical.js</code>.
+          </p>
+          <iframe src="flat-01.html" title="natural-grid flat plugin demo"></iframe>
+        </section>
+        <section class="tab-panel" id="panel-tree" role="tabpanel">
+          <h2>Hierarchical data + tree plugin</h2>
+          <p>
+            Switching to <code>tree-01.html</code> shows how tree behavior is
+            layered on top of the same data pipeline. The tree plugin exposes
+            toolbar buttons for expand/collapse, lazy child loading, and keeps
+            virtualization working even for deep branches. Use this demo to study
+            how the grid handles nested rows plus communicator callbacks like
+            <code>gridTreeTestLazyChildren</code>.
+          </p>
+          <iframe src="tree-01.html" title="natural-grid tree demo"></iframe>
+        </section>
+      </div>
+    </main>
+    <script>
+      const tabButtons = document.querySelectorAll('.tabs button');
+      const panels = document.querySelectorAll('.tab-panel');
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+          tabButtons.forEach((btn) => {
+            const isActive = btn === button;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive);
+          });
+          panels.forEach((panel) => {
+            const shouldShow = panel.id === `panel-${target}`;
+            panel.classList.toggle('active', shouldShow);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
