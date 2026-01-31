@@ -1,0 +1,320 @@
+<!-- natural-web-ua/elements_test.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>natural-html-dom fixture</title>
+  </head>
+  <body>
+    <main id="app"></main>
+
+    <!-- The Deno test injects window.__NH_TEST_CONFIG__ before this runs. -->
+    <script type="module">
+      (async () => {
+        try {
+          window.__nh = window.__nh || {};
+          window.__nh.bootstrap = window.__nh.bootstrap || {};
+          window.__nh.bootstrap.fixtureModuleStartedAt = Date.now();
+
+          const cfg = window.__NH_TEST_CONFIG__ || {};
+          const domLibUrlPath = cfg.domLibUrlPath ||
+            "/natural-web-ua/elements.js";
+
+          const F = await import(domLibUrlPath);
+          window.__nh.bootstrap.importedKeys = Object.keys(F);
+          window.__nh.F = F;
+
+          const app = document.getElementById("app");
+
+          const nav = [
+            { href: "#main", label: "Main" },
+            { href: "#footer", label: "Footer" },
+          ];
+
+          const node = F.div(
+            { class: F.cls("container", { compact: true }) },
+            F.header(
+              F.nav(
+                F.ul(F.li(F.strong("Fluent DOM"))),
+                F.ul(
+                  F.each(
+                    nav,
+                    (it) => F.li(F.a({ href: it.href }, it.label)),
+                  ),
+                ),
+              ),
+            ),
+            F.main(
+              { id: "main" },
+              F.h1("Hello"),
+              F.p(
+                "This page is rendered in the browser using fluent DOM.",
+              ),
+              F.section(
+                F.h2("Actions"),
+                F.button({ type: "button", id: "btn" }, "Click me"),
+                F.p(F.small("JS will update the status below.")),
+                F.p({ id: "status" }, "idle"),
+              ),
+            ),
+            F.footer({ id: "footer" }, F.small("© 2026")),
+            // IMPORTANT: real backticks are safe in a real .html file.
+            F.script(
+              F.javaScript`
+                (() => {
+                  const btn = document.getElementById('btn');
+                  const status = document.getElementById('status');
+                  if (!btn || !status) return;
+                  btn.addEventListener('click', () => { status.textContent = 'clicked'; });
+                })();
+              `,
+            ),
+          );
+
+          if (app) app.replaceWith(node);
+
+          // DOM-first test API. No string matching unless unavoidable.
+          window.__nh.testApi = {
+            marker() {
+              return document.body.querySelector("strong")
+                ?.textContent ?? "";
+            },
+            clickAndReadStatus() {
+              const btn = document.getElementById("btn");
+              btn?.dispatchEvent(
+                new MouseEvent("click", { bubbles: true }),
+              );
+              return document.getElementById("status")?.textContent ??
+                "";
+            },
+            snapshotContainer() {
+              const root = document.body.querySelector("div.container");
+              if (!root) return null;
+
+              const pickAttrs = (el) => {
+                const out = {};
+                for (const a of Array.from(el.attributes)) {
+                  out[a.name] = a.value;
+                }
+                // deterministic ordering
+                return Object.fromEntries(
+                  Object.entries(out).sort(([a], [b]) =>
+                    a.localeCompare(b)
+                  ),
+                );
+              };
+
+              const snapNode = (n) => {
+                if (n.nodeType === Node.TEXT_NODE) {
+                  const v = (n.nodeValue ?? "").replace(/\s+/g, " ")
+                    .trim();
+                  return v ? { t: "#text", v } : null;
+                }
+                if (n.nodeType !== Node.ELEMENT_NODE) return null;
+                const el = n;
+                const kids = [];
+                for (const c of Array.from(el.childNodes)) {
+                  const s = snapNode(c);
+                  if (s) kids.push(s);
+                }
+                return {
+                  t: el.tagName.toLowerCase(),
+                  a: pickAttrs(el),
+                  c: kids,
+                };
+              };
+
+              return snapNode(root);
+            },
+            probeJavaScriptTemplateLiteral() {
+              const F = window.__nh.F;
+              if (!F?.javaScript || !F?.script) {
+                return { supported: false };
+              }
+
+              const s = F.script(
+                F.javaScript`
+                  console.log("literal <tag> & ${"ok"}");
+                  const x = "</scr" + "ipt>";
+                `,
+              );
+
+              return {
+                supported: true,
+                tag: s.tagName.toLowerCase(),
+                childNodes: s.childNodes.length,
+                textContent: s.textContent ?? "",
+              };
+            },
+            probeRenderStringAsTrustedHtml() {
+              const F = window.__nh.F;
+              if (!F?.render) return { supported: false };
+
+              const frag = F.render("<b>Hi</b><i>There</i>");
+              const els = Array.from(frag.childNodes)
+                .filter((n) => n.nodeType === Node.ELEMENT_NODE)
+                .map((n) => ({
+                  tag: n.tagName.toLowerCase(),
+                  text: n.textContent ?? "",
+                }));
+
+              return { supported: true, els };
+            },
+            probeRawPolicyDevStrict() {
+              const F = window.__nh.F;
+              if (!F?.setRawPolicy || !F?.raw) {
+                return { supported: false };
+              }
+
+              try {
+                F.setRawPolicy({ mode: "dev-strict" });
+                try {
+                  F.raw("<span>nope</span>", "test");
+                  return { supported: true, threw: false, msg: "" };
+                } catch (e) {
+                  return {
+                    supported: true,
+                    threw: true,
+                    msg: String(e?.message ?? e),
+                  };
+                }
+              } finally {
+                try {
+                  F.setRawPolicy({ mode: "permissive" });
+                } catch {}
+              }
+            },
+            probeTrustedRawVsText() {
+              const F = window.__nh.F;
+              if (!F?.trustedRaw || !F?.text || !F?.div) {
+                return { supported: false };
+              }
+
+              const host = document.createElement("div");
+              host.appendChild(F.div(F.trustedRaw("<span>ok</span>")));
+              host.appendChild(F.div(F.text("<span>ok</span>")));
+
+              const first = host.firstElementChild;
+              const second = first?.nextElementSibling;
+
+              return {
+                supported: true,
+                firstHasSpan: !!first?.querySelector("span"),
+                secondHasSpan: !!second?.querySelector("span"),
+                secondText: second?.textContent ?? "",
+              };
+            },
+            probeUaDepsHeadTags() {
+              const F = window.__nh.F;
+              const ok = F?.browserUserAgentHeadTags &&
+                F?.uaDepCssRef &&
+                F?.uaDepJsRef &&
+                F?.uaDepCssContent &&
+                F?.uaDepJsContent;
+
+              if (!ok) return { supported: false };
+
+              const deps = [
+                F.uaDepCssRef(
+                  "/_natural/app.css",
+                  "https://cdn.example/app.css",
+                ),
+                F.uaDepJsRef(
+                  "/_natural/app.js",
+                  "https://cdn.example/app.js",
+                  { as: "module" },
+                ),
+                F.uaDepJsRef(
+                  "/_natural/legacy.js",
+                  "https://cdn.example/legacy.js",
+                  { as: "script" },
+                ),
+                F.uaDepCssContent(
+                  "/_natural/inline.css",
+                  "body{margin:0}",
+                  { as: "style" },
+                ),
+                F.uaDepJsContent(
+                  "/_natural/inline.mjs",
+                  "console.log('m')",
+                  { as: "module" },
+                ),
+              ];
+
+              const wrap = document.createElement("div");
+              wrap.appendChild(F.div(F.browserUserAgentHeadTags(deps)));
+
+              return {
+                supported: true,
+                styles: Array.from(
+                  wrap.querySelectorAll('link[rel="stylesheet"]'),
+                ).map((n) => n.getAttribute("href") ?? ""),
+                moduleScripts: Array.from(
+                  wrap.querySelectorAll('script[type="module"]'),
+                ).map((n) => n.getAttribute("src") ?? "<inline>"),
+                classicScripts: Array.from(
+                  wrap.querySelectorAll('script:not([type="module"])'),
+                ).map((n) => n.getAttribute("src") ?? "<inline>"),
+                inlineStyleCount: wrap.querySelectorAll("style").length,
+              };
+            },
+            probeStyleExtraction() {
+              const F = window.__nh.F;
+              const ok = F?.collectStyleAttributeCss &&
+                F?.emitStyleAttributeCss && F?.div;
+              if (!ok) return { supported: false };
+
+              const node = F.div(
+                { id: "wrap", class: "wrap", style: "padding:12px" },
+                F.div(
+                  { class: "card", style: "border:1px solid #000" },
+                  "Card",
+                ),
+                F.div(
+                  { class: "card", style: "border:1px solid #000" },
+                  "Card",
+                ),
+                F.span({ id: "x", style: "color:red" }, "X"),
+              );
+
+              const { html: stripped, cssText } = F
+                .collectStyleAttributeCss(node, "head");
+              const out = F.emitStyleAttributeCss(
+                stripped,
+                "head",
+                cssText,
+              );
+
+              const host = document.createElement("div");
+              host.appendChild(F.div(out));
+
+              return {
+                supported: true,
+                styleTagCount: host.querySelectorAll("style").length,
+                remainingStyleAttrCount:
+                  host.querySelectorAll("[style]").length,
+                cssText: String(cssText ?? ""),
+                cardCount: host.querySelectorAll(".card").length,
+                hasWrap: !!host.querySelector("#wrap.wrap"),
+                hasX: !!host.querySelector("#x"),
+              };
+            },
+          };
+
+          window.__nh.bootstrap.ready = true;
+          window.__nh.bootstrap.readyAt = Date.now();
+        } catch (e) {
+          window.__nh = window.__nh || {};
+          window.__nh.bootstrap = window.__nh.bootstrap || {};
+          window.__nh.bootstrap.error = String(e?.stack ?? e);
+          window.__nh.bootstrap.failedAt = Date.now();
+          console.error(
+            "FIXTURE_BOOTSTRAP_ERROR",
+            window.__nh.bootstrap.error,
+          );
+        }
+      })();
+    </script>
+  </body>
+</html>

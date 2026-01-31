@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>natural-web-ua/elements.js: Build a page</title>
+    <meta
+      name="description"
+      content="Step through a static HTML scaffold, then layer in natural-web-ua/elements.js for dynamic, composable markup."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+    <style>
+      :root {
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+        line-height: 1.6;
+        color: #0f172a;
+        background-color: #f6f8fb;
+      }
+      body {
+        margin: 0;
+      }
+      .page-shell {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 3rem;
+      }
+      header,
+      footer {
+        text-align: left;
+        margin-bottom: 2rem;
+      }
+      header h1 {
+        margin: 0;
+        font-size: clamp(2rem, 3vw, 2.5rem);
+      }
+      section {
+        margin-bottom: 2rem;
+        background: #fff;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px -20px rgba(15, 23, 42, 0.6);
+      }
+      section.guide {
+        border: 1px solid #0f172a11;
+      }
+      .demo-panel {
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        padding: 1.25rem;
+        border-radius: 1rem;
+        background: linear-gradient(180deg, #f8fafc, #e0f2fe);
+        box-shadow: 0 20px 40px -30px rgba(2, 6, 23, 0.8);
+      }
+      #dynamic-target {
+        min-height: 210px;
+        border: 2px dashed #94a3b8;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        background: #f1f5f9;
+      }
+      .feature-grid {
+        list-style: none;
+        margin: 1rem 0;
+        padding: 0;
+        display: grid;
+        gap: 1rem;
+      }
+      .feature-card {
+        border: 1px solid #cbd5f5;
+        border-radius: 0.8rem;
+        padding: 1rem;
+        background: #fff;
+      }
+      .feature-card--even h4 {
+        color: #0f172a;
+      }
+      .feature-card--odd h4 {
+        color: #1d4ed8;
+      }
+      .cta {
+        background: #1d4ed8;
+        color: #fff;
+        border: 0;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        box-shadow: 0 10px 20px -15px rgba(17, 24, 39, 0.8);
+      }
+      pre {
+        background: #0f172a;
+        color: #f1f5f9;
+        padding: 1rem;
+        border-radius: 0.8rem;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header>
+        <p class="eyebrow">Teaching Aide · natural-web-ua</p>
+        <h1>Build the page with natural-web-ua/elements.js</h1>
+        <p>
+          Start with everyday HTML for structure, then layer in the natural-web-ua/elements.js helpers
+          to compose dynamic pieces without JSX or template strings.
+        </p>
+      </header>
+
+      <main>
+        <section>
+          <h2>Static layout baseline</h2>
+          <p>
+            This is the markup you would write before JavaScript. Prefer semantic sections, short
+            explanatory paragraphs, and descriptive headings.
+          </p>
+          <ol>
+            <li>
+              A <code>&lt;header&gt;</code> with a small intro and a clear title sets expectations.
+            </li>
+            <li>
+              A <code>&lt;section&gt;</code> explains the goals, lists steps, or references API notes.
+            </li>
+            <li>
+              A placeholder container (below) signals where dynamic content will appear once we
+              import the library.
+            </li>
+          </ol>
+        </section>
+
+        <section class="guide" id="guide">
+          <h2>Introduce natural-web-ua/elements.js helpers</h2>
+          <p>
+            While the module exports every tag as a callable function (e.g., <code>div()</code>,
+            <code>section()</code>, <code>ul()</code>), the real benefit comes when you combine
+            helpers like <code>each()</code>, <code>classNames()</code>, and <code>styleText()</code>
+            to keep your DOM creation deterministic and composable.
+          </p>
+          <p>Here is the code that the module script below mirrors:</p>
+          <pre><code class="language-js">import * as h from "../../../../natural-web-ua/elements.js";
+
+const features = [
+  { title: "Composable tags", detail: "Use native HTML elements as functions." },
+  { title: "Helpers", detail: "classNames(), attrs(), styleText(), each() keep markup tidy." },
+];
+
+const panel = h.section(
+  { class: "demo-panel" },
+  h.h3("Rendered with natural-web-ua/elements.js"),
+  h.ul(
+    { class: "feature-grid" },
+    h.each(features, (feature, index) =>
+      h.li(
+        { class: h.classNames("feature-card", { "feature-card--even": index % 2 === 0 }) },
+        h.h4(`${index + 1}. ${feature.title}`),
+        h.p(feature.detail),
+      ),
+    ),
+  ),
+);
+</code></pre>
+        </section>
+
+        <section>
+          <h2>Dynamic markup</h2>
+          <p>
+            The container below is still empty in regular HTML. The module script imports
+            <code>natural-web-ua/elements.js</code> and appends a fully composed tree into this box.
+          </p>
+          <div id="dynamic-target">
+            <p>Loading dynamic elements…</p>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Combine both worlds: static markup for accessibility and SEO, plus scripted sections
+          produced by <code>natural-web-ua/elements.js</code> whenever you need data-driven
+          composition or helper-based styling.
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script type="module">
+      import * as h from "../../../../natural-web-ua/elements.js";
+
+      const featureNotes = [
+        {
+          title: "Composable tags",
+          detail: "Each HTML element is a function; pass plain strings or nested helpers directly.",
+        },
+        {
+          title: "Helper utilities",
+          detail: "Use classNames() for stable class lists and styleText() to keep inline styles deterministic.",
+        },
+        {
+          title: "Builder helpers",
+          detail: "each() lets you loop over data without mutating the DOM manually.",
+        },
+      ];
+
+      const featureList = h.ul(
+        { class: "feature-grid" },
+        h.each(featureNotes, (note, index) =>
+          h.li(
+            {
+              class: h.cls("feature-card", {
+                "feature-card--even": index % 2 === 0,
+                "feature-card--odd": index % 2 !== 0,
+              }),
+              style: h.css({
+                borderColor: index % 2 === 0 ? "#cbd5f5" : "#e0e7ff",
+                boxShadow: "0 8px 25px -20px rgba(15, 23, 42, 0.75)",
+              }),
+            },
+            h.h4(`${index + 1}. ${note.title}`),
+            h.p(note.detail),
+          ),
+        ),
+      );
+
+      const interactiveButton = h.button({ type: "button", class: "cta" }, "Log feature notes");
+      interactiveButton.addEventListener("click", () => {
+        console.log("Built with natural-web-ua/elements.js", featureNotes);
+        interactiveButton.textContent = "Logs in console";
+      });
+
+      const dynamicPanel = h.section(
+        { class: "demo-panel" },
+        h.h3("Live composition"),
+        h.p("Plain arrays of data become curated lists with each() and helper utilities."),
+        featureList,
+        interactiveButton,
+      );
+
+      const target = document.getElementById("dynamic-target");
+      if (target) {
+        target.innerHTML = "";
+        target.appendChild(dynamicPanel);
+      }
+    </script>
+  </body>
+</html>

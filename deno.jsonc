@@ -19,7 +19,7 @@
 
     // tests require Playwright so be sure to run deno task test:install-deps once
     "test:install-deps": "deno run -A npm:playwright install --with-deps",
-    "test": "deno test -A --unstable-bundle lib",
+    "test": "deno test -A --unstable-bundle",
 
     "sync-import-map": "deno eval --ext ts 'import JSON5 from \"npm:json5@^2\"; const raw = await Deno.readTextFile(\"deno.jsonc\"); const cfg = JSON5.parse(raw); const imports = cfg.imports ?? {}; await Deno.writeTextFile(\"import_map.json\", JSON.stringify({ imports }, null, 2)); console.log(\"import_map.json synced\");' && deno fmt import_map.json",
     "git-hook-pre-commit": "deno task fmt && deno task lint && deno test --unstable-bundle --parallel --allow-all --v8-flags=\"--max-old-space-size=4096\"",
