@@ -246,7 +246,6 @@
           </p>
           <natural-callout data-kind="info">
             <header>
-              <i class="fa-solid fa-code" aria-hidden="true"></i>
               <strong>Layout Grid</strong>
             </header>
             <p>
@@ -271,10 +270,14 @@
               Clickable bar that hints at the ⌘K shortcut for component search.
             </dd>
             <dt><code>.subject-area-selector</code></dt>
-            <dd>Dropdown of subject areas; natural.mjs keeps aria-expanded in sync.</dd>
+            <dd>
+              Dropdown of subject areas; natural.mjs keeps aria-expanded in
+              sync.
+            </dd>
             <dt><code>.nav-section</code></dt>
             <dd>
-              Grouped navigation with category headers and active states handled via JS.
+              Grouped navigation with category headers and active states handled
+              via JS.
             </dd>
           </dl>
         </section>
@@ -407,8 +410,8 @@
             Two variants exist: a basic block and a richer pane with header
             controls.
           </p>
+          <h3>Basic code block</h3>
           <article class="code-panel">
-            <h3>Basic code block</h3>
             <pre><code>const greeting = "Hello, World!";</code></pre>
           </article>
           <article class="code-panel code-panel-enhanced">
@@ -419,27 +422,21 @@
               </p>
               <button type="button">Copy</button>
             </header>
-            <pre class="code-highlights">export interface Config {
+            <pre
+              class="code-highlights"
+            >
+export interface Config {
   theme: "light" | "dark";
   accentColor: string;
 }</pre>
           </article>
-          <aside class="callout callout-tip">
-            <header>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
-    M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
-                >
-                </path>
-              </svg>
-              <strong>Line Highlighting</strong>
-            </header>
+          <natural-callout data-kind="tip">
+            <header>Line Highlighting</header>
             <p>
               Add an orange background to important lines by toggling a
               <code>.highlighted</code> flag on the row.
             </p>
-          </aside>
+          </natural-callout>
         </section>
 
         <section id="tabs">
@@ -485,31 +482,25 @@
             <a href="#callouts" class="anchor-link">#</a>
           </h2>
           <p>Use the three semantic variants for warnings, info, and tips.</p>
-          <aside class="callout">
-            <header>
-              <strong>Warning</strong>
-            </header>
+          <natural-callout data-kind="default">
+            <header>Warning</header>
             <p>
               Important prerequisites or warnings go here to keep the reader
               safe.
             </p>
-          </aside>
-          <aside class="callout callout-info">
-            <header>
-              <strong>Info</strong>
-            </header>
+          </natural-callout>
+          <natural-callout data-kind="info">
+            <header>Info</header>
             <p>
               Additional context and explanations live inside the info variant.
             </p>
-          </aside>
-          <aside class="callout callout-tip">
-            <header>
-              <strong>Tip</strong>
-            </header>
+          </natural-callout>
+          <natural-callout data-kind="tip">
+            <header>Tip</header>
             <p>
               Best practices and helpful reminders are ideal for the tip style.
             </p>
-          </aside>
+          </natural-callout>
         </section>
 
         <section id="cards">

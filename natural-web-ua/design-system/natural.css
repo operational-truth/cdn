@@ -805,18 +805,34 @@ natural-content natural-callout {
 natural-content natural-callout header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-natural-content natural-callout header i {
-  width: 18px;
-  height: 18px;
+natural-content natural-callout header::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 15px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  margin-right: 6px;
+  line-height: 1;
+}
+
+natural-content natural-callout[data-kind="info"] header::before {
+  content: "\f111";
+  color: #0f172a;
+}
+
+natural-content natural-callout[data-kind="default"] header::before {
+  content: "\f06a";
+  color: #0f172a;
+}
+
+natural-content natural-callout[data-kind="tip"] header::before {
+  content: "\f0eb";
   color: #0f172a;
 }
 
@@ -828,6 +844,16 @@ natural-content natural-callout p {
 natural-content natural-callout[data-kind="info"] {
   border-color: #3b82f6;
   background: #e2eeff;
+}
+
+natural-content natural-callout[data-kind="default"] {
+  border-color: #f97316;
+  background: #fff7ed;
+}
+
+natural-content natural-callout[data-kind="tip"] {
+  border-color: #22c55e;
+  background: #ecfdf3;
 }
 
 natural-content dl {
@@ -851,38 +877,6 @@ natural-content dl dd {
 
 natural-content dl dd:last-of-type {
   border-bottom: none;
-}
-
-natural-content .callout {
-  border-left: 4px solid #f97316;
-  background: #fff7ed;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
-
-natural-content .callout-info {
-  border-color: #3b82f6;
-  background: #eef4ff;
-}
-
-natural-content .callout-tip {
-  border-color: #22c55e;
-  background: #ecfdf3;
-}
-
-natural-content .callout header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-  font-weight: 600;
-}
-
-natural-content .callout header svg {
-  width: 16px;
-  height: 16px;
-  color: inherit;
 }
 
 natural-content .color-grid {
@@ -946,6 +940,22 @@ natural-content .type-scale h3 {
 natural-content .type-small {
   color: #737373;
   font-size: 13px;
+}
+
+natural-content :not(.code-panel) code {
+  font-family: "SF Mono", Monaco, "Courier New", monospace;
+  font-size: 13px;
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #e11d48;
+}
+
+natural-content .code-panel code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
 }
 
 natural-content .spacing-table {
