@@ -537,29 +537,29 @@ export interface Config {
             <a href="#cards" class="anchor-link">#</a>
           </h2>
           <p>
-            The card grid highlights capabilities with iconography and hover
-            states.
+            The card stack demonstrates how easy it is to author a variety of
+            card layouts with the new custom elements.
           </p>
-          <ul class="feature-grid">
-            <li data-icon="📦">
-              <strong>Modular Design</strong>
+          <natural-cards>
+            <natural-card data-icon="📦" data-variant="accent">
+              <header>Modular Design</header>
               <p>
                 Reusable pieces that stand alone without extra dependencies.
               </p>
-            </li>
-            <li data-icon="🎨">
-              <strong>Customizable</strong>
+            </natural-card>
+            <natural-card data-icon="🎨">
+              <header>Customizable</header>
               <p>Override CSS variables to align with your brand.</p>
-            </li>
-            <li data-icon="⚡">
-              <strong>Performant</strong>
+            </natural-card>
+            <natural-card data-icon="⚡">
+              <header>Performant</header>
               <p>Minimal CSS, zero runtime framework lock-in.</p>
-            </li>
-            <li data-icon="📱">
-              <strong>Responsive</strong>
+            </natural-card>
+            <natural-card data-icon="📱">
+              <header>Responsive</header>
               <p>Mobile-first breakpoints adapt to every screen size.</p>
-            </li>
-          </ul>
+            </natural-card>
+          </natural-cards>
         </section>
 
         <section id="accordion">

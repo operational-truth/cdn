@@ -1191,34 +1191,101 @@ natural-content .code-panel-enhanced {
   border-color: #0b1120;
 }
 
-natural-content .feature-grid {
-  list-style: none;
+natural-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  margin: 24px 0;
+}
+
+natural-card {
+  border-radius: 18px;
+  border: 1px solid #e5e5e5;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 160px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+natural-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(249, 115, 22, 0.08),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+natural-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  border-color: rgba(249, 115, 22, 0.25);
+}
+
+natural-card:hover::after {
+  opacity: 1;
+}
+
+natural-card[data-variant="accent"] {
+  border-color: rgba(249, 115, 22, 0.4);
+  box-shadow: 0 12px 32px rgba(249, 115, 22, 0.15);
+}
+
+natural-card header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
   padding: 0;
 }
 
-natural-content .feature-grid li {
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  padding: 16px;
-  position: relative;
-  min-height: 140px;
+natural-card[data-icon] {
+  padding-top: 20px;
 }
 
-natural-content .feature-grid li::before {
+natural-card[data-icon]::before {
   content: attr(data-icon);
-  font-size: 32px;
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  left: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  font-size: 18px;
+  line-height: 1;
 }
 
-natural-content .feature-grid strong {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 16px;
+natural-card[data-variant="accent"][data-icon]::before {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #ffffff;
+}
+
+natural-card[data-icon] header {
+  margin-left: 56px;
+}
+
+natural-card p {
+  margin: 0;
+  color: #525252;
+  line-height: 1.5;
 }
 
 natural-content details {
