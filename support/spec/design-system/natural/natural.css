@@ -81,7 +81,7 @@ header.natural-brand-bar natural-brand-left a {
   gap: 0.75rem;
 }
 
-label.brand-icon {
+span.brand-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -177,10 +177,10 @@ natural-user-dropdown label {
   font-weight: 500;
 }
 
-natural-user-dropdown button:hover label,
-natural-user-dropdown button:focus label,
-header.natural-brand-bar natural-brand-left nav a[data-active="true"] label,
-header.natural-brand-bar natural-brand-left nav a:hover label {
+natural-user-dropdown button:hover .user-avatar,
+natural-user-dropdown button:focus .user-avatar,
+header.natural-brand-bar natural-brand-left nav a[data-active="true"] span,
+header.natural-brand-bar natural-brand-left nav a:hover span {
   color: #ffffff;
 }
 natural-notification-badge {
@@ -200,7 +200,7 @@ natural-divider {
   background: var(--divider-color);
 }
 
-label.user-avatar {
+span.user-avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
