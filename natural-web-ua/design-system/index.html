@@ -224,8 +224,499 @@
         </nav>
       </natural-sidebar>
 
-      <!-- Article zone is intentionally empty here—builders inject sections as needed while layout stays intact -->
-      <article></article>
+      <!-- Main content now mirrors the Natural DS specification inside <natural-content> -->
+      <natural-content>
+        <header>
+          <h1>Design System Reference</h1>
+          <p>
+            This document mirrors the Natural DS specification: every section,
+            pattern, and behavior inside this content area follows the structure
+            described in <code>support/spec/natural-ds.html</code>.
+          </p>
+        </header>
+
+        <section id="layout">
+          <h2>
+            Layout Structure
+            <a href="#layout" class="anchor-link">#</a>
+          </h2>
+          <p>
+            The page rests on a three-column grid: the fixed sidebar, flexible
+            main column, and the sticky table-of-contents.
+          </p>
+          <natural-callout data-kind="info">
+            <header>
+              <i class="fa-solid fa-code" aria-hidden="true"></i>
+              <strong>Layout Grid</strong>
+            </header>
+            <p>
+              <strong>Left Sidebar:</strong> 280px fixed width
+            </p>
+            <p>
+              <strong>Main Content:</strong> Flexible (1fr)
+            </p>
+            <p>
+              <strong>Right TOC:</strong> 200px fixed width
+            </p>
+          </natural-callout>
+          <h3>Left Sidebar Regions</h3>
+          <dl>
+            <dt><code>.sidebar-header</code></dt>
+            <dd>
+              Contains the logo/brand and theme toggle button. Uses flexbox with
+              <code>justify-content: space-between</code>.
+            </dd>
+            <dt><code>.search-bar</code></dt>
+            <dd>
+              Clickable bar that hints at the ⌘K shortcut for component search.
+            </dd>
+            <dt><code>.subject-area-selector</code></dt>
+            <dd>Dropdown of subject areas; natural.mjs keeps aria-expanded in sync.</dd>
+            <dt><code>.nav-section</code></dt>
+            <dd>
+              Grouped navigation with category headers and active states handled via JS.
+            </dd>
+          </dl>
+        </section>
+
+        <section id="colors">
+          <h2>
+            Color Palette
+            <a href="#colors" class="anchor-link">#</a>
+          </h2>
+          <p>
+            The brand leans on orange (#f97316) with neutral backgrounds and
+            muted text.
+          </p>
+          <h3>Accent colors</h3>
+          <ul class="color-grid">
+            <li style="--swatch-color: #f97316">
+              <strong>Accent Primary</strong>
+              <code>#f97316</code>
+            </li>
+            <li style="--swatch-color: #ea580c">
+              <strong>Accent Hover</strong>
+              <code>#ea580c</code>
+            </li>
+            <li style="--swatch-color: #fff7ed">
+              <strong>Accent Light</strong>
+              <code>#fff7ed</code>
+            </li>
+            <li style="--swatch-color: #fdba74">
+              <strong>Accent Muted</strong>
+              <code>#fdba74</code>
+            </li>
+          </ul>
+          <h3>Semantic colors</h3>
+          <ul class="color-grid">
+            <li style="--swatch-color: #22c55e">
+              <strong>Success</strong>
+              <code>#22c55e</code>
+            </li>
+            <li style="--swatch-color: #3b82f6">
+              <strong>Info</strong>
+              <code>#3b82f6</code>
+            </li>
+            <li style="--swatch-color: #f59e0b">
+              <strong>Warning</strong>
+              <code>#f59e0b</code>
+            </li>
+            <li style="--swatch-color: #dc2626">
+              <strong>Error</strong>
+              <code>#dc2626</code>
+            </li>
+          </ul>
+        </section>
+
+        <section id="typography">
+          <h2>
+            Typography
+            <a href="#typography" class="anchor-link">#</a>
+          </h2>
+          <p>
+            System fonts dominate for fast loading with monospace for code.
+            Headings use tight line-height; body copy stays at 15px with 1.6
+            leading.
+          </p>
+          <article class="type-scale">
+            <h1>Page Title (32px / 700)</h1>
+            <h2>Section Heading (22px / 600)</h2>
+            <h3>Subsection (18px / 600)</h3>
+            <p>Body text paragraph (15px / normal)</p>
+            <p class="type-small">Small text for captions (13px)</p>
+          </article>
+          <p>
+            Inline code uses the <code>code</code> element with a subtle rose
+            hue to stand out.
+          </p>
+        </section>
+
+        <section id="spacing">
+          <h2>
+            Spacing
+            <a href="#spacing" class="anchor-link">#</a>
+          </h2>
+          <p>
+            The spacing scale is based on a 4px baseline: tiny gaps for keys,
+            16px for default padding, 32-48px for major sections.
+          </p>
+          <table class="spacing-table">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Value</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>spacing-xs</code></td>
+                <td><code>4px</code></td>
+                <td>Keyboard keys, micro gaps</td>
+              </tr>
+              <tr>
+                <td><code>spacing-sm</code></td>
+                <td><code>8px</code></td>
+                <td>Icon/text gaps, compact elements</td>
+              </tr>
+              <tr>
+                <td><code>spacing-md</code></td>
+                <td><code>16px</code></td>
+                <td>Default padding, section gaps</td>
+              </tr>
+              <tr>
+                <td><code>spacing-lg</code></td>
+                <td><code>24px</code></td>
+                <td>Card padding, component margins</td>
+              </tr>
+              <tr>
+                <td><code>spacing-xl</code></td>
+                <td><code>40px</code></td>
+                <td>Page-level margins</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="code-blocks">
+          <h2>
+            Code Blocks
+            <a href="#code-blocks" class="anchor-link">#</a>
+          </h2>
+          <p>
+            Two variants exist: a basic block and a richer pane with header
+            controls.
+          </p>
+          <article class="code-panel">
+            <h3>Basic code block</h3>
+            <pre><code>const greeting = "Hello, World!";</code></pre>
+          </article>
+          <article class="code-panel code-panel-enhanced">
+            <header>
+              <p>
+                <strong>config.ts</strong>
+                <strong class="lang-badge">TypeScript</strong>
+              </p>
+              <button type="button">Copy</button>
+            </header>
+            <pre
+              class="code-highlights"
+            >
+export interface Config {
+  theme: "light" | "dark";
+  accentColor: string;
+}
+</pre>
+          </article>
+          <aside class="callout callout-tip">
+            <header>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
+    M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                >
+                </path>
+              </svg>
+              <strong>Line Highlighting</strong>
+            </header>
+            <p>
+              Add an orange background to important lines by toggling a
+              <code>.highlighted</code> flag on the row.
+            </p>
+          </aside>
+        </section>
+
+        <section id="tabs">
+          <h2>
+            Tabs
+            <a href="#tabs" class="anchor-link">#</a>
+          </h2>
+          <p>
+            Tabs switch between package managers without leaving the page; data
+            attributes keep panels aligned with their buttons.
+          </p>
+          <nav class="tab-list" role="tablist">
+            <button role="tab" aria-selected="true" data-tab-target="tab-npm">
+              npm
+            </button>
+            <button role="tab" aria-selected="false" data-tab-target="tab-pnpm">
+              pnpm
+            </button>
+            <button role="tab" aria-selected="false" data-tab-target="tab-yarn">
+              yarn
+            </button>
+            <button role="tab" aria-selected="false" data-tab-target="tab-bun">
+              bun
+            </button>
+          </nav>
+          <article class="tab-panel" data-tab="tab-npm" data-active="true">
+            <pre><code>npm install package-name</code></pre>
+          </article>
+          <article class="tab-panel" data-tab="tab-pnpm">
+            <pre><code>pnpm add package-name</code></pre>
+          </article>
+          <article class="tab-panel" data-tab="tab-yarn">
+            <pre><code>yarn add package-name</code></pre>
+          </article>
+          <article class="tab-panel" data-tab="tab-bun">
+            <pre><code>bun add package-name</code></pre>
+          </article>
+        </section>
+
+        <section id="callouts">
+          <h2>
+            Callouts
+            <a href="#callouts" class="anchor-link">#</a>
+          </h2>
+          <p>Use the three semantic variants for warnings, info, and tips.</p>
+          <aside class="callout">
+            <header>
+              <strong>Warning</strong>
+            </header>
+            <p>
+              Important prerequisites or warnings go here to keep the reader
+              safe.
+            </p>
+          </aside>
+          <aside class="callout callout-info">
+            <header>
+              <strong>Info</strong>
+            </header>
+            <p>
+              Additional context and explanations live inside the info variant.
+            </p>
+          </aside>
+          <aside class="callout callout-tip">
+            <header>
+              <strong>Tip</strong>
+            </header>
+            <p>
+              Best practices and helpful reminders are ideal for the tip style.
+            </p>
+          </aside>
+        </section>
+
+        <section id="cards">
+          <h2>
+            Feature Cards
+            <a href="#cards" class="anchor-link">#</a>
+          </h2>
+          <p>
+            The card grid highlights capabilities with iconography and hover
+            states.
+          </p>
+          <ul class="feature-grid">
+            <li data-icon="📦">
+              <strong>Modular Design</strong>
+              <p>
+                Reusable pieces that stand alone without extra dependencies.
+              </p>
+            </li>
+            <li data-icon="🎨">
+              <strong>Customizable</strong>
+              <p>Override CSS variables to align with your brand.</p>
+            </li>
+            <li data-icon="⚡">
+              <strong>Performant</strong>
+              <p>Minimal CSS, zero runtime framework lock-in.</p>
+            </li>
+            <li data-icon="📱">
+              <strong>Responsive</strong>
+              <p>Mobile-first breakpoints adapt to every screen size.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section id="accordion">
+          <h2>
+            Accordion
+            <a href="#accordion" class="anchor-link">#</a>
+          </h2>
+          <p>Fold away secondary content until it is needed.</p>
+          <details open>
+            <summary>How do I customize the accent color?</summary>
+            <p>
+              Replace <code>#f97316</code> and the hover state <code
+              >#ea580c</code> with your brand.
+            </p>
+          </details>
+          <details>
+            <summary>Can I use this with React?</summary>
+            <p>
+              Yes—swap <code>class</code> for <code>className</code> and add
+              state for interactions.
+            </p>
+          </details>
+          <details>
+            <summary>Is dark mode supported?</summary>
+            <p>
+              Add a <code>.dark</code> class to <code>&lt;body&gt;</code> and
+              override the custom properties.
+            </p>
+          </details>
+        </section>
+
+        <section id="file-tree">
+          <h2>
+            File Tree
+            <a href="#file-tree" class="anchor-link">#</a>
+          </h2>
+          <p>
+            Directory structures show folder and file icons with dashed nesting.
+          </p>
+          <nav class="file-tree">
+            <ul>
+              <li data-icon="📁">
+                project-root
+                <ul>
+                  <li data-icon="📁">
+                    src
+                    <ul>
+                      <li data-icon="📄">index.ts</li>
+                      <li data-icon="📄">styles.css</li>
+                    </ul>
+                  </li>
+                  <li data-icon="📄">package.json</li>
+                  <li data-icon="📄">README.md</li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </section>
+
+        <section id="steps">
+          <h2>
+            Steps
+            <a href="#steps" class="anchor-link">#</a>
+          </h2>
+          <p>Numbered progressions guide builders through the workflow.</p>
+          <ol class="steps-list">
+            <li>
+              <strong>Define the Structure</strong>
+              <p>Create the documented HTML layout.</p>
+            </li>
+            <li>
+              <strong>Apply Styling</strong>
+              <p>Include the stylesheet and tweak CSS variables.</p>
+            </li>
+            <li>
+              <strong>Add Interactivity</strong>
+              <p>Wire tabs, accordions, and dropdowns with scripts.</p>
+            </li>
+          </ol>
+        </section>
+
+        <section id="tables">
+          <h2>
+            API Tables
+            <a href="#tables" class="anchor-link">#</a>
+          </h2>
+          <p>
+            Tables document props, events, and options with consistent styling.
+          </p>
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <code>variant</code> <strong class="badge badge-required"
+                  >required</strong>
+                </td>
+                <td><code>"default" | "info" | "tip"</code></td>
+                <td>—</td>
+                <td>Callout style variant.</td>
+              </tr>
+              <tr>
+                <td><code>title</code></td>
+                <td><code>string</code></td>
+                <td>undefined</td>
+                <td>Header text displayed with the icon.</td>
+              </tr>
+              <tr>
+                <td>
+                  <code>children</code> <strong class="badge badge-required"
+                  >required</strong>
+                </td>
+                <td><code>ReactNode</code></td>
+                <td>—</td>
+                <td>Content inside the callout.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="badges">
+          <h2>
+            Badges
+            <a href="#badges" class="anchor-link">#</a>
+          </h2>
+          <p>Small labels denote status, version, and categories.</p>
+          <p class="badge-row">
+            <strong class="badge">Default</strong>
+            <strong class="badge badge-primary">Primary</strong>
+            <strong class="badge badge-success">Success</strong>
+            <strong class="badge badge-warning">Warning</strong>
+            <strong class="badge badge-error">Error</strong>
+            <strong class="badge badge-info">Info</strong>
+          </p>
+          <p>
+            The API is <strong class="badge badge-success">Stable</strong> and
+            ready for production.
+          </p>
+        </section>
+
+        <section id="keyboard">
+          <h2>
+            Keyboard Shortcuts
+            <a href="#keyboard" class="anchor-link">#</a>
+          </h2>
+          <p>Use <code>kbd</code> elements to represent physical keys.</p>
+          <article class="keyboard-example">
+            <p>
+              <strong>Search:</strong>
+              <kbd>⌘</kbd>
+              <kbd>K</kbd>
+            </p>
+            <p>
+              <strong>Save:</strong>
+              <kbd>Ctrl</kbd>
+              <kbd>S</kbd>
+            </p>
+            <p>
+              <strong>Copy:</strong>
+              <kbd>⌘</kbd>
+              <kbd>C</kbd>
+            </p>
+          </article>
+        </section>
+      </natural-content>
 
       <!-- Optional local navigation shows mirrored structure to keep long docs scannable without extra layout hacks -->
       <natural-local-nav aria-label="On this page">
