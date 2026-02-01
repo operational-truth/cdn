@@ -103,9 +103,23 @@ const initSubjectSelector = () => {
   });
 };
 
+const hideDecorativeIcons = () => {
+  const selectors = [
+    'natural-layout i[class*="fa-"]:not([aria-hidden])',
+    'natural-layout span.brand-icon:not([aria-hidden])',
+    'natural-layout natural-divider:not([aria-hidden])',
+  ];
+  selectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.setAttribute("aria-hidden", "true");
+    });
+  });
+};
+
 const initialize = () => {
   initNavExpandables();
   initSubjectSelector();
+  hideDecorativeIcons();
 };
 
 document.addEventListener("DOMContentLoaded", initialize);

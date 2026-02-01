@@ -20,24 +20,24 @@
         <!-- Brand + navigation pairings stay straightforward: no extra wrappers, icon fonts carry the visual weight -->
         <natural-brand-left>
           <a href="#" aria-label="Open Acme Inc home">
-            <span class="brand-icon" aria-hidden="true">DS</span>
+            <span class="brand-icon">DS</span>
             Acme Inc
           </a>
           <nav aria-label="Primary links">
             <a href="#docs" data-active="true">
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+              <i class="fa-solid fa-file-lines"></i>
               Docs
             </a>
             <a href="#github">
-              <i class="fa-brands fa-github" aria-hidden="true"></i>
+              <i class="fa-brands fa-github"></i>
               GitHub
             </a>
             <a href="#blog">
-              <i class="fa-solid fa-blog" aria-hidden="true"></i>
+              <i class="fa-solid fa-blog"></i>
               Blog
             </a>
             <a href="#discord">
-              <i class="fa-brands fa-discord" aria-hidden="true"></i>
+              <i class="fa-brands fa-discord"></i>
               Discord
             </a>
           </nav>
@@ -47,25 +47,24 @@
         <natural-personalization aria-label="Personalization">
           <natural-actions role="group">
             <button type="button" aria-label="Search">
-              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <i class="fa-solid fa-magnifying-glass"></i>
             </button>
             <button type="button" aria-label="Notifications">
-              <i class="fa-solid fa-bell" aria-hidden="true"></i>
+              <i class="fa-solid fa-bell"></i>
               <natural-notification-badge
-                aria-hidden="true"
               ></natural-notification-badge>
             </button>
             <button type="button" aria-label="Settings">
-              <i class="fa-solid fa-gear" aria-hidden="true"></i>
+              <i class="fa-solid fa-gear"></i>
             </button>
           </natural-actions>
           <!-- separation is purely visual; divider element emphasizes structure without extra spans -->
-          <natural-divider aria-hidden="true"></natural-divider>
+          <natural-divider></natural-divider>
           <natural-user-dropdown>
             <button type="button" aria-haspopup="true" aria-expanded="false">
-              <span class="user-avatar" aria-hidden="true">JD</span>
+              <span class="user-avatar">JD</span>
               John Doe
-              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              <i class="fa-solid fa-chevron-down"></i>
             </button>
             <menu>
               <a href="#profile">View profile</a>
@@ -79,11 +78,11 @@
       <!-- Breadcrumbs float above the main area but inside the layout so we can keep scroll sync without new wrappers -->
       <natural-breadcrumbs aria-label="Breadcrumb">
         <a href="#" aria-label="Home">
-          <i class="fa-solid fa-house" aria-hidden="true"></i>
+          <i class="fa-solid fa-house"></i>
         </a>
-        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <i class="fa-solid fa-chevron-right"></i>
         <a href="#" aria-label="Documentation overview">Documentation</a>
-        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <i class="fa-solid fa-chevron-right"></i>
         <span aria-current="page">Design System Reference</span>
       </natural-breadcrumbs>
 
@@ -91,18 +90,18 @@
       <natural-sidebar aria-label="Primary navigation">
         <header>
           <a href="#" aria-label="Open design system home">
-            <span class="brand-icon" aria-hidden="true">DS</span>
+            <span class="brand-icon">DS</span>
             Design System
           </a>
           <button type="button" aria-label="Toggle theme">
-            <i class="fa-solid fa-sun" aria-hidden="true"></i>
+            <i class="fa-solid fa-sun"></i>
           </button>
         </header>
 
         <!-- search placeholder is button-driven so we keep focusable areas minimal while hinting at shortcut -->
         <natural-search>
           <button type="button" aria-label="Search components">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
             <natural-placeholder>Search components…</natural-placeholder>
             <natural-shortcut>
               <kbd>⌘</kbd>
@@ -119,34 +118,34 @@
             aria-haspopup="listbox"
             aria-expanded="false"
           >
-            <i class="fa-solid fa-th-large" aria-hidden="true"></i>
+            <i class="fa-solid fa-th-large"></i>
             <strong>Subject 1</strong>
-            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            <i class="fa-solid fa-chevron-down"></i>
           </button>
           <natural-subject-dropdown id="subject-menu" aria-label="Subjects">
             <natural-subject-option data-value="subject-1" data-selected="true">
-              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              <i class="fa-solid fa-border-all"></i>
               <strong>Subject 1</strong>
               <p>Primary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <i class="fa-solid fa-check"></i>
             </natural-subject-option>
             <natural-subject-option data-value="subject-2">
-              <i class="fa-solid fa-border-style" aria-hidden="true"></i>
+              <i class="fa-solid fa-border-style"></i>
               <strong>Subject 2</strong>
               <p>Secondary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <i class="fa-solid fa-check"></i>
             </natural-subject-option>
             <natural-subject-option data-value="subject-3">
-              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              <i class="fa-solid fa-border-all"></i>
               <strong>Subject 3</strong>
               <p>Tertiary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <i class="fa-solid fa-check"></i>
             </natural-subject-option>
             <natural-subject-option data-value="subject-4">
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+              <i class="fa-solid fa-file-lines"></i>
               <strong>Subject 4</strong>
               <p>Additional subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <i class="fa-solid fa-check"></i>
             </natural-subject-option>
           </natural-subject-dropdown>
         </natural-subjects>
@@ -156,19 +155,19 @@
           <menu>
             <header>Foundations</header>
             <a data-active="true" href="#layout">
-              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              <i class="fa-solid fa-border-all"></i>
               Layout Structure
             </a>
             <a href="#colors">
-              <i class="fa-solid fa-palette" aria-hidden="true"></i>
+              <i class="fa-solid fa-palette"></i>
               Color Palette
             </a>
             <a href="#typography">
-              <i class="fa-solid fa-font" aria-hidden="true"></i>
+              <i class="fa-solid fa-font"></i>
               Typography
             </a>
             <a href="#spacing">
-              <i class="fa-solid fa-ruler" aria-hidden="true"></i>
+              <i class="fa-solid fa-ruler"></i>
               Spacing
             </a>
           </menu>
@@ -177,9 +176,9 @@
             <header>Components</header>
             <menu aria-expanded="true">
               <button type="button" aria-expanded="true">
-                <i class="fa-solid fa-hammer" aria-hidden="true"></i>
+                <i class="fa-solid fa-hammer"></i>
                 Manual Setup
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <i class="fa-solid fa-chevron-down"></i>
               </button>
               <menu>
                 <a href="#manual-react">React</a>
@@ -189,35 +188,35 @@
               </menu>
             </menu>
             <a href="#code-blocks">
-              <i class="fa-solid fa-code" aria-hidden="true"></i>
+              <i class="fa-solid fa-code"></i>
               Code Blocks
             </a>
             <a href="#tabs">
-              <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+              <i class="fa-solid fa-table-cells"></i>
               Tabs
             </a>
             <a href="#callouts">
-              <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+              <i class="fa-solid fa-circle-exclamation"></i>
               Callouts
             </a>
             <a href="#cards">
-              <i class="fa-solid fa-cubes" aria-hidden="true"></i>
+              <i class="fa-solid fa-cubes"></i>
               Feature Cards
             </a>
             <a href="#accordion">
-              <i class="fa-solid fa-list-ol" aria-hidden="true"></i>
+              <i class="fa-solid fa-list-ol"></i>
               Accordion
             </a>
             <a href="#file-tree">
-              <i class="fa-solid fa-folder" aria-hidden="true"></i>
+              <i class="fa-solid fa-folder"></i>
               File Tree
             </a>
             <a href="#tables">
-              <i class="fa-solid fa-table" aria-hidden="true"></i>
+              <i class="fa-solid fa-table"></i>
               API Tables
             </a>
             <a href="#keyboard">
-              <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+              <i class="fa-solid fa-keyboard"></i>
               Keyboard Shortcuts
             </a>
           </menu>
