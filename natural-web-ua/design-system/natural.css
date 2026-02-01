@@ -670,19 +670,6 @@ natural-sidebar nav menu[aria-expanded="true"] > button i:last-child {
   transform: rotate(0deg);
 }
 
-natural-sidebar nav menu menu {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-article {
-  grid-column: 2;
-  grid-row: 3;
-  padding: 24px;
-  min-height: calc(100vh - var(--height-bar) - 60px);
-}
-
 natural-local-nav {
   grid-column: 3;
   grid-row: 3;
@@ -775,28 +762,22 @@ natural-content > header h1 {
   margin-bottom: 8px;
 }
 
-natural-content > header p {
-  max-width: 640px;
-  color: #525252;
-  margin-bottom: 0;
-}
-
-.anchor-link {
+natural-content .anchor-link {
   margin-left: 8px;
   color: #a3a3a3;
   text-decoration: none;
   font-size: 0.85rem;
 }
 
-.anchor-link:hover {
+natural-content .anchor-link:hover {
   color: var(--color-accent);
 }
 
-section {
+natural-content section {
   margin-bottom: 48px;
 }
 
-section h2 {
+natural-content section h2 {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -805,13 +786,13 @@ section h2 {
   margin-bottom: 12px;
 }
 
-section h3 {
+natural-content section h3 {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-natural-callout {
+natural-content natural-callout {
   display: block;
   border-left: 6px solid transparent;
   border-radius: 16px;
@@ -821,7 +802,7 @@ natural-callout {
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
 }
 
-natural-callout header {
+natural-content natural-callout header {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -829,7 +810,7 @@ natural-callout header {
   margin-bottom: 8px;
 }
 
-natural-callout header i {
+natural-content natural-callout header i {
   width: 18px;
   height: 18px;
   display: inline-flex;
@@ -839,40 +820,40 @@ natural-callout header i {
   color: #0f172a;
 }
 
-natural-callout p {
+natural-content natural-callout p {
   margin: 4px 0;
   color: #0f172a;
 }
 
-natural-callout[data-kind="info"] {
+natural-content natural-callout[data-kind="info"] {
   border-color: #3b82f6;
   background: #e2eeff;
 }
 
-dl {
+natural-content dl {
   margin-top: 16px;
   margin-bottom: 32px;
 }
 
-dl dt {
+natural-content dl dt {
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 4px;
   text-transform: lowercase;
 }
 
-dl dd {
+natural-content dl dd {
   margin: 0 0 20px 0;
   color: #525252;
   border-bottom: 1px solid #dcdcdc;
   padding-bottom: 16px;
 }
 
-dl dd:last-of-type {
+natural-content dl dd:last-of-type {
   border-bottom: none;
 }
 
-.callout {
+natural-content .callout {
   border-left: 4px solid #f97316;
   background: #fff7ed;
   padding: 16px;
@@ -880,17 +861,17 @@ dl dd:last-of-type {
   margin-bottom: 16px;
 }
 
-.callout-info {
+natural-content .callout-info {
   border-color: #3b82f6;
   background: #eef4ff;
 }
 
-.callout-tip {
+natural-content .callout-tip {
   border-color: #22c55e;
   background: #ecfdf3;
 }
 
-.callout header {
+natural-content .callout header {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -898,13 +879,13 @@ dl dd:last-of-type {
   font-weight: 600;
 }
 
-.callout header svg {
+natural-content .callout header svg {
   width: 16px;
   height: 16px;
   color: inherit;
 }
 
-.color-grid {
+natural-content .color-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
@@ -913,7 +894,7 @@ dl dd:last-of-type {
   padding: 0;
 }
 
-.color-grid li {
+natural-content .color-grid li {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   padding: 12px;
@@ -921,7 +902,7 @@ dl dd:last-of-type {
   position: relative;
 }
 
-.color-grid li::before {
+natural-content .color-grid li::before {
   content: "";
   width: 100%;
   height: 60px;
@@ -931,64 +912,64 @@ dl dd:last-of-type {
   margin-bottom: 10px;
 }
 
-.color-grid strong {
+natural-content .color-grid strong {
   display: block;
   font-size: 14px;
   margin-bottom: 4px;
 }
 
-.type-scale h1,
-.type-scale h2,
-.type-scale h3,
-.type-scale p {
+natural-content .type-scale h1,
+natural-content .type-scale h2,
+natural-content .type-scale h3,
+natural-content .type-scale p {
   margin: 0;
 }
 
-.type-scale h1 {
+natural-content .type-scale h1 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
-.type-scale h2 {
+natural-content .type-scale h2 {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.type-scale h3 {
+natural-content .type-scale h3 {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.type-small {
+natural-content .type-small {
   color: #737373;
   font-size: 13px;
 }
 
-.spacing-table {
+natural-content .spacing-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
   margin-top: 16px;
 }
 
-.spacing-table th,
-.spacing-table td {
+natural-content .spacing-table th,
+natural-content .spacing-table td {
   border: 1px solid #e5e5e5;
   padding: 12px;
   text-align: left;
 }
 
-.spacing-table th {
+natural-content .spacing-table th {
   background: #f5f5f5;
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.code-panel {
+natural-content .code-panel {
   border-radius: 12px;
   border: 1px solid #e5e5e5;
   background: #111827;
@@ -997,45 +978,45 @@ dl dd:last-of-type {
   margin-bottom: 16px;
 }
 
-.code-panel pre {
+natural-content .code-panel pre {
   margin: 0;
   font-family: "SF Mono", Monaco, "Courier New", monospace;
   overflow-x: auto;
 }
 
-.code-panel header {
+natural-content .code-panel header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
 }
 
-.code-panel header p {
+natural-content .code-panel header p {
   margin: 0;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.lang-badge {
+natural-content .lang-badge {
   background: #262626;
   border-radius: 6px;
   padding: 2px 6px;
   font-size: 12px;
 }
 
-.code-panel-enhanced {
+natural-content .code-panel-enhanced {
   background: #0f172a;
 }
 
-.tab-list {
+natural-content .tab-list {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 
-.tab-list button {
+natural-content .tab-list button {
   border: 1px solid #e5e5e5;
   background: #f5f5f5;
   border-radius: 8px;
@@ -1044,13 +1025,13 @@ dl dd:last-of-type {
   font-size: 13px;
 }
 
-.tab-list button[aria-selected="true"] {
+natural-content .tab-list button[aria-selected="true"] {
   background: #ffffff;
   border-color: var(--color-accent);
   color: var(--color-accent);
 }
 
-.tab-panel {
+natural-content .tab-panel {
   display: none;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
@@ -1059,11 +1040,11 @@ dl dd:last-of-type {
   color: #f8fafc;
 }
 
-.tab-panel[data-active="true"] {
+natural-content .tab-panel[data-active="true"] {
   display: block;
 }
 
-.feature-grid {
+natural-content .feature-grid {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1071,7 +1052,7 @@ dl dd:last-of-type {
   padding: 0;
 }
 
-.feature-grid li {
+natural-content .feature-grid li {
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   padding: 16px;
@@ -1079,7 +1060,7 @@ dl dd:last-of-type {
   min-height: 140px;
 }
 
-.feature-grid li::before {
+natural-content .feature-grid li::before {
   content: attr(data-icon);
   font-size: 32px;
   position: absolute;
@@ -1087,13 +1068,13 @@ dl dd:last-of-type {
   right: 16px;
 }
 
-.feature-grid strong {
+natural-content .feature-grid strong {
   display: block;
   margin-bottom: 8px;
   font-size: 16px;
 }
 
-details {
+natural-content details {
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   padding: 12px 16px;
@@ -1101,44 +1082,44 @@ details {
   background: #ffffff;
 }
 
-details summary {
+natural-content details summary {
   cursor: pointer;
   font-weight: 600;
 }
 
-.file-tree ul {
+natural-content .file-tree ul {
   list-style: none;
   padding-left: 16px;
   margin: 0;
 }
 
-.file-tree li {
+natural-content .file-tree li {
   position: relative;
   padding-left: 24px;
   font-family: "SF Mono", Monaco, "Courier New", monospace;
   margin-bottom: 4px;
 }
 
-.file-tree li::before {
+natural-content .file-tree li::before {
   content: attr(data-icon);
   position: absolute;
   left: 0;
 }
 
-.steps-list {
+natural-content .steps-list {
   counter-reset: steps;
   list-style: none;
   padding-left: 0;
   margin: 0;
 }
 
-.steps-list li {
+natural-content .steps-list li {
   margin-bottom: 16px;
   padding-left: 40px;
   position: relative;
 }
 
-.steps-list li::before {
+natural-content .steps-list li::before {
   counter-increment: steps;
   content: counter(steps);
   position: absolute;
@@ -1154,31 +1135,31 @@ details summary {
   font-weight: 600;
 }
 
-.steps-list strong {
+natural-content .steps-list strong {
   display: block;
   margin-bottom: 4px;
 }
 
-.api-table {
+natural-content .api-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.api-table th,
-.api-table td {
+natural-content .api-table th,
+natural-content .api-table td {
   border: 1px solid #e5e5e5;
   padding: 12px;
   text-align: left;
 }
 
-.api-table th {
+natural-content .api-table th {
   background: #f5f5f5;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.badge {
+natural-content .badge {
   display: inline-flex;
   padding: 2px 8px;
   border-radius: 6px;
@@ -1189,58 +1170,58 @@ details summary {
   margin-right: 6px;
 }
 
-.badge-primary {
+natural-content .badge-primary {
   border-color: #f97316;
   background: rgba(249, 115, 22, 0.15);
   color: #c2410c;
 }
 
-.badge-success {
+natural-content .badge-success {
   border-color: #22c55e;
   background: rgba(34, 197, 94, 0.15);
   color: #166534;
 }
 
-.badge-warning {
+natural-content .badge-warning {
   border-color: #f59e0b;
   background: rgba(245, 158, 11, 0.15);
   color: #92400e;
 }
 
-.badge-error {
+natural-content .badge-error {
   border-color: #dc2626;
   background: rgba(220, 38, 38, 0.15);
   color: #7f1d1d;
 }
 
-.badge-info {
+natural-content .badge-info {
   border-color: #3b82f6;
   background: rgba(59, 130, 246, 0.15);
   color: #1d4ed8;
 }
 
-.badge-required {
+natural-content .badge-required {
   background: #111827;
   color: #f8fafc;
   border-color: transparent;
   margin-left: 4px;
 }
 
-.badge-row {
+natural-content .badge-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 16px;
 }
 
-.keyboard-example {
+natural-content .keyboard-example {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
   font-size: 14px;
 }
 
-.keyboard-example kbd {
+natural-content .keyboard-example kbd {
   border: 1px solid #d4d4d4;
   border-radius: 6px;
   padding: 4px 8px;
