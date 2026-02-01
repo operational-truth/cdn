@@ -769,6 +769,17 @@ natural-content .anchor-link {
   color: #a3a3a3;
   text-decoration: none;
   font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+natural-content section h2:hover .anchor-link,
+natural-content section h2:focus-within .anchor-link,
+natural-content section h3:hover .anchor-link,
+natural-content section h3:focus-within .anchor-link {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 natural-content .anchor-link:hover {
@@ -989,7 +1000,6 @@ natural-content natural-tabs {
   border-radius: 10px;
   overflow: hidden;
   background: #ffffff;
-  border: 1px solid #e5e5e5;
   border-bottom: none;
   display: flex;
   flex-direction: column;
