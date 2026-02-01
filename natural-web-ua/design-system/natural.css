@@ -984,6 +984,82 @@ natural-content .spacing-table td {
   text-align: left;
 }
 
+natural-content natural-tabs {
+  margin: 24px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+natural-content natural-tabs natural-tabs-header {
+  display: flex;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+natural-content natural-tab-button {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #525252;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+natural-content natural-tab-button:hover {
+  color: #0a0a0a;
+  background: #fafafa;
+}
+
+natural-content natural-tab-button[aria-selected="true"] {
+  color: #0a0a0a;
+  background: #fff;
+}
+
+natural-content natural-tab-button[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #f97316;
+}
+
+natural-content natural-tab-panel {
+  display: none;
+  padding: 0;
+}
+
+natural-content natural-tab-panel.active {
+  display: block;
+}
+
+natural-content natural-tab-panel article {
+  margin: 0;
+  border-radius: 0 0 10px 10px;
+  border-top: none;
+}
+
+natural-content .code-panel-enhanced {
+  background: #1e1e1e;
+  border-radius: 0 0 10px 10px;
+  margin: 0;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+natural-content .code-panel-enhanced header {
+  background: #2d2d2d;
+  border-bottom: 1px solid #2a2a2a;
+}
+
 natural-content .spacing-table th {
   background: #f5f5f5;
   font-size: 12px;
@@ -1060,41 +1136,6 @@ natural-content .lang-badge {
 natural-content .code-panel-enhanced {
   background: #0b1120;
   border-color: #0b1120;
-}
-
-natural-content .tab-list {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-}
-
-natural-content .tab-list button {
-  border: 1px solid #e5e5e5;
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-natural-content .tab-list button[aria-selected="true"] {
-  background: #ffffff;
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
-natural-content .tab-panel {
-  display: none;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  padding: 16px;
-  background: #111827;
-  color: #f8fafc;
-}
-
-natural-content .tab-panel[data-active="true"] {
-  display: block;
 }
 
 natural-content .feature-grid {

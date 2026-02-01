@@ -103,6 +103,32 @@ const initSubjectSelector = () => {
   });
 };
 
+const initTabs = () => {
+  document.querySelectorAll("natural-tabs").forEach((tabs) => {
+    const header = tabs.querySelector("natural-tabs-header");
+    if (!header) {
+      return;
+    }
+    header.addEventListener("click", (event) => {
+      const button = event.target.closest("natural-tab-button");
+      if (!button) {
+        return;
+      }
+      const targetId = button.getAttribute("data-tab-target");
+      const panels = tabs.querySelectorAll("natural-tab-panel");
+      const buttons = header.querySelectorAll("natural-tab-button");
+      buttons.forEach((btn) => {
+        const isActive = btn === button;
+        btn.setAttribute("aria-selected", String(isActive));
+      });
+      buttons.forEach((btn) => btn.classList.toggle("active", btn === button));
+      panels.forEach((panel) => {
+        panel.classList.toggle("active", panel.id === targetId);
+      });
+    });
+  });
+};
+
 const hideDecorativeIcons = () => {
   const selectors = [
     'natural-layout i[class*="fa-"]:not([aria-hidden])',
@@ -120,6 +146,7 @@ const initialize = () => {
   initNavExpandables();
   initSubjectSelector();
   hideDecorativeIcons();
+  initTabs();
 };
 
 document.addEventListener("DOMContentLoaded", initialize);

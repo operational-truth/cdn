@@ -448,32 +448,71 @@ export interface Config {
             Tabs switch between package managers without leaving the page; data
             attributes keep panels aligned with their buttons.
           </p>
-          <nav class="tab-list" role="tablist">
-            <button role="tab" aria-selected="true" data-tab-target="tab-npm">
-              npm
-            </button>
-            <button role="tab" aria-selected="false" data-tab-target="tab-pnpm">
-              pnpm
-            </button>
-            <button role="tab" aria-selected="false" data-tab-target="tab-yarn">
-              yarn
-            </button>
-            <button role="tab" aria-selected="false" data-tab-target="tab-bun">
-              bun
-            </button>
-          </nav>
-          <article class="tab-panel" data-tab="tab-npm" data-active="true">
-            <pre><code>npm install package-name</code></pre>
-          </article>
-          <article class="tab-panel" data-tab="tab-pnpm">
-            <pre><code>pnpm add package-name</code></pre>
-          </article>
-          <article class="tab-panel" data-tab="tab-yarn">
-            <pre><code>yarn add package-name</code></pre>
-          </article>
-          <article class="tab-panel" data-tab="tab-bun">
-            <pre><code>bun add package-name</code></pre>
-          </article>
+          <natural-tabs>
+            <natural-tabs-header role="tablist">
+              <natural-tab-button class="active" role="tab" aria-selected="true" data-tab-target="tab-npm">
+                npm
+              </natural-tab-button>
+              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-pnpm">
+                pnpm
+              </natural-tab-button>
+              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-yarn">
+                yarn
+              </natural-tab-button>
+              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-bun">
+                bun
+              </natural-tab-button>
+            </natural-tabs-header>
+
+            <natural-tab-panel class="active" id="tab-npm">
+              <article class="code-panel code-panel-enhanced">
+                <header>
+                  <p>
+                    <strong>Terminal</strong>
+                    <strong class="lang-badge">bash</strong>
+                  </p>
+                  <button type="button">Copy</button>
+                </header>
+                <pre class="code-highlights">npm install package-name</pre>
+              </article>
+            </natural-tab-panel>
+            <natural-tab-panel id="tab-pnpm">
+              <article class="code-panel code-panel-enhanced">
+                <header>
+                  <p>
+                    <strong>Terminal</strong>
+                    <strong class="lang-badge">bash</strong>
+                  </p>
+                  <button type="button">Copy</button>
+                </header>
+                <pre class="code-highlights">pnpm add package-name</pre>
+              </article>
+            </natural-tab-panel>
+            <natural-tab-panel id="tab-yarn">
+              <article class="code-panel code-panel-enhanced">
+                <header>
+                  <p>
+                    <strong>Terminal</strong>
+                    <strong class="lang-badge">bash</strong>
+                  </p>
+                  <button type="button">Copy</button>
+                </header>
+                <pre class="code-highlights">yarn add package-name</pre>
+              </article>
+            </natural-tab-panel>
+            <natural-tab-panel id="tab-bun">
+              <article class="code-panel code-panel-enhanced">
+                <header>
+                  <p>
+                    <strong>Terminal</strong>
+                    <strong class="lang-badge">bash</strong>
+                  </p>
+                  <button type="button">Copy</button>
+                </header>
+                <pre class="code-highlights">bun add package-name</pre>
+              </article>
+            </natural-tab-panel>
+          </natural-tabs>
         </section>
 
         <section id="callouts">
