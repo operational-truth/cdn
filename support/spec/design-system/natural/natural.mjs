@@ -23,15 +23,23 @@ const initSubjectSelector = () => {
   }
 
   const options = subjectMenu.querySelectorAll("natural-subject-option");
+  const triggerIcon = subjectTrigger.querySelector("i:first-child");
   const initialSelected =
     subjectMenu.querySelector("natural-subject-option[data-selected='true']");
   let lastSubjectDetail = {
     value: initialSelected?.getAttribute("data-value") ?? "",
     label:
       initialSelected?.querySelector("strong")?.textContent ??
-      subjectTrigger.querySelector("strong")?.textContent ??
-      "",
+    subjectTrigger.querySelector("strong")?.textContent ??
+    "",
   };
+
+  if (triggerIcon && initialSelected) {
+    const initialIcon = initialSelected.querySelector("i:first-child");
+    if (initialIcon) {
+      triggerIcon.className = initialIcon.className;
+    }
+  }
 
   const closeMenu = () => {
     subjectMenu.classList.remove("open");
@@ -66,18 +74,27 @@ const initSubjectSelector = () => {
       const labelValue =
         option.querySelector("strong")?.textContent ||
         option.getAttribute("data-value");
+      const selectedIcon = option.querySelector("i:first-child");
+      if (triggerIcon && selectedIcon) {
+        triggerIcon.className = selectedIcon.className;
+      }
       const triggerLabel = subjectTrigger.querySelector("strong");
       if (triggerLabel) {
         triggerLabel.textContent = labelValue;
       }
       closeMenu();
       const subjectValue = option.getAttribute("data-value") ?? labelValue;
+      const containerId =
+        subjectTrigger.closest("natural-subjects")?.id ??
+        subjectTrigger.getAttribute("data-subject-container-id") ??
+        null;
       const changeEvent = new CustomEvent("natural-subject-change", {
         detail: {
           previousValue: lastSubjectDetail.value,
           previousLabel: lastSubjectDetail.label,
           value: subjectValue,
           label: labelValue,
+          containerId,
         },
       });
       lastSubjectDetail = { value: subjectValue, label: labelValue };
