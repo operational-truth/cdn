@@ -111,6 +111,7 @@
         </natural-search>
 
         <!-- subject selector shows how to layer dropdown content without extra wrappers around each option -->
+        <!-- natural.mjs wires the trigger/menu, updates the displayed label/icon, and fires natural-subject-change events for integrations -->
         <natural-subjects>
           <button
             type="button"
@@ -151,7 +152,8 @@
         </natural-subjects>
 
         <nav aria-label="Documentation sections">
-          <!-- Navigation menus keep the hierarchy with nested menus/anchors, no utility classes, relying on attributes instead -->
+        <!-- Navigation menus keep the hierarchy with nested menus/anchors, no utility classes, relying on attributes instead -->
+        <!-- natural.mjs toggles the aria-expanded state on these menus, so you get accessible collapse/expand behavior automatically -->
           <menu>
             <header>Foundations</header>
             <a data-active="true" href="#layout">
@@ -266,6 +268,7 @@
         </ol>
       </natural-local-nav>
     </natural-layout>
+    <!-- natural.mjs initializes the navigation toggles, subject selector, and other helpers (e.g., hiding decorative icons) -->
     <script type="module" src="natural.mjs"></script>
   </body>
 </html>
