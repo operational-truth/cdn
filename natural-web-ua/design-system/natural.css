@@ -986,40 +986,48 @@ natural-content .spacing-table td {
 
 natural-content natural-tabs {
   margin: 24px 0;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 natural-content natural-tabs natural-tabs-header {
   display: flex;
-  background: #f5f5f5;
-  border-bottom: 1px solid #e5e5e5;
+  background: transparent;
+  padding: 0 10px;
+  gap: 0;
+  width: fit-content;
+  align-self: flex-start;
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
 }
 
 natural-content natural-tab-button {
-  flex: 1;
-  padding: 12px 20px;
+  padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
   color: #525252;
   background: transparent;
   border: none;
+  border-radius: 0;
   cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  text-align: center;
+  letter-spacing: 0.02em;
   position: relative;
-  transition: all 0.15s ease;
-  text-decoration: none;
+  margin: 0;
 }
 
 natural-content natural-tab-button:hover {
-  color: #0a0a0a;
   background: #fafafa;
+  color: #0a0a0a;
 }
 
 natural-content natural-tab-button[aria-selected="true"] {
   color: #0a0a0a;
-  background: #fff;
+  background: #ffffff;
 }
 
 natural-content natural-tab-button[aria-selected="true"]::after {
@@ -1028,8 +1036,12 @@ natural-content natural-tab-button[aria-selected="true"]::after {
   bottom: -1px;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background: #f97316;
+}
+
+natural-content natural-tab-panel > header {
+  display: none;
 }
 
 natural-content natural-tab-panel {
@@ -1045,6 +1057,7 @@ natural-content natural-tab-panel article {
   margin: 0;
   border-radius: 0 0 10px 10px;
   border-top: none;
+  width: 100%;
 }
 
 natural-content .code-panel-enhanced {
