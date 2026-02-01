@@ -568,27 +568,29 @@ export interface Config {
             <a href="#accordion" class="anchor-link">#</a>
           </h2>
           <p>Fold away secondary content until it is needed.</p>
-          <details open>
-            <summary>How do I customize the accent color?</summary>
-            <p>
-              Replace <code>#f97316</code> and the hover state <code
-              >#ea580c</code> with your brand.
-            </p>
-          </details>
-          <details>
-            <summary>Can I use this with React?</summary>
-            <p>
-              Yes—swap <code>class</code> for <code>className</code> and add
-              state for interactions.
-            </p>
-          </details>
-          <details>
-            <summary>Is dark mode supported?</summary>
-            <p>
-              Add a <code>.dark</code> class to <code>&lt;body&gt;</code> and
-              override the custom properties.
-            </p>
-          </details>
+          <natural-accordian>
+            <details open>
+              <summary>How do I customize the accent color?</summary>
+              <p>
+                Replace <code>#f97316</code> and the hover state <code
+                >#ea580c</code> with your brand.
+              </p>
+            </details>
+            <details>
+              <summary>Can I use this with React?</summary>
+              <p>
+                Yes—swap <code>class</code> for <code>className</code> and add
+                state for interactions.
+              </p>
+            </details>
+            <details>
+              <summary>Is dark mode supported?</summary>
+              <p>
+                Add a <code>.dark</code> class to <code>&lt;body&gt;</code> and
+                override the custom properties.
+              </p>
+            </details>
+          </natural-accordian>
         </section>
 
         <section id="file-tree">
