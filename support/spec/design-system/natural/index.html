@@ -108,42 +108,49 @@
         </natural-search>
 
         <natural-subjects>
-          <button type="button" aria-haspopup="listbox" aria-expanded="false">
-            <i class="fa-solid fa-th-large" aria-hidden="true"></i>
-            <label>Subject 1</label>
-            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+          <button
+            type="button"
+            id="subject-trigger"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <natural-subject-icon>
+              <i class="fa-solid fa-th-large" aria-hidden="true"></i>
+            </natural-subject-icon>
+            <natural-subject-label>Subject 1</natural-subject-label>
+            <natural-subject-chevron
+              aria-hidden="true"
+            >
+              <i class="fa-solid fa-chevron-down"></i>
+            </natural-subject-chevron>
           </button>
-          <menu aria-label="Subject areas">
-            <menuitem data-value="subject-1" data-selected="true">
-              <i class="fa-solid fa-grid"></i>
-              <natural-subject-copy>
-                <strong>Subject 1</strong>
-                <p>Primary subject area</p>
-              </natural-subject-copy>
+          <menu
+            id="subject-menu"
+            role="listbox"
+            aria-label="Subject areas"
+          >
+            <menuitem role="option" data-value="subject-1" data-selected="true">
+              <i class="fa-solid fa-grid" aria-hidden="true"></i>
+              <strong>Subject 1</strong>
+              <p>Primary subject area</p>
               <i class="fa-solid fa-check" aria-hidden="true"></i>
             </menuitem>
-            <menuitem data-value="subject-2">
-              <i class="fa-solid fa-border-style"></i>
-              <natural-subject-copy>
-                <strong>Subject 2</strong>
-                <p>Secondary subject area</p>
-              </natural-subject-copy>
+            <menuitem role="option" data-value="subject-2">
+              <i class="fa-solid fa-border-style" aria-hidden="true"></i>
+              <strong>Subject 2</strong>
+              <p>Secondary subject area</p>
               <i class="fa-solid fa-check" aria-hidden="true"></i>
             </menuitem>
-            <menuitem data-value="subject-3">
-              <i class="fa-solid fa-border-all"></i>
-              <natural-subject-copy>
-                <strong>Subject 3</strong>
-                <p>Tertiary subject area</p>
-              </natural-subject-copy>
+            <menuitem role="option" data-value="subject-3">
+              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              <strong>Subject 3</strong>
+              <p>Tertiary subject area</p>
               <i class="fa-solid fa-check" aria-hidden="true"></i>
             </menuitem>
-            <menuitem data-value="subject-4">
-              <i class="fa-solid fa-file-lines"></i>
-              <natural-subject-copy>
-                <strong>Subject 4</strong>
-                <p>Additional subject area</p>
-              </natural-subject-copy>
+            <menuitem role="option" data-value="subject-4">
+              <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+              <strong>Subject 4</strong>
+              <p>Additional subject area</p>
               <i class="fa-solid fa-check" aria-hidden="true"></i>
             </menuitem>
           </menu>
@@ -266,6 +273,49 @@
             button.setAttribute("aria-expanded", nextState);
           });
         });
+      const subjectTrigger = document.getElementById("subject-trigger");
+      const subjectMenu = document.getElementById("subject-menu");
+
+      if (subjectTrigger && subjectMenu) {
+        const options = subjectMenu.querySelectorAll("menuitem");
+
+        const closeMenu = () => {
+          subjectMenu.classList.remove("open");
+          subjectTrigger.setAttribute("aria-expanded", "false");
+        };
+
+        const toggleMenu = () => {
+          const isOpen = subjectMenu.classList.contains("open");
+          subjectMenu.classList.toggle("open", !isOpen);
+          subjectTrigger.setAttribute("aria-expanded", String(!isOpen));
+        };
+
+        subjectTrigger.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleMenu();
+        });
+
+        document.addEventListener("click", (event) => {
+          if (
+            !subjectMenu.contains(event.target) &&
+            !subjectTrigger.contains(event.target)
+          ) {
+            closeMenu();
+          }
+        });
+
+        options.forEach((option) => {
+          option.addEventListener("click", () => {
+            options.forEach((opt) => opt.removeAttribute("data-selected"));
+            option.setAttribute("data-selected", "true");
+            const label =
+              option.querySelector("strong")?.textContent ||
+              option.getAttribute("data-value");
+            document.querySelector("natural-subject-label").textContent = label;
+            closeMenu();
+          });
+        });
+      }
     </script>
   </body>
 </html>
