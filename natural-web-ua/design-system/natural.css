@@ -825,17 +825,17 @@ natural-content natural-callout header::before {
 
 natural-content natural-callout[data-kind="info"] header::before {
   content: "\f111";
-  color: #0f172a;
+  color: #3b82f6;
 }
 
 natural-content natural-callout[data-kind="default"] header::before {
   content: "\f06a";
-  color: #0f172a;
+  color: #f97316;
 }
 
 natural-content natural-callout[data-kind="tip"] header::before {
   content: "\f0eb";
-  color: #0f172a;
+  color: #22c55e;
 }
 
 natural-content natural-callout p {
