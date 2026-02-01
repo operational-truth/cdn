@@ -124,36 +124,64 @@
               <i class="fa-solid fa-chevron-down"></i>
             </natural-subject-chevron>
           </button>
-          <menu
+          <natural-subject-dropdown
             id="subject-menu"
             role="listbox"
             aria-label="Subject areas"
           >
-            <menuitem role="option" data-value="subject-1" data-selected="true">
-              <i class="fa-solid fa-grid" aria-hidden="true"></i>
-              <strong>Subject 1</strong>
-              <p>Primary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </menuitem>
-            <menuitem role="option" data-value="subject-2">
-              <i class="fa-solid fa-border-style" aria-hidden="true"></i>
-              <strong>Subject 2</strong>
-              <p>Secondary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </menuitem>
-            <menuitem role="option" data-value="subject-3">
-              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
-              <strong>Subject 3</strong>
-              <p>Tertiary subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </menuitem>
-            <menuitem role="option" data-value="subject-4">
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
-              <strong>Subject 4</strong>
-              <p>Additional subject area</p>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </menuitem>
-          </menu>
+            <natural-subject-option
+              role="option"
+              data-value="subject-1"
+              data-selected="true"
+            >
+              <natural-subject-option-icon>
+                <i class="fa-solid fa-grid" aria-hidden="true"></i>
+              </natural-subject-option-icon>
+              <natural-subject-option-info>
+                <strong>Subject 1</strong>
+                <span>Primary subject area</span>
+              </natural-subject-option-info>
+              <natural-subject-option-check>
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+              </natural-subject-option-check>
+            </natural-subject-option>
+            <natural-subject-option role="option" data-value="subject-2">
+              <natural-subject-option-icon>
+                <i class="fa-solid fa-border-style" aria-hidden="true"></i>
+              </natural-subject-option-icon>
+              <natural-subject-option-info>
+                <strong>Subject 2</strong>
+                <span>Secondary subject area</span>
+              </natural-subject-option-info>
+              <natural-subject-option-check>
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+              </natural-subject-option-check>
+            </natural-subject-option>
+            <natural-subject-option role="option" data-value="subject-3">
+              <natural-subject-option-icon>
+                <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              </natural-subject-option-icon>
+              <natural-subject-option-info>
+                <strong>Subject 3</strong>
+                <span>Tertiary subject area</span>
+              </natural-subject-option-info>
+              <natural-subject-option-check>
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+              </natural-subject-option-check>
+            </natural-subject-option>
+            <natural-subject-option role="option" data-value="subject-4">
+              <natural-subject-option-icon>
+                <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+              </natural-subject-option-icon>
+              <natural-subject-option-info>
+                <strong>Subject 4</strong>
+                <span>Additional subject area</span>
+              </natural-subject-option-info>
+              <natural-subject-option-check>
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+              </natural-subject-option-check>
+            </natural-subject-option>
+          </natural-subject-dropdown>
         </natural-subjects>
 
         <nav aria-label="Documentation sections">

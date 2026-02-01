@@ -413,6 +413,7 @@ natural-shortcut kbd {
 
 natural-subjects {
   position: relative;
+  margin-bottom: 0;
 }
 
 natural-subjects button {
@@ -427,6 +428,13 @@ natural-subjects button {
   color: #0a0a0a;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+natural-subjects button:hover {
+  border-color: #d4d4d4;
+  background: #fafafa;
 }
 
 natural-subject-icon {
@@ -459,12 +467,13 @@ natural-subject-chevron {
   justify-content: center;
   transition: transform 0.2s ease;
 }
+
 natural-subject-chevron i {
   font-size: 12px;
   color: #737373;
 }
 
-natural-subjects menu {
+natural-subject-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   left: -1px;
@@ -474,15 +483,15 @@ natural-subjects menu {
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   z-index: 100;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: all 0.2s ease;
+  overflow: hidden;
 }
 
-natural-subjects menu.open {
+natural-subject-dropdown.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -492,20 +501,21 @@ natural-subjects button[aria-expanded="true"] natural-subject-chevron {
   transform: rotate(180deg);
 }
 
-natural-subjects menuitem {
+natural-subject-option {
   padding: 12px 16px;
   display: flex;
   align-items: flex-start;
   gap: 12px;
   cursor: pointer;
   border-bottom: 1px solid #f3f4f6;
+  transition: background 0.15s ease;
 }
 
-natural-subjects menuitem:last-child {
+natural-subject-option:last-child {
   border-bottom: none;
 }
 
-natural-subjects menuitem i:first-child {
+natural-subject-option-icon {
   width: 28px;
   height: 28px;
   border-radius: 6px;
@@ -518,23 +528,25 @@ natural-subjects menuitem i:first-child {
   flex-shrink: 0;
 }
 
-natural-subjects menuitem strong {
+natural-subject-option-info strong {
   font-size: 14px;
   font-weight: 500;
   color: #0a0a0a;
   margin: 0;
   line-height: 1.2;
-  display: inline-block;
+  display: block;
 }
 
-natural-subjects menuitem p {
+natural-subject-option-info span {
   margin: 0;
   font-size: 12px;
   color: #737373;
   line-height: 1.5;
+  display: block;
+  margin-top: 2px;
 }
 
-natural-subjects menuitem i:last-child {
+natural-subject-option-check {
   width: 16px;
   height: 16px;
   color: #f97316;
@@ -543,20 +555,20 @@ natural-subjects menuitem i:last-child {
   margin-top: 4px;
 }
 
-natural-subjects menuitem[data-selected="true"] {
+natural-subject-option[data-selected="true"] {
   background: #f9fafb;
 }
 
-natural-subjects menuitem[data-selected="true"] i:first-child {
+natural-subject-option[data-selected="true"] natural-subject-option-icon {
   background: linear-gradient(135deg, #f59e0b, #d97706);
   color: #ffffff;
 }
 
-natural-subjects menuitem[data-selected="true"] i:last-child {
+natural-subject-option[data-selected="true"] natural-subject-option-check {
   opacity: 1;
 }
 
-natural-subjects menuitem:hover {
+natural-subject-option:hover {
   background: #f5f5f5;
 }
 
