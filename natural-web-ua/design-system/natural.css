@@ -47,7 +47,7 @@ natural-layout {
   background: #fafafa;
 }
 
-header.natural-brand-bar {
+natural-brand-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,13 +64,13 @@ header.natural-brand-bar {
   grid-row: 1;
 }
 
-header.natural-brand-bar natural-brand-left {
+natural-brand-bar natural-brand-left {
   display: flex;
   align-items: center;
   gap: 1.2rem;
 }
 
-header.natural-brand-bar natural-brand-left a {
+natural-brand-bar natural-brand-left a {
   text-decoration: none;
   color: #ffffff;
   font-size: 15px;
@@ -93,13 +93,13 @@ span.brand-icon {
   background: linear-gradient(135deg, var(--color-accent), #ea580c);
 }
 
-header.natural-brand-bar natural-brand-left nav {
+natural-brand-bar natural-brand-left nav {
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
-header.natural-brand-bar natural-brand-left nav a {
+natural-brand-bar natural-brand-left nav a {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -112,7 +112,7 @@ header.natural-brand-bar natural-brand-left nav a {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-header.natural-brand-bar natural-brand-left nav i,
+natural-brand-bar natural-brand-left nav i,
 natural-actions i,
 natural-user-dropdown i {
   font-size: 16px;
@@ -122,12 +122,12 @@ natural-user-dropdown i {
   color: inherit !important;
 }
 
-header.natural-brand-bar natural-brand-left nav a[data-active="true"] {
+natural-brand-bar natural-brand-left nav a[data-active="true"] {
   color: #ffffff;
   background: var(--brand-link-active-bg);
 }
 
-header.natural-brand-bar natural-brand-left nav a:hover {
+natural-brand-bar natural-brand-left nav a:hover {
   color: #ffffff;
   background: var(--brand-link-hover-bg);
 }
@@ -170,7 +170,7 @@ natural-actions svg {
   height: 18px;
 }
 
-header.natural-brand-bar natural-brand-left nav label,
+natural-brand-bar natural-brand-left nav label,
 natural-user-dropdown label {
   font-size: 13px;
   color: inherit;
@@ -179,8 +179,8 @@ natural-user-dropdown label {
 
 natural-user-dropdown button:hover .user-avatar,
 natural-user-dropdown button:focus .user-avatar,
-header.natural-brand-bar natural-brand-left nav a[data-active="true"] span,
-header.natural-brand-bar natural-brand-left nav a:hover span {
+natural-brand-bar natural-brand-left nav a[data-active="true"] span,
+natural-brand-bar natural-brand-left nav a:hover span {
   color: #ffffff;
 }
 natural-notification-badge {
