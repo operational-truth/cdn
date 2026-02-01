@@ -699,45 +699,62 @@ natural-local-nav header {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #737373;
+  letter-spacing: 0.6px;
+  color: #839197;
   margin-bottom: 16px;
 }
 
-natural-local-nav ol {
+natural-local-nav > ol {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  border-left: 1px solid #e5e5e5;
 }
 
-natural-local-nav li {
-  padding-left: 14px;
+natural-local-nav > ol > li {
+  margin-bottom: 2px;
 }
 
-natural-local-nav a {
+natural-local-nav li > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+natural-local-nav > ol > li > a,
+natural-local-nav li > ol > li > a {
   text-decoration: none;
   color: #525252;
   font-size: 13px;
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: block;
+  padding: 6px 0 6px 16px;
+  border-left: 1px solid #e5e5e5;
+  transition: all 0.15s ease;
 }
 
-natural-local-nav a::before {
-  content: "";
-  position: absolute;
-  left: -14px;
-  top: 9px;
-  width: 2px;
-  height: 16px;
-  background: #e5e5e5;
+natural-local-nav > ol > li > a:hover,
+natural-local-nav li > ol > li > a:hover {
+  color: #0a0a0a;
 }
 
-natural-local-nav a:hover {
+natural-local-nav > ol > li > a[data-active="true"] {
   color: #d97706;
+  font-weight: 500;
+  border-left: 2px solid #f97316;
+  padding-left: 15px;
+}
+
+natural-local-nav li > ol > li > a {
+  padding-left: 28px;
+  font-size: 12px;
+  color: #737373;
+}
+
+natural-local-nav li > ol > li > a:hover {
+  color: #525252;
+}
+
+natural-local-nav li > ol > li > a[data-active="true"] {
+  color: #d97706;
+  padding-left: 27px;
 }
