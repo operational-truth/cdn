@@ -500,7 +500,7 @@ natural-sidebar nav menu menu {
 natural-sidebar nav menu {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px;
 }
 
 natural-sidebar nav menu header {
@@ -510,6 +510,14 @@ natural-sidebar nav menu header {
   text-transform: uppercase;
   letter-spacing: 0.3px;
   padding-bottom: 4px;
+  margin-top: 16px;
+}
+natural-sidebar nav > menu:first-child header {
+  margin-top: 0;
+}
+
+natural-sidebar nav > menu + menu {
+  margin-top: 20px;
 }
 
 natural-sidebar nav menu > a,
@@ -560,6 +568,18 @@ natural-sidebar nav menu menu menu > a {
 natural-sidebar nav menu menu menu > a:hover {
   background: #f5f5f5;
   color: #0a0a0a;
+}
+
+natural-sidebar nav menu[aria-expanded="false"] > menu {
+  display: none;
+}
+
+natural-sidebar nav menu[aria-expanded="false"] > button i:last-child {
+  transform: rotate(-180deg);
+}
+
+natural-sidebar nav menu[aria-expanded="true"] > button i:last-child {
+  transform: rotate(0deg);
 }
 
 natural-sidebar nav menu menu {

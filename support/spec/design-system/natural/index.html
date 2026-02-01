@@ -251,5 +251,21 @@
         </ol>
       </natural-local-nav>
     </natural-layout>
+    <script>
+      document
+        .querySelectorAll("natural-sidebar nav menu > button")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            const parentMenu = button.closest("menu");
+            if (!parentMenu) {
+              return;
+            }
+            const expanded = parentMenu.getAttribute("aria-expanded");
+            const nextState = expanded === "true" ? "false" : "true";
+            parentMenu.setAttribute("aria-expanded", nextState);
+            button.setAttribute("aria-expanded", nextState);
+          });
+        });
+    </script>
   </body>
 </html>
