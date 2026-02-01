@@ -437,7 +437,7 @@ natural-subjects button:hover {
   background: #fafafa;
 }
 
-natural-subject-icon {
+natural-subjects button > i:first-child {
   width: 24px;
   height: 24px;
   border-radius: 6px;
@@ -447,30 +447,22 @@ natural-subject-icon {
   justify-content: center;
   font-size: 14px;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
-natural-subject-icon i {
-  width: 16px;
-  height: 16px;
-}
-
-natural-subject-label {
+natural-subjects button strong {
   flex: 1;
   font-size: 14px;
   font-weight: 500;
   color: #0a0a0a;
+  margin: 0;
+  text-align: left;
 }
 
-natural-subject-chevron {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease;
-}
-
-natural-subject-chevron i {
+natural-subjects button > i:last-child {
   font-size: 12px;
   color: #737373;
+  transition: transform 0.2s ease;
 }
 
 natural-subject-dropdown {
@@ -497,7 +489,7 @@ natural-subject-dropdown.open {
   transform: translateY(0);
 }
 
-natural-subjects button[aria-expanded="true"] natural-subject-chevron {
+natural-subjects button[aria-expanded="true"] > i:last-child {
   transform: rotate(180deg);
 }
 
