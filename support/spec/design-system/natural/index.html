@@ -118,15 +118,8 @@
             <strong>Subject 1</strong>
             <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
           </button>
-          <natural-subject-dropdown
-            id="subject-menu"
-            role="listbox"
-            aria-label="Subject areas"
-          >
-            <natural-subject-option
-              data-value="subject-1"
-              data-selected="true"
-            >
+          <natural-subject-dropdown id="subject-menu" aria-label="Subjects">
+            <natural-subject-option data-value="subject-1" data-selected="true">
               <i class="fa-solid fa-grid" aria-hidden="true"></i>
               <strong>Subject 1</strong>
               <p>Primary subject area</p>
@@ -274,7 +267,9 @@
       const subjectMenu = document.getElementById("subject-menu");
 
       if (subjectTrigger && subjectMenu) {
-        const options = subjectMenu.querySelectorAll("natural-subject-option");
+        const options = subjectMenu.querySelectorAll(
+          "natural-subject-option",
+        );
 
         const closeMenu = () => {
           subjectMenu.classList.remove("open");
@@ -302,13 +297,18 @@
         });
 
         options.forEach((option) => {
-          option.addEventListener("click", () => {
-            options.forEach((opt) => opt.removeAttribute("data-selected"));
+          option.addEventListener("click", (event) => {
+            event.stopPropagation();
+            options.forEach((opt) =>
+              opt.removeAttribute("data-selected")
+            );
             option.setAttribute("data-selected", "true");
-            const label =
-              option.querySelector("strong")?.textContent ||
+            const labelValue = option.querySelector("strong")?.textContent ||
               option.getAttribute("data-value");
-            document.querySelector("natural-subject-label").textContent = label;
+            const triggerLabel = subjectTrigger.querySelector("strong");
+            if (triggerLabel) {
+              triggerLabel.textContent = labelValue;
+            }
             closeMenu();
           });
         });
