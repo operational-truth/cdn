@@ -23,6 +23,15 @@ const initSubjectSelector = () => {
   }
 
   const options = subjectMenu.querySelectorAll("natural-subject-option");
+  const initialSelected =
+    subjectMenu.querySelector("natural-subject-option[data-selected='true']");
+  let lastSubjectDetail = {
+    value: initialSelected?.getAttribute("data-value") ?? "",
+    label:
+      initialSelected?.querySelector("strong")?.textContent ??
+      subjectTrigger.querySelector("strong")?.textContent ??
+      "",
+  };
 
   const closeMenu = () => {
     subjectMenu.classList.remove("open");
@@ -62,6 +71,17 @@ const initSubjectSelector = () => {
         triggerLabel.textContent = labelValue;
       }
       closeMenu();
+      const subjectValue = option.getAttribute("data-value") ?? labelValue;
+      const changeEvent = new CustomEvent("natural-subject-change", {
+        detail: {
+          previousValue: lastSubjectDetail.value,
+          previousLabel: lastSubjectDetail.label,
+          value: subjectValue,
+          label: labelValue,
+        },
+      });
+      lastSubjectDetail = { value: subjectValue, label: labelValue };
+      subjectTrigger.dispatchEvent(changeEvent);
     });
   });
 };
