@@ -1,5 +1,7 @@
 :root {
-  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-stack:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
   --color-panel: #0a0a0a;
   --color-text: #f8fafc;
   --brand-link-color: #a3a3a3;
@@ -942,13 +944,23 @@ natural-content .type-small {
   font-size: 13px;
 }
 
-natural-content :not(.code-panel) code {
+natural-content :not(pre) code {
   font-family: "SF Mono", Monaco, "Courier New", monospace;
   font-size: 13px;
   background: #f5f5f5;
   padding: 2px 6px;
   border-radius: 4px;
   color: #e11d48;
+}
+
+natural-content pre code {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  color: inherit;
 }
 
 natural-content .code-panel code {
