@@ -172,11 +172,73 @@ const hideDecorativeIcons = () => {
   });
 };
 
+const copyToClipboard = async (text) => {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "absolute";
+  textarea.style.opacity = "0";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  const successful = document.execCommand("copy");
+  document.body.removeChild(textarea);
+
+  if (!successful) {
+    throw new Error("copy-fallback failed");
+  }
+};
+
+const initCopyButtons = () => {
+  document
+    .querySelectorAll("natural-content .code-panel button")
+    .forEach((button) => {
+      let timeoutId;
+      const originalLabel = button.textContent?.trim() || "Copy";
+      button.dataset.copyLabel = originalLabel;
+
+      const resetState = () => {
+        button.removeAttribute("data-copy-state");
+        button.textContent = button.dataset.copyLabel;
+      };
+
+      const setState = (state) => {
+        button.setAttribute("data-copy-state", state);
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
+        timeoutId = window.setTimeout(resetState, 2000);
+        button.textContent = state === "copied" ? "Copied" : button.dataset.copyLabel;
+      };
+
+      button.addEventListener("click", async () => {
+        const panel = button.closest(".code-panel");
+        const codeElement = panel?.querySelector("pre");
+        const text = codeElement?.textContent?.trim();
+        if (!text) {
+          return;
+        }
+        try {
+          await copyToClipboard(text);
+          setState("copied");
+        } catch (error) {
+          setState("error");
+        }
+      });
+    });
+};
+
 const initialize = () => {
   initNavExpandables();
   initSubjectSelector();
   hideDecorativeIcons();
   initTabs();
+  initCopyButtons();
 };
 
 document.addEventListener("DOMContentLoaded", initialize);
