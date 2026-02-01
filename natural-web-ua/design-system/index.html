@@ -449,22 +449,8 @@ export interface Config {
             attributes keep panels aligned with their buttons.
           </p>
           <natural-tabs>
-            <natural-tabs-header role="tablist">
-              <natural-tab-button class="active" role="tab" aria-selected="true" data-tab-target="tab-npm">
-                npm
-              </natural-tab-button>
-              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-pnpm">
-                pnpm
-              </natural-tab-button>
-              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-yarn">
-                yarn
-              </natural-tab-button>
-              <natural-tab-button role="tab" aria-selected="false" data-tab-target="tab-bun">
-                bun
-              </natural-tab-button>
-            </natural-tabs-header>
-
-            <natural-tab-panel class="active" id="tab-npm">
+            <natural-tab-panel data-active id="tab-npm">
+              <header>npm</header>
               <article class="code-panel code-panel-enhanced">
                 <header>
                   <p>
@@ -477,6 +463,7 @@ export interface Config {
               </article>
             </natural-tab-panel>
             <natural-tab-panel id="tab-pnpm">
+              <header>pnpm</header>
               <article class="code-panel code-panel-enhanced">
                 <header>
                   <p>
@@ -489,6 +476,7 @@ export interface Config {
               </article>
             </natural-tab-panel>
             <natural-tab-panel id="tab-yarn">
+              <header>yarn</header>
               <article class="code-panel code-panel-enhanced">
                 <header>
                   <p>
@@ -501,6 +489,7 @@ export interface Config {
               </article>
             </natural-tab-panel>
             <natural-tab-panel id="tab-bun">
+              <header>bun</header>
               <article class="code-panel code-panel-enhanced">
                 <header>
                   <p>

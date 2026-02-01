@@ -105,9 +105,41 @@ const initSubjectSelector = () => {
 
 const initTabs = () => {
   document.querySelectorAll("natural-tabs").forEach((tabs) => {
-    const header = tabs.querySelector("natural-tabs-header");
+    let header = tabs.querySelector("natural-tabs-header");
     if (!header) {
-      return;
+      header = document.createElement("natural-tabs-header");
+      tabs.insertBefore(header, tabs.firstElementChild);
+    }
+    header.innerHTML = "";
+    const panels = Array.from(tabs.querySelectorAll("natural-tab-panel"));
+    let foundActive = false;
+    panels.forEach((panel, index) => {
+      const labelElement = panel.querySelector(":scope > header");
+      const label = labelElement?.textContent?.trim() || `Tab ${index + 1}`;
+      const button = document.createElement("natural-tab-button");
+      button.textContent = label;
+      button.setAttribute("role", "tab");
+      button.setAttribute("data-tab-target", panel.id);
+      const panelIsActive = panel.hasAttribute("data-active");
+      if (panelIsActive && !foundActive) {
+        foundActive = true;
+        button.classList.add("active");
+        button.setAttribute("aria-selected", "true");
+        panel.classList.add("active");
+      } else {
+        panel.classList.remove("active");
+        button.setAttribute("aria-selected", "false");
+      }
+      header.appendChild(button);
+    });
+    if (!foundActive && panels.length) {
+      const firstPanel = panels[0];
+      const firstButton = header.querySelector("natural-tab-button");
+      if (firstButton) {
+        firstButton.classList.add("active");
+        firstButton.setAttribute("aria-selected", "true");
+      }
+      firstPanel.classList.add("active");
     }
     header.addEventListener("click", (event) => {
       const button = event.target.closest("natural-tab-button");
@@ -115,14 +147,12 @@ const initTabs = () => {
         return;
       }
       const targetId = button.getAttribute("data-tab-target");
-      const panels = tabs.querySelectorAll("natural-tab-panel");
-      const buttons = header.querySelectorAll("natural-tab-button");
-      buttons.forEach((btn) => {
+      header.querySelectorAll("natural-tab-button").forEach((btn) => {
         const isActive = btn === button;
+        btn.classList.toggle("active", isActive);
         btn.setAttribute("aria-selected", String(isActive));
       });
-      buttons.forEach((btn) => btn.classList.toggle("active", btn === button));
-      panels.forEach((panel) => {
+      tabs.querySelectorAll("natural-tab-panel").forEach((panel) => {
         panel.classList.toggle("active", panel.id === targetId);
       });
     });
