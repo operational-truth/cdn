@@ -15,14 +15,15 @@
   </head>
   <body>
     <natural-layout>
-      <header class="natural-brand-bar" aria-label="Brand Navigation and Personalization Bar">
+      <header
+        class="natural-brand-bar"
+        aria-label="Brand Navigation and Personalization Bar"
+      >
         <natural-brand-left>
           <a href="#" aria-label="Open Acme Inc home">
-            <!-- Swap to <img> or inline <svg> when using a graphical logo -->
             <label class="brand-icon" aria-hidden="true">DS</label>
             <label>Acme Inc</label>
           </a>
-          <!-- App links: add new <a href> rows with icon + label; use data-active to mark the current focus. -->
           <nav aria-label="Primary links">
             <a href="#docs" data-active="true">
               <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
@@ -44,7 +45,6 @@
         </natural-brand-left>
 
         <natural-personalization aria-label="Personalization">
-          <!-- Action toolbar: drop in another <natural-action> wrapper when you need a new icon button. -->
           <natural-actions role="group">
             <button type="button" aria-label="Search">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -60,10 +60,8 @@
             </button>
           </natural-actions>
           <natural-divider aria-hidden="true"></natural-divider>
-          <!-- Dropdown entries follow the trigger button so ties to the <nav> menu stay intact. -->
           <natural-user-dropdown>
             <button type="button" aria-haspopup="true" aria-expanded="false">
-              <!-- Replace with <img> or inline <svg> for photo avatars -->
               <label class="user-avatar" aria-hidden="true">JD</label>
               <label>John Doe</label>
               <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -76,6 +74,182 @@
           </natural-user-dropdown>
         </natural-personalization>
       </header>
+
+      <natural-breadcrumbs aria-label="Breadcrumb">
+        <a href="#" aria-label="Home">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
+        </a>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <a href="#" aria-label="Documentation overview">Documentation</a>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <span aria-current="page">Design System Reference</span>
+      </natural-breadcrumbs>
+
+      <natural-sidebar aria-label="Primary navigation">
+        <header>
+          <a href="#" aria-label="Open design system home">
+            <label class="brand-icon" aria-hidden="true">DS</label>
+            <label>Design System</label>
+          </a>
+          <button type="button" aria-label="Toggle theme">
+            <i class="fa-solid fa-sun" aria-hidden="true"></i>
+          </button>
+        </header>
+
+        <natural-search>
+          <button type="button" aria-label="Search components">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <natural-placeholder>Search components…</natural-placeholder>
+            <natural-shortcut>
+              <kbd>⌘</kbd>
+              <kbd>K</kbd>
+            </natural-shortcut>
+          </button>
+        </natural-search>
+
+        <natural-subjects>
+          <button type="button" aria-haspopup="listbox" aria-expanded="false">
+            <i class="fa-solid fa-th-large" aria-hidden="true"></i>
+            <label>Subject 1</label>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+          </button>
+          <menu aria-label="Subject areas">
+            <menuitem data-value="subject-1" data-selected="true">
+              <i class="fa-solid fa-grid"></i>
+              <natural-subject-copy>
+                <strong>Subject 1</strong>
+                <p>Primary subject area</p>
+              </natural-subject-copy>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </menuitem>
+            <menuitem data-value="subject-2">
+              <i class="fa-solid fa-border-style"></i>
+              <natural-subject-copy>
+                <strong>Subject 2</strong>
+                <p>Secondary subject area</p>
+              </natural-subject-copy>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </menuitem>
+            <menuitem data-value="subject-3">
+              <i class="fa-solid fa-border-all"></i>
+              <natural-subject-copy>
+                <strong>Subject 3</strong>
+                <p>Tertiary subject area</p>
+              </natural-subject-copy>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </menuitem>
+            <menuitem data-value="subject-4">
+              <i class="fa-solid fa-file-lines"></i>
+              <natural-subject-copy>
+                <strong>Subject 4</strong>
+                <p>Additional subject area</p>
+              </natural-subject-copy>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </menuitem>
+          </menu>
+        </natural-subjects>
+
+        <nav aria-label="Documentation sections">
+          <menu>
+            <header>Foundations</header>
+            <a data-active="true" href="#layout">
+              <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+              Layout Structure
+            </a>
+            <a href="#colors">
+              <i class="fa-solid fa-palette" aria-hidden="true"></i>
+              Color Palette
+            </a>
+            <a href="#typography">
+              <i class="fa-solid fa-font" aria-hidden="true"></i>
+              Typography
+            </a>
+            <a href="#spacing">
+              <i class="fa-solid fa-ruler" aria-hidden="true"></i>
+              Spacing
+            </a>
+          </menu>
+
+          <menu>
+            <header>Components</header>
+            <menu aria-expanded="true">
+              <button type="button" aria-expanded="true">
+                <i class="fa-solid fa-hammer" aria-hidden="true"></i>
+                Manual Setup
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <menu>
+                <a href="#manual-react">React</a>
+                <a href="#manual-vue">Vue</a>
+                <a href="#manual-svelte">Svelte</a>
+                <a href="#manual-vanilla">Vanilla JS</a>
+              </menu>
+            </menu>
+            <a href="#code-blocks">
+              <i class="fa-solid fa-code" aria-hidden="true"></i>
+              Code Blocks
+            </a>
+            <a href="#tabs">
+              <i class="fa-solid fa-table-cells" aria-hidden="true"></i>
+              Tabs
+            </a>
+            <a href="#callouts">
+              <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+              Callouts
+            </a>
+            <a href="#cards">
+              <i class="fa-solid fa-cubes" aria-hidden="true"></i>
+              Feature Cards
+            </a>
+            <a href="#accordion">
+              <i class="fa-solid fa-list-ol" aria-hidden="true"></i>
+              Accordion
+            </a>
+            <a href="#file-tree">
+              <i class="fa-solid fa-folder" aria-hidden="true"></i>
+              File Tree
+            </a>
+            <a href="#steps">
+              <i class="fa-solid fa-folder" aria-hidden="true"></i>
+              Steps
+            </a>
+            <a href="#tables">
+              <i class="fa-solid fa-table" aria-hidden="true"></i>
+              API Tables
+            </a>
+            <a href="#badges">
+              <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+              Badges
+            </a>
+            <a href="#keyboard">
+              <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+              Keyboard Shortcuts
+            </a>
+          </menu>
+        </nav>
+      </natural-sidebar>
+
+      <article></article>
+
+      <natural-local-nav aria-label="On this page">
+        <header>On this page</header>
+        <ol>
+          <li><a href="#layout">Introduction</a></li>
+          <li><a href="#colors">Color Palette</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#spacing">Spacing</a></li>
+          <li><a href="#code-blocks">Code Blocks</a></li>
+          <li><a href="#tabs">Tabs</a></li>
+          <li><a href="#callouts">Callouts</a></li>
+          <li><a href="#cards">Feature Cards</a></li>
+          <li><a href="#accordion">Accordion</a></li>
+          <li><a href="#file-tree">File Tree</a></li>
+          <li><a href="#steps">Steps</a></li>
+          <li><a href="#tables">API Tables</a></li>
+          <li><a href="#badges">Badges</a></li>
+          <li><a href="#keyboard">Keyboard Shortcuts</a></li>
+        </ol>
+      </natural-local-nav>
     </natural-layout>
   </body>
 </html>
