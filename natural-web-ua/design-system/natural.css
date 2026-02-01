@@ -986,8 +986,10 @@ natural-content .spacing-table td {
 
 natural-content natural-tabs {
   margin: 24px 0;
+  border-radius: 10px;
   overflow: hidden;
   background: #ffffff;
+  border-bottom: none;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -1086,7 +1088,6 @@ natural-content .code-panel {
   background: #0b1120;
   color: #f8fafc;
   margin-bottom: 24px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
 }
 
 natural-content .code-panel h3 {
